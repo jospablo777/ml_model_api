@@ -190,3 +190,6 @@ ipython_config.py
 # Docker specific ignores
 *.log
 docker-compose.override.yml
+
+# CatBoost
+*/catboost_info/*
