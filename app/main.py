@@ -20,7 +20,7 @@ async def index():
 @app.post('/predict')
 async def predict_rentals(requests: List[BikeSharingRequest]):
     # Convert each pydantic model to a dict and load into a Polars DataFrame
-    df = pl.DataFrame([req.dict() for req in requests])
+    df = pl.DataFrame([req.model_dump() for req in requests])
 
     # Expected feature order
     feature_df = df.select([
