@@ -25,7 +25,7 @@ def test_predict_rentals_single():
         "windspeed": 0.2537
     }
     response = client.post("/predict", json=[payload])  # Send as a list of inputs
-    assert response.status_code == 200
+    assert response.status_code == 200   # 200 means request was successful
     assert "predictions" in response.json()
     assert isinstance(response.json()["predictions"], list)
 
