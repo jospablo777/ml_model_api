@@ -16,7 +16,6 @@ curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/j
 # Several instances
 curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/json"     -d '[
   {
-    "dteday": "2024-06-15",
     "season": "Summer",
     "mnth": "June",
     "hr": 14,
@@ -30,7 +29,6 @@ curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/j
     "windspeed": 0.2537
   },
   {
-    "dteday": "2024-06-16",
     "season": "Summer",
     "mnth": "June",
     "hr": 9,
@@ -44,7 +42,6 @@ curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/j
     "windspeed": 0.19
   },
   {
-    "dteday": "2024-06-17",
     "season": "Summer",
     "mnth": "June",
     "hr": 19,
