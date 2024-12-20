@@ -1,16 +1,15 @@
 from fastapi import FastAPI
 import uvicorn
 from typing import List
+from app.services.ml_model import load_model
 from app.models.bike_sharing import BikeSharingRequest # Data validation with pydantic
-from catboost import CatBoostRegressor
 import polars as pl # We use polars for performance reasons
 
 # Instantiate a FastAPI class, the core of the application
 app = FastAPI()
 
 # Read predictive model
-ml_model = CatBoostRegressor()
-ml_model.load_model('predictive_models/catboost_model_19Dec2024.cbm')
+ml_model = load_model('predictive_models/catboost_model_19Dec2024.cbm')
 
 
 @app.get("/")
