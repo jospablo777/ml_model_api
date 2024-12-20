@@ -5,7 +5,7 @@ from app.models.bike_sharing import BikeSharingRequest # Data validation with py
 from catboost import CatBoostRegressor
 import polars as pl # We use polars for performance reasons
 
-
+# Instantiate a FastAPI class, the core of the application
 app = FastAPI()
 
 # Read predictive model
@@ -17,7 +17,7 @@ ml_model.load_model('predictive_models/catboost_model_19Dec2024.cbm')
 async def index():
     return {"message": "Bike rentals ML predictor (regressor)"}
 
-@app.post('/predict')
+@app.post('/predict', summary="Predict bike rentals", description="Takes input data and returns amount rental predictions (regression).")
 async def predict_rentals(requests: List[BikeSharingRequest]):
     # Convert each pydantic model to a dict and load into a Polars DataFrame
     df = pl.DataFrame([req.model_dump() for req in requests])
