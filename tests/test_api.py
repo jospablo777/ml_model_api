@@ -64,3 +64,23 @@ def test_predict_rentals_multiple():
     assert "predictions" in response.json()
     assert isinstance(response.json()["predictions"], list)
     assert len(response.json()["predictions"]) == 2
+
+# Invalid inputs
+def test_invalid_numeric_values():
+    data = [
+        {
+            "season": "Summer",
+            "mnth": "June",
+            "hr": -1,  # Invalid hour
+            "holiday": "No",
+            "weekday": "Monday",
+            "workingday": "Yes",
+            "weathersit": 1,
+            "temp": -0.1,  # Invalid temp
+            "atemp": 0.697,
+            "hum": 0.43,
+            "windspeed": 0.2537
+        }
+    ]
+    response = client.post("/predict", json=data)
+    assert response.status_code == 422  # Validation error
