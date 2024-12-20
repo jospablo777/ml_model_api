@@ -18,6 +18,7 @@ class BikeSharingRequest(BaseModel):
         allowed = {"Winter", "Spring", "Summer", "Fall"}
         if v not in allowed:
             raise ValueError(f"season must be one of {allowed}")
+        return v
 
     @field_validator("mnth")
     def validate_mnth(cls, v):
