@@ -13,11 +13,20 @@ ml_model = load_model('predictive_models/catboost_model_19Dec2024.cbm')
 
 
 @app.get("/")
-async def index():
+async def index() -> dict:
     return {"message": "Bike rentals ML predictor (regressor)"}
 
 @app.post('/predict', summary="Predict bike rentals", description="Takes input data and returns amount rental predictions (regression).")
-async def predict_rentals(requests: List[BikeSharingRequest]):
+async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:
+    """
+    Predict bike rentals based on input features.
+
+    Args:
+        requests (List[BikeSharingRequests]): A list of input data objects.
+
+    Returns:
+        dict: A dictionary containing the predictions as a list.
+    """
     # Convert each pydantic model to a dict and load into a Polars DataFrame
     df = pl.DataFrame([req.model_dump() for req in requests])
 
