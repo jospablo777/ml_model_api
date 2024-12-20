@@ -1,10 +1,14 @@
-import uvicorn
 from fastapi import FastAPI
+import uvicorn
+from typing import List
 from app.models.bike_sharing import BikeSharingRequest # Data validation with pydantic
 from catboost import CatBoostRegressor
+import polars as pl # We use polars for performance reasons
 
 
 app = FastAPI()
+
+# Read predictive model
 ml_model = CatBoostRegressor()
 ml_model.load_model('predictive_models/catboost_model_19Dec2024.cbm')
 
@@ -14,29 +18,24 @@ async def index():
     return {"message": "Bike rentals ML predictor (regressor)"}
 
 @app.post('/predict')
-async def predict_rentals(request: BikeSharingRequest):
-    data = request.dict()
+async def predict_rentals(requests: List[BikeSharingRequest]):
+    # Convert each pydantic model to a dict and load into a Polars DataFrame
+    df = pl.DataFrame([req.dict() for req in requests])
 
-    
-    season     = data['season']
-    mnth       = data['mnth']
-    hr         = data['hr']
-    holiday    = data['holiday']
-    weekday    = data['weekday']
-    workingday = data['workingday']
-    weathersit = data['weathersit']
-    temp       = data['temp']
-    atemp      = data['atemp']
-    hum        = data['hum']
-    windspeed  = data['windspeed']
+    # Expected feature order
+    feature_df = df.select([
+        "season", "mnth", "hr", "holiday", "weekday",
+        "workingday", "weathersit", "temp", "atemp", "hum", "windspeed"
+    ])
 
-    #return [[season, mnth, hr, holiday, weekday, workingday, weathersit, temp, atemp, hum, windspeed]]
+    # Instances to predict
+    features = feature_df.to_numpy()
 
-    prediction = ml_model.predict([[season, mnth, hr, holiday, weekday, workingday, weathersit, temp, atemp, hum, windspeed]])
-    print('\n')
+    # Make predictions
+    predictions = ml_model.predict(features)
 
     return {
-        'prediction': prediction[0]
+        'predictions': predictions.tolist()
     }
 
 if __name__ == '__main__':
