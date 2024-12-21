@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -145,6 +179,37 @@ ul.task-list li input[type="checkbox"] {
 <p>Jupyter is ideal for experimenting and testing but not for delivering results. Hence, you have decided to deploy this first iteration of the model (the prototype) as a microservice that can be consumed via an API. Here, you can assess how the model behaves in the wild and prepare for future iterations. You will start adding value with predictions and valuable information that will help improve your model.</p>
 <p>The engineering team, for example, will quickly adopt the app to know when to conduct maintenance jobs.</p>
 </section>
+<section id="microservice-development" class="level2">
+<h2 class="anchored" data-anchor-id="microservice-development">Microservice development</h2>
+<p>We were assigned a task, so we started by investigating bike rental data and then continued by building a predictive model using the <a href="https://catboost.ai/">CatBoost</a> algorithm. This model will be the inference engine of our microservice. You can see this part of the project <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb">here</a> in the notebook<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. We saved the model in our project’s <code>predictive_models/</code> folder.</p>
+<p>During this tutorial, we will show you some code snippets and indicate the file where the code is located<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. You should then be able to follow the project’s code, which is available on the <a href="https://github.com/jospablo777/ml_model_api">GitHub repo</a>.</p>
+<p>Filename: <code>notebooks/eda_and_toy_model.ipynb</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> catboost <span class="im">import</span> CatBoostRegressor</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Instantiate our model</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>catboost_model <span class="op">=</span> CatBoostRegressor(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    iterations<span class="op">=</span><span class="dv">1000</span>,       <span class="co"># Boosting iterations</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    depth<span class="op">=</span><span class="dv">6</span>,               <span class="co"># Tree depth</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    loss_function<span class="op">=</span><span class="st">'RMSE'</span>,  <span class="co"># Loss</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">100</span>            <span class="co"># Let it print the learning state every 100 iterations</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Train</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>catboost_model.fit(X_train, y_train, cat_features<span class="op">=</span>categorical_features)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Save trained model</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>catboost_model.save_model(<span class="st">"../models/catboost_model_19Dec2024.cbm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="api-development" class="level2">
+<h2 class="anchored" data-anchor-id="api-development">API development</h2>
+</section>
 <section id="containarization" class="level2">
 <h2 class="anchored" data-anchor-id="containarization">Containarization</h2>
 </section>
@@ -173,6 +238,8 @@ ul.task-list li input[type="checkbox"] {
 <li id="fn1"><p>This must be how George R. R. Martin feels when foreshadowing a major (traumatic) event in his novels.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>At the time of writing, I am aware that “no” is the answer since we’re still just at the introduction of this tutorial.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>It’s even worse today, in our modern remote era. The dreaded Microsoft Teams ringtone will constantly haunt you.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>You probably already noticed that we keep bringing up the link to this notebook. That’s because we spent so much time on it, and we was hoping you could look at our precious.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>I learned this tip for technical writing from “The Rust Programming Language” book by Steve Klabnik, Carol Nichols, and the Rust Community, a masterpiece. You can find the book in <a href="https://doc.rust-lang.org/book/title-page.html">this link</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main>
 <!-- /main column -->
