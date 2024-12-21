@@ -18,7 +18,7 @@ Sys.setenv(RETICULATE_PYTHON = "../venv/bin/python")
 
 ## An accesible inference system
 
-In the fast-paced world of data-driven decision-making, one of the problems we face as data scientists/analysts is delivering our data products promptly. Also, distributing them in a manner that doesn't affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.
+In a fast-paced world, one of the problems we face as data professionals is delivering our data products promptly. Also, distributing them in a manner that doesn't affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.
 
 An idea that is not new, is to deliver the "answers" in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (*machine learning* if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.
 
@@ -107,7 +107,7 @@ We were assigned a task, so we started by investigating bike rental data and the
 
 During this tutorial, we will show you some code snippets and indicate the file where the code is located[^5]. You should then be able to follow the project's code, which is available on the [GitHub repo](https://github.com/jospablo777/ml_model_api).
 
-Filename:  `notebooks/eda_and_toy_model.ipynb`
+Filename: [`notebooks/eda_and_toy_model.ipynb`](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb)
 ```{python}
 #| label: predictive_model
 #| include: true
@@ -143,6 +143,70 @@ In [this analysis](https://github.com/jospablo777/ml_model_api/blob/main/noteboo
 
 
 ## API development
+
+The API will move data around (receive and deliver) as its primary job, so it is key to establish a clear set of rules for the data our clients send. Moving back to our restaurant example, you probably could put your enchiladas order in English or Spanish, but it might be hard for the waiter if you place the order in Japanese[^7]. Hence, to get your enchiladas, you must request them in a way that the staff can understand, and [Pydantic](https://docs.pydantic.dev/latest/) is here to enforce the rules that make such understanding happen.
+
+![An ambiguous (and invalid) request request to the API, so no enchiladas :(](img/restaurant_api_jap.png)
+
+So, we will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let's get our hands on the Pydantic model.
+
+Filename: [`app/models/bike_sharing.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/models/bike_sharing.py)
+```{python}
+from pydantic import BaseModel, Field, field_validator
+
+class BikeSharingRequest(BaseModel):
+    season: str = Field(..., description="Season (Winter/Spring/Summer/Fall)")
+    mnth: str = Field(..., description="Month name (January, etc.)")
+    hr: int = Field(..., ge=0, le=23, description="Hour of the day")
+    holiday: str = Field(..., description="Yes/No if holiday")
+    weekday: str = Field(..., description="Name of the weekday (Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday)")
+    workingday: str = Field(..., description="Yes/No if working day")
+    weathersit: int = Field(..., description="Weather code")
+    temp: float = Field(..., ge=0, le=1, description="Normalized temperature")
+    atemp: float = Field(..., ge=0, le=1, description="Normalized feeling temperature")
+    hum: float = Field(..., ge=0, le=1, description="Normalized humidity")
+    windspeed: float = Field(..., ge=0, le=1, description="Normalized wind speed")
+
+    @field_validator("season")
+    def validate_season(cls, v):
+        allowed = {"Winter", "Spring", "Summer", "Fall"}
+        if v not in allowed:
+            raise ValueError(f"season must be one of {allowed}")
+        return v
+
+    @field_validator("mnth")
+    def validate_mnth(cls, v):
+        allowed = {
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        }
+        if v not in allowed:
+            raise ValueError(f"mnth must be one of {allowed}")
+        return v
+
+    @field_validator("holiday", "workingday")
+    def validate_binary_strings(cls, v):
+        allowed = {"Yes", "No"}
+        if v not in allowed:
+            raise ValueError(f"Must be one of {allowed}")
+        return v
+
+    @field_validator("weekday")
+    def validate_weekday(cls, v):
+        allowed = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
+        if v not in allowed:
+            raise ValueError(f"weekday must be one of {allowed}")
+        return v
+
+    @field_validator("weathersit")
+    def validate_weathersit(cls, v):
+        allowed = {1, 2, 3, 4}
+        if v not in allowed:
+            raise ValueError(f"weathersit must be one of {allowed}")
+        return v
+```
+
+[^7]: エンチラーダをいただけますか？
 
 ## Containarization
 
