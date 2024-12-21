@@ -88,7 +88,7 @@ The engineering team, for example, will quickly adopt the app to know when to co
 
 
 ## Whats left?
-Model monitoring, automatic training incorporated to the CI/CD, low level applications that consume the APIS
+Model monitoring, automatic training incorporated to the CI/CD, model versioning, high level applications that consume the APIS
 
 # Recommended readings
 
