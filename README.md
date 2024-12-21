@@ -113,7 +113,7 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 - ReDoc (Alternative Documentation): http://127.0.0.1:8000/redoc
 
 
-### Running the API in Docker
+### Building and running locally in Docker
 If you want to continue with the process and build the docker image yourself, continue with these steps after exiting the app with `Ctrl+C`.
 
 #### Step 5: Build the Docker Image
