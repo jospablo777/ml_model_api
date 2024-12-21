@@ -89,3 +89,8 @@ The engineering team, for example, will quickly adopt the app to know when to co
 
 ## Whats left?
 Model monitoring, automatic training incorporated to the CI/CD, low level applications that consume the APIS
+
+# Recommended readings
+
+Docker Deep Dive by Nigel Poulton
+Microservice APIs: Using Python, Flask, FastAPI, OpenAPI and more by Jose Haro Peralta
