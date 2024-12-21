@@ -14,6 +14,7 @@ editor: source
 Sys.setenv(RETICULATE_PYTHON = "../venv/bin/python")
 ```
 
+![](img/pondering_orb_meme.png)
 
 ## An accesible inference system
 
@@ -135,8 +136,8 @@ catboost_model.save_model("../models/catboost_model_19Dec2024.cbm")
 ```
 
 [^4]: You probably already noticed that we keep bringing up the link to this notebook. That's because we spent so much time on it, and we was hoping you could look at our precious.
-[^5]: I learned this tip for technical writing from "The Rust Programming Language" book by Steve Klabnik, Carol Nichols, and the Rust Community, a masterpiece. You can find the book in [this link](https://doc.rust-lang.org/book/title-page.html).
-[^6]: Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the [interesting]{style="text-decoration: line-through;"}  technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I've used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders' trust in us.
+[^5]: I learned this tip for technical writing from "The Rust Programming Language" book by Steve Klabnik, Carol Nichols, and the Rust Community. The book is a masterpiece and a highly recommended reading; you can find it [here](https://doc.rust-lang.org/book/title-page.html).
+
 
 ## API development
 
@@ -148,11 +149,17 @@ catboost_model.save_model("../models/catboost_model_19Dec2024.cbm")
 
 ## Microservice up and running
 
+[^6]: Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the [interesting]{style="text-decoration: line-through;"}  technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I've used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders' trust in us.
 
 ## Whats left?
 Model monitoring, automatic training incorporated to the CI/CD, model versioning, high level applications that consume the APIS
 
-# Recommended readings
+## Recommended readings
 
 Docker Deep Dive by Nigel Poulton
 Microservice APIs: Using Python, Flask, FastAPI, OpenAPI and more by Jose Haro Peralta
+
+## About the pondering guy in the header
+
+It's the wizard from "Pondering My Orb." The art is the work by Angus Mcbride and was featured in a Lord of the Rings game book :) you can check [Know Your Meme](https://knowyourmeme.com/memes/pondering-my-orb) for more info/memes.
+
