@@ -49,13 +49,32 @@ These tools will make the development and publishing of our microservice a breez
 
 ## Let's get started
 
-We will start with the mandatory xkcd comic that this kind of articles include so we can get out of this step.
+We will start with the mandatory xkcd comic that this kind of articles include so we can continue with the tutorial.
 
 ![Exploits of a Mom, by xkcd  Comics. Available at https://xkcd.com/3027/](img/exploits_of_a_mom.png)
 
 I know that this has nothing to do with software engineering or APIs, but little Bobby Tables always cracks me laugh. Now we can continue with the build of our API and some software engineering practices.
 
 ## Problem we want to solve
+
+Now, let's focus on the problem we want to solve; this is probably the most crucial step since it is how we **add value** to the business. We are hired to solve analytical problems with evidence (data) as our raw material to produce those solutions.
+
+You probably won't be surprised to learn this project started as a Jupyter Notebook, which I encourage you to [check out here](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb). We are using an open data set from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset).
+
+Let's assume we are working for [Capital Bikeshare](https://capitalbikeshare.com/), a company dedicated to providing a self-service bike rental service managed through a mobile app. For the company, it is crucial to predict the peaks of service usage so they can restock or make more available their products when they're more needed. These products can be cloud computing resources during peak hours, bicycle units, human staff, etc. Also it can b convenient to predict the dates and hours of least use for maintenance tasks, like server updates or bike maintenance.
+
+Working as a data scientist for a big tech transport company, you will have lots of data and computational resources. On this occasion, you were put in charge of finding a way to predict the days and hours they will have to replenish their stock and increase the server's capacity, investing in more resources only when necessary (saving money). Also, knowing when to schedule the maintenance labor will be valuable as well.
+
+After finishing the data exploration, you know that working days and the entry and exit from work hours are the busiest time frames. Also, climatic conditions can affect the willingness to rent a bike. You are cautious, so you first took the time to understand the phenomenon. Then, you built the model prototype and corroborated that it is possible to forecast the number of rented bikes at an hour-of-the-day granularity level.
+
+Success! You have a model that can help determine the best time to provide more resources or the times for maintenance. Does this mean that you have already finished with the task and can go on to live the good life?[^1] Well, you already know that Jupyter is not a tool that produces clean results and that if you leave it there, your model will have to be run manually each time, which can introduce bugs and errors. This also means that you will have a high and constant influx of people knocking at your door[^2] asking for predictions and insights.
+
+Jupyter is ideal for experimenting and testing but not for delivering results. Hence, you have decided to deploy this first iteration of the model (the prototype) as a microservice that can be consumed via an API. Here, you can assess how the model behaves in the wild and prepare for future iterations. You will start adding value with predictions and valuable information that will help improve your model. 
+
+The engineering team, for example, will quickly adopt the app to know when to conduct maintenance jobs.
+
+[^1]: At the time of writing, I am aware that "no" is the answer since we're still just at the introduction of this tutorial. 
+[^2]: It's even worse today, in our modern remote era. The dreaded Microsoft Teams ringtone will constantly haunt you.
 
 ## Predictive model development
 
@@ -65,7 +84,7 @@ I know that this has nothing to do with software engineering or APIs, but little
 
 ## Inference
 
-## App running
+## Microservice up and running
 
 
 ## Whats left?
