@@ -4,7 +4,7 @@ This project is a **machine learning microservice** that predicts bike rentals u
 
 The project demonstrates the integration of several modern tools and frameworks, including:
 - **FastAPI**: For building the RESTful API.
-- **CatBoost**: For running the predictive ML model.
+- **CatBoost**: For inference and running the predictive ML model.
 - **Docker**: For containerization and deployment.
 
 ## Features
