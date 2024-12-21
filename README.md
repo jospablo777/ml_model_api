@@ -128,6 +128,12 @@ docker build -t bike-rental-prediction-api .
 docker run -d -p 8000:80 --name bike-rental-prediction-api bike-rental-prediction-api
 ```
 
+#### Step 7: Test the endpoints (again)
+
+- API Root: http://127.0.0.1:8000/
+- Swagger UI (API Documentation): http://127.0.0.1:8000/docs
+- ReDoc (Alternative Documentation): http://127.0.0.1:8000/redoc
+
 ## Usage
 
 ### Prediction Endpoint
