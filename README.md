@@ -22,12 +22,10 @@ ml_model_api/
 │   └── workflows/
 │       └── main.yml           # GitHub Actions workflow for CI/CD
 ├── app/
-│   ├── api/
-│   ├── core/
 │   ├── models/
 │   │   └── bike_sharing.py    # Pydantic models for input validation
 │   ├── services/              # Services
-│   ├── utils/                 # Utility functions
+│   │   └── ml_model.py        # Tools for handling saved predictive models
 │   └── main.py                # Main FastAPI application
 ├── communication/             # Folder for communication-related files (Quarto files, screenshots, etc.)
 ├── data/
