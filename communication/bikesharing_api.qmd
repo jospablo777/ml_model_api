@@ -1,0 +1,17 @@
+---
+title: "Bike Sharing Prediction API"
+author:
+  name: "Jose P. Barrantes"
+  url: "https://www.linkedin.com/in/jose-barrantes/"
+format: html
+editor: source
+---
+
+## An accesible inference system
+
+## An ML model as a microservice
+
+## Software engineering for data scientists
+
+## About the technologies
+FastAPI, Uvicorn, Docker, GitHub Actions, and pytest
