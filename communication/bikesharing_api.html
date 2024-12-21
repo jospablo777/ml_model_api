@@ -205,8 +205,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Save trained model</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>catboost_model.save_model(<span class="st">"../models/catboost_model_19Dec2024.cbm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>catboost_model.save_model(<span class="st">"../predictive_models/catboost_model_19Dec2024.cbm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>In <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb">this analysis</a>, we generated some insights<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> and the core of our microservice, a predictive model stored in <code>predictive_models/catboost_model_19Dec2024.cbm</code>. Now that we have our predictor, let’s see how we can make the predictions accessible to others in the company.</p>
 </section>
 <section id="api-development" class="level2">
 <h2 class="anchored" data-anchor-id="api-development">API development</h2>
@@ -225,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="whats-left" class="level2">
 <h2 class="anchored" data-anchor-id="whats-left">Whats left?</h2>
-<p>Model monitoring, automatic training incorporated to the CI/CD, model versioning, high level applications that consume the APIS</p>
+<p>Model monitoring, automatic training incorporated to the CI/CD, model versioning, high level applications that consume the APIs</p>
 </section>
 <section id="recommended-readings" class="level2">
 <h2 class="anchored" data-anchor-id="recommended-readings">Recommended readings</h2>
@@ -245,6 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li id="fn3"><p>It’s even worse today, in our modern remote era. The dreaded Microsoft Teams ringtone will constantly haunt you.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>You probably already noticed that we keep bringing up the link to this notebook. That’s because we spent so much time on it, and we was hoping you could look at our precious.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>I learned this tip for technical writing from “The Rust Programming Language” book by Steve Klabnik, Carol Nichols, and the Rust Community. The book is a masterpiece and a highly recommended reading; you can find it <a href="https://doc.rust-lang.org/book/title-page.html">here</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the <span style="text-decoration: line-through;">interesting</span> technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I’ve used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders’ trust in us.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main>
 <!-- /main column -->
