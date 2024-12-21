@@ -119,14 +119,17 @@ ul.task-list li input[type="checkbox"] {
 <p>Now, let’s focus on the problem we want to solve; this is probably the most crucial step since it is how we <strong>add value</strong> to the business. We are hired to solve analytical problems with evidence (data) as our raw material to produce those solutions.</p>
 <p>You probably won’t be surprised to learn this project started as a Jupyter Notebook, which I encourage you to <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb">check out here</a>. We are using an open data set from the <a href="https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset">UCI Machine Learning Repository</a>.</p>
 <p>Let’s assume we are working for <a href="https://capitalbikeshare.com/">Capital Bikeshare</a>, a company dedicated to providing a self-service bike rental service managed through a mobile app. For the company, it is crucial to predict the peaks of service usage so they can restock or make more available their products when they’re more needed. These products can be cloud computing resources during peak hours, bicycle units, human staff, etc. Also it can b convenient to predict the dates and hours of least use for maintenance tasks, like server updates or bike maintenance.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/Capital_Bikeshare_station_outside_Eastern_Market_Metro.jpg" class="img-fluid figure-img"></p>
+<figcaption>Capital Bikeshare station outside of the Eastern Market Metro station. Author: Ben Schumin (2010). Licensed under CC BY-SA 3.0</figcaption>
+</figure>
+</div>
 <p>Working as a data scientist for a big tech transport company, you will have lots of data and computational resources. On this occasion, you were put in charge of finding a way to predict the days and hours they will have to replenish their stock and increase the server’s capacity, investing in more resources only when necessary (saving money). Also, knowing when to schedule the maintenance labor will be valuable as well.</p>
 <p>After finishing the data exploration, you know that working days and the entry and exit from work hours are the busiest time frames. Also, climatic conditions can affect the willingness to rent a bike. You are cautious, so you first took the time to understand the phenomenon. Then, you built the model prototype and corroborated that it is possible to forecast the number of rented bikes at an hour-of-the-day granularity level.</p>
 <p>Success! You have a model that can help determine the best time to provide more resources or the times for maintenance. Does this mean that you have already finished with the task and can go on to live the good life?<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Well, you already know that Jupyter is not a tool that produces clean results and that if you leave it there, your model will have to be run manually each time, which can introduce bugs and errors. This also means that you will have a high and constant influx of people knocking at your door<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> asking for predictions and insights.</p>
 <p>Jupyter is ideal for experimenting and testing but not for delivering results. Hence, you have decided to deploy this first iteration of the model (the prototype) as a microservice that can be consumed via an API. Here, you can assess how the model behaves in the wild and prepare for future iterations. You will start adding value with predictions and valuable information that will help improve your model.</p>
 <p>The engineering team, for example, will quickly adopt the app to know when to conduct maintenance jobs.</p>
-</section>
-<section id="predictive-model-development" class="level2">
-<h2 class="anchored" data-anchor-id="predictive-model-development">Predictive model development</h2>
 </section>
 <section id="containarization" class="level2">
 <h2 class="anchored" data-anchor-id="containarization">Containarization</h2>
