@@ -1,4 +1,4 @@
-# Bike Sharing Prediction API
+# Bike Rentals Prediction API
 
 This project is a **machine learning microservice** that predicts bike rentals using a CatBoost regression model. The service is built with [**FastAPI**](https://fastapi.tiangolo.com/) and serves as an example of how to deploy an ML model as an API. Please inspect [this notebook](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb) to learn more about the underlying problem we are trying to solve and the ML model that makes the inferences in this API.
 

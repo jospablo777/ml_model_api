@@ -1,5 +1,5 @@
 ---
-title: "Bike Sharing Prediction API"
+title: "Bike Rentals Prediction API"
 author:
   name: "Jose P. Barrantes"
   url: "https://www.linkedin.com/in/jose-barrantes/"
