@@ -26,15 +26,15 @@ ml_model_api/
 │   ├── core/
 │   ├── models/
 │   │   └── bike_sharing.py    # Pydantic models for input validation
-│   ├── services/              # Services (not expanded in screenshot)
-│   ├── utils/                 # Utility functions (not expanded in screenshot)
+│   ├── services/              # Services
+│   ├── utils/                 # Utility functions
 │   └── main.py                # Main FastAPI application
 ├── communication/             # Folder for communication-related files (Quarto files, screenshots, etc.)
 ├── data/
 │   ├── features_api_test_data.csv  # CSV file for testing API inputs
 │   └── target_api_test_data.csv    # CSV file for testing API outputs
 ├── notebooks/
-│   └── eda_and_toy_model.ipynb  # Exploratory Data Analysis and model experimentation
+│   └── eda_and_toy_model.ipynb  # Exploratory data analysis and model experimentation
 ├── predictive_models/
 │   └── catboost_model_19Dec2024.cbm # CatBoost model file
 ├── tests/
@@ -55,6 +55,7 @@ ml_model_api/
 ### Prerequisites
 - Python 3.12 or higher
 - Docker (for containerization)
+- Linux (I used Ubuntu 24.04)
 
 ### Clone the Repository
 ```bash
@@ -65,6 +66,7 @@ cd ml_model_api
 ## Running the API Locally
 
 ### Start the API
+
 Run the API locally `using uvicorn`:
 ```bash
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
