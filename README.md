@@ -215,8 +215,7 @@ curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/j
 
 ## Citation
 
-No citation is required, but it would be highly appreciated! 😃
-Feel free to reuse this code and project structure in your organization or personal projects.
+No need to cite, but it would mean a lot if you did! 😃 Feel free to use this code and project structure in your personal or work projects—make it yours!
 
 ## Contact
 
