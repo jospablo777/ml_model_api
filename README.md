@@ -54,40 +54,75 @@ ml_model_api/
 
 ### Prerequisites
 - Python 3.12 or higher
+- virtualenv (recommended)
 - Docker (for containerization)
 - Linux (I used Ubuntu 24.04)
 
-### Clone the Repository
+---
+
+### Using the Pre-Built Docker Image
+
+The easiest way to use this application is by pulling and running the pre-built Docker image from Docker Hub. Follow these steps:
+
+#### Step 1: Pull the Image from Docker Hub
+Run the following command to download the image:
+```bash
+docker pull jospablo777/ml-model-api:latest
+```
+#### Step 2: Run the Docker Container
+Start the container with the following command:
+```bash
+docker run -d -p 8000:80 --name bike-sharing-api jospablo777/ml-model-api:latest
+```
+
+#### Step 3: Access the API
+The API will be accessible at:
+
+- Base URL: http://localhost:8000
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+You can now send requests to the API, such as `POST` requests to `/predict` for bike rental predictions.
+
+### If you want to run the app locally
+
+#### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/jospablo777/ml_model_api.git
 cd ml_model_api
 ```
+#### Step 2: Setup environment
+Install the dependencies in your virtual environment once you're in the project's folder.
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-## Running the API Locally
-
-### Start the API
+#### Step 3: Start the API
 
 Run the API locally `using uvicorn`:
 ```bash
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-### Access the API
+#### Step 4: Access the API
 
 - API Root: http://127.0.0.1:8000/
 - Swagger UI (API Documentation): http://127.0.0.1:8000/docs
 - ReDoc (Alternative Documentation): http://127.0.0.1:8000/redoc
 
 
-## Running the API in Docker
+### Running the API in Docker
+If you want to continue with the process and build the docker image yourself, continue with these steps after exiting the app with `Ctrl+C`.
 
-### Build the Docker Image
+#### Step 5: Build the Docker Image
 
 ```bash
 docker build -t bike-sharing-api .
 ```
 
-### Run the Docker Container
+#### Step 6: Run the Docker Container
 
 ```bash
 docker run -d -p 8000:80 --name bike-sharing-api bike-sharing-api
