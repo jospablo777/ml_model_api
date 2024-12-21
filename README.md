@@ -124,7 +124,7 @@ Make a `POST` request to `/predict` with the following input format:
 }
 ```
 
-#### You can run this example in your terminal if you have the app running:
+#### If the app is running, you can try this in a terminal:
 
 ```bash
 curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/json"     -d '[
