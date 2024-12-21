@@ -94,14 +94,14 @@ cd ml_model_api
 #### Step 2: Setup environment
 Install the dependencies in your virtual environment once you're in the project's folder.
 ```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+python -m venv venv      # Create a virtual environment called venv
+source venv/bin/activate # Activate the environment
+pip install -r requirements.txt # Setup the environment with the required libraries
 ```
 
 #### Step 3: Start the API
 
-Run the API locally `using uvicorn`:
+Run the API locally using `uvicorn`:
 ```bash
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
