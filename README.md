@@ -1,6 +1,6 @@
 # Bike Sharing Prediction API
 
-This project is a **machine learning microservice** that predicts bike rentals using a CatBoost regression model. The service is built with [**FastAPI**](https://fastapi.tiangolo.com/) and serves as an example of how to deploy an ML model as an API. 
+This project is a **machine learning microservice** that predicts bike rentals using a CatBoost regression model. The service is built with [**FastAPI**](https://fastapi.tiangolo.com/) and serves as an example of how to deploy an ML model as an API. Please inspect [this notebook](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb) to learn more about the underlying problem we are trying to solve and the ML model that makes the inferences in this API.
 
 The project demonstrates the integration of several modern tools and frameworks, including:
 - **FastAPI**: For building the RESTful API.
@@ -119,13 +119,13 @@ If you want to continue with the process and build the docker image yourself, co
 #### Step 5: Build the Docker Image
 
 ```bash
-docker build -t bike-sharing-api .
+docker build -t bike-rental-prediction-api .
 ```
 
 #### Step 6: Run the Docker Container
 
 ```bash
-docker run -d -p 8000:80 --name bike-sharing-api bike-sharing-api
+docker run -d -p 8000:80 --name bike-rental-prediction-api bike-rental-prediction-api
 ```
 
 ## Usage
