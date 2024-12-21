@@ -9,9 +9,64 @@ editor: source
 
 ## An accesible inference system
 
+In the fast-paced world of data-driven decision-making, one of the problems we face as data scientists/analysts is delivering our data products promptly. Also, distributing them in a manner that doesn't affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.
+
+An idea that is not new, is to deliver the "answers" in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (*machine learning* if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.
+
 ## An ML model as a microservice
+
+Imagine your (predictive) model being accessed anytime without disturbing your peace or consuming your time; after all, your time is expensive, and you have many tasks. Here is where the idea of microservices comes into action. Yo finish your model, then pack it in a microservice that will be available through an API.
+
+This way, the model will always be available, and its consumption won't block other tasks. Also, more products could be potentially developed with the API.
 
 ## Software engineering for data scientists
 
+Another problem common to data scientists is that research, predictive modeling, and analytics are dirty processes. This is partly due to a lack of training in **software engineering**, which involves **design**, testing, and software maintenance.
+
+We usually have many problems to solve, questions to answer, and limited time at work. This leaves little to no time to apply the best practices to develop our analysis and maintain our code, leaving a trail of technical debt with each delivery. Yet, since most of us write code, we are, in fact, software developers because we develop software. This should be a hard-to-miss hint that software engineering practices must be core in our profession, or at least not ignored.
+
+Here, we will implement some practices core of software engineering like:
+
+- CI/CD: **Continuous Integration (CI)** and **Continuous Deployment (CD)** with GitHub Actions.
+- Automated tests: unit, integration, and inference tests with `pytest`.
+- Containerization: package the application with Docker for consistency across environments (i.e., it should work on every machine with a well-setup Docker).
+Dependency Management: For reproducibility, dependencies were specified in a `requirements.txt` file, and development was conducted in an isolated environment (`venv`).
+- Microservices architecture: The project is a self-contained microservice focused on a single responsibility: predicting bike rentals. It is independently deployable and communicates through HTTP.
+
+We intend to review these concepts in a practical, applied way. This will give us more tools to design and produce more sustainable systems, which we can develop more efficiently through good practices without sacrificing smooth delivery to our clients.
+
 ## About the technologies
-FastAPI, Uvicorn, Docker, GitHub Actions, and pytest
+
+Through this practical project, we will deal with several technologies, the most important:
+
+- FastAPI: a framework to develop APIs with Python. It is easy to learn, and it makes the development of APIs incredibly fast.
+Uvicorn: an ASGI (Asynchronous Server Getaway Interface) Server. It handles incoming HTTP requests and sends responses. This lightweight server is appropriate for our microservice.
+- Docker: a platform to pack our application into isolated "containers" and make them available to be run in several systems. Perfect to build microservices.
+- GitHub Actions: a CI/CD platform that allows us to automate your development pipelines. We will use them here to automate the software tests and build and push our docker images.
+- pytest: a Python framework to simplify our software testing.
+
+These tools will make the development and publishing of our microservice a breeze.
+
+## Let's get started
+
+We will start with the mandatory xkcd comic that this kind of articles include so we can get out of this step.
+
+![Exploits of a Mom, by xkcd  Comics. Available at https://xkcd.com/3027/](img/exploits_of_a_mom.png)
+
+I know that this has nothing to do with software engineering or APIs, but little Bobby Tables always cracks me laugh. Now we can continue with the build of our API and some software engineering practices.
+
+## Problem we want to solve
+
+## Predictive model development
+
+## Containarization
+
+## Automated tests
+
+## Inference
+
+## App running
+
+
+## Whats left?
+Model monitoring, automatic training incorporated to the CI/CD, low level applications that consume the APIS
