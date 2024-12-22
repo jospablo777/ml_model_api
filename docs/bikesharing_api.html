@@ -339,7 +339,7 @@ Note
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="4" data-code-annotation="2">Each class attribute is defined with a data type; <code>season</code>, for example, is defined as <code>str</code>. We also use the function <code>Field()</code> to specify constraints and metadata; the ellipsis literal <code>...</code> here means two things: first, a value must be provided, and second, there is no default value for this attribute. Then, some metadata is specified in the <code>description</code> parameter.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="4" data-code-annotation="2">Each class attribute is defined with a data type; <code>season</code>, for example, is defined as <code>str</code>. We also use the function <code>Field()</code> to specify constraints and metadata; the ellipsis literal <code>...</code> here means two things: first, a value must be provided, second, there is no default value for this attribute. Then, some metadata is specified in the <code>description</code> parameter.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
 <dd>
@@ -419,7 +419,6 @@ Note
 </section>
 <section id="fastapi-development" class="level3">
 <h3 class="anchored" data-anchor-id="fastapi-development">FastAPI development</h3>
-<p>——- All the text below needs LOTS of editing after I had some sleep ——————</p>
 <p>With the data model in place (the class <code>BikeSharingRequest</code>), we can continue developing our microservice served via an API.</p>
 <p>To get started with our FastAPI app, we create the Python file <code>app/main.py</code>. Let’s take a look at the imports we’re gonna need.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/main.py"><code>app/main.py</code></a></p>
@@ -436,11 +435,12 @@ Note
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="1">I’m not going to dwell much on this, but in we import the Pydantic data model we created in the previous step.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="1">I’m not going to stop much here, but in we import the Pydantic data model we created in the previous step.</span>
 </dd>
 </dl>
 </div>
 </div>
+<p>Next, we will start coding the core of our FastAPI app, beginning with instantiating the main application, <code>app</code>. The annotated code is below.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/main.py"><code>app/main.py</code></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -- snip --</span></span>
@@ -465,15 +465,16 @@ Note
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="7" data-code-annotation="2">Read the model.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="7" data-code-annotation="2">Read the predictive model, which is a trained CatBoost model.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="10" data-code-annotation="3">A GET endpoint to the root URL</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="10" data-code-annotation="3">A GET endpoint to the root URL. When someone accesses this endpoint, they will be served with the “message.”</span>
 </dd>
 </dl>
 </div>
 </div>
+<p>So far, we have instantiated a FastApi app and defined the root endpoint. Next, we will write the core app function and define its endpoint, which we will call <code>/predict</code>.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/main.py"><code>app/main.py</code></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -- snip --</span></span>
@@ -516,23 +517,23 @@ Note
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="4,5,6" data-code-annotation="1">Defines a POST endpoint at <code>/predict</code>. Some metada is included with the parameters <code>summary</code> and `description.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="4,5,6" data-code-annotation="1">Defines a POST endpoint at <code>/predict</code>. Some metadata is included with the parameters <code>summary</code> and `description.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="7" data-code-annotation="2">Data validation is ensured since function receives a list of <code>BikeSharingRequest</code>.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="7" data-code-annotation="2">Data validation is ensured since the function receives a list of <code>BikeSharingRequest</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="19,20,21,22,23" data-code-annotation="3">If request is an empty list <code>[]</code>, FastAPI will return the “The request is empty” messagee to the client</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="19,20,21,22,23" data-code-annotation="3">If the request is an empty list <code>[]</code> FastAPI will return the “The request is empty” message to the client</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="26" data-code-annotation="4">Converts the list of <code>BikeSharingRequest</code> into a polars data frame.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="26" data-code-annotation="4">Converts the <code>BikeSharingRequest</code> list into a polars data frame.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="29" data-code-annotation="5">To date of writing, CatBoost do not accept polars data frames as input, so we convert to a list of numpy arrays.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="29" data-code-annotation="5">To date writing, CatBoost does not accept polar data frames as input, so we convert them to a list of numpy arrays.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="6">6</dt>
 <dd>
@@ -540,11 +541,53 @@ Note
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="35" data-code-annotation="7">Returns a JSON.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="35" data-code-annotation="7">Returns predictions as a JSON.</span>
 </dd>
 </dl>
 </div>
 </div>
+<p>The <code>predict_rentals</code> is a little complex in the sense that it does several things:</p>
+<ul>
+<li>Handles an edge case</li>
+<li>Transform the request data</li>
+<li>Makes the inference (compute the predictions)</li>
+<li>To finally return a dictionary (that will be parsed to a JSON by FastAPI) with the result.</li>
+</ul>
+<p>But it will do for our predictions API.</p>
+<p>There are some other parts of the app, for example in the <code>app/services/</code> folder you will find some helper function. But at this point we have the core of our prediction API app, so lest test it!</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you haven’t cloned the <a href="https://github.com/jospablo777/ml_model_api">GitHub repo</a> now it’s a good time to do it.</p>
+</div>
+</div>
+<p>First, in a terminal, go to the root of the project and start the app with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uvicorn</span> app.main:app <span class="at">--host</span> 127.0.0.1 <span class="at">--port</span> 8000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After that, you should be able to see in the terminal that your app is running. Something like:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">user@user-pc:~/ml_model_api$</span> uvicorn app.main:app</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Started server process <span class="pp">[</span><span class="ss">19168</span><span class="pp">]</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Waiting for application startup.</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Application startup complete.</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Uvicorn running on http://127.0.0.1:8000 <span class="er">(</span><span class="ex">Press</span> CTRL+C to quit<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With the app is running we can access the API and its documentation. So, let’s explore a little, first, the API’s root</p>
+<ul>
+<li>API Root: http://127.0.0.1:8000/</li>
+</ul>
+<p>Here we can see the message we writed earlier:</p>
+<pre><code>{
+  "message": "Bike rentals ML predictor (regressor)"
+}</code></pre>
+<ul>
+<li>Swagger UI (API Documentation): http://127.0.0.1:8000/docs</li>
+<li>ReDoc (Alternative Documentation): http://127.0.0.1:8000/redoc</li>
+</ul>
 </section>
 <section id="pydantic-model" class="level3">
 <h3 class="anchored" data-anchor-id="pydantic-model">Pydantic model</h3>
@@ -562,15 +605,15 @@ Note
 <p>The FastAPI process starts with a user sending a POST request containing the information in JSON format. FastAPI inspects the request body and knows it should be parsed as a <code>List[BikeSharingRequest]</code> object. This awareness came from the endpoint function signature:</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/main.py"><code>app/main.py</code></a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">'/predict'</span>, </span>
-<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>          summary <span class="op">=</span> <span class="st">"Predict bike rentals"</span>, </span>
-<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>          description <span class="op">=</span> <span class="st">"Takes input data and returns amount rental predictions (regression)."</span>)</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-4" class="code-annotation-target"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> predict_rentals(requests: List[BikeSharingRequest]) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">'/predict'</span>, </span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>          summary <span class="op">=</span> <span class="st">"Predict bike rentals"</span>, </span>
+<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>          description <span class="op">=</span> <span class="st">"Takes input data and returns amount rental predictions (regression)."</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> predict_rentals(requests: List[BikeSharingRequest]) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="4" data-code-annotation="1">In this line, we inform FastAPI how to parse the JSON. So, after this declaration, it is known that the raw JSON must be interpreted as a list of JSON objects.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="4" data-code-annotation="1">In this line, we inform FastAPI how to parse the JSON. So, after this declaration, it is known that the raw JSON must be interpreted as a list of JSON objects.</span>
 </dd>
 </dl>
 </div>
@@ -585,6 +628,7 @@ Note
 <figcaption>Graphic representation of our FastAPI app</figcaption>
 </figure>
 </div>
+<p>Please notice, that for simplicity, the Uvicorn server is abstracted away from the diagram.</p>
 </section>
 </section>
 <section id="automated-tests" class="level2">
