@@ -207,8 +207,9 @@ class BikeSharingRequest(BaseModel):                                           #
 
 To summarize the structure of our Pydantic model:
 
+Filename: [`app/models/bike_sharing.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/models/bike_sharing.py)
 ```{python}
-#| label: pydantic_model_description_1
+#| label: pydantic_model_general_description
 #| include: true
 #| eval: false
 
@@ -249,6 +250,82 @@ Great! Now, we have a Pydantic model and a better understanding of it. Next, we 
 ### FastAPI development
 
 With the data model in place (the class `BikeSharingRequest`), we can continue developing our microservice served via an API.
+
+Filename: [`app/main.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/main.py)
+```{python}
+#| label: fastapi_app_0
+#| include: true
+#| eval: false
+
+# -- snip --
+
+# Instantiate a FastAPI class, the core of the application
+app = FastAPI()                                                         # <1>
+
+# Read predictive model
+ml_model = load_model('predictive_models/catboost_model_19Dec2024.cbm') # <2> 
+
+# Defines a GET endpoin at the root path "/"
+@app.get("/")                                                           # <3>
+async def index() -> dict:
+    return {"message": "Bike rentals ML predictor (regressor)"} # Returns a simple JSON response with a message
+
+# --snip--
+```
+1. Instantiates the main FastAPI application. Every endpoint and configuration will attach to this `app` object.
+2. Read the model.
+3. A GET endpoint to the root URL
+
+Filename: [`app/main.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/main.py)
+```{python}
+#| label: fastapi_app_1
+#| include: true
+#| eval: false
+
+# -- snip --
+
+# Defines a POST endpoint for predictions
+@app.post('/predict',                                                                           # <1>
+          summary = "Predict bike rentals",                                                     # <1>
+          description = "Takes input data and returns amount rental predictions (regression).") # <1>
+async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:           # <2>
+    """
+    Predict bike rentals based on input features.
+
+    Args:
+        requests (List[BikeSharingRequests]): A list of input data objects.
+
+    Returns:
+        dict: A dictionary containing the predictions as a list.
+    """
+
+    # Handles the case when an empty list is posted
+    if not requests:                         # <3>
+        raise HTTPException(                 # <3>
+            status_code = 422,               # <3>
+            detail = "The request is empty"  # <3>
+        )                                    # <3>
+    
+    # Convert each pydantic model to a dict and load into a Polars DataFrame
+    df = req_to_polars(requests)             # <4>
+
+    # Instances to predict
+    features = df.to_numpy()                 # <5>
+
+    # Make predictions
+    predictions = ml_model.predict(features) # <6>
+
+    return {
+        'predictions': predictions.tolist() 
+    }
+```
+1. Defines a POST endpoint at `/predict`. Some metada is included with the parameters `summary` and `description.
+2. Data validation is ensured since function receives a list of `BikeSharingRequest`.
+3. If request is an empty list `[]`, FastAPI will return the "The request is empty" messagee to the client
+4. Converts the list of `BikeSharingRequest` into a polars data frame.
+5. To date of writing, CatBoost do not accept polars data frames as input, so we convert to a list of numpy arrays.
+6. Generates predictions.
+
 
 ## Automated tests
 
