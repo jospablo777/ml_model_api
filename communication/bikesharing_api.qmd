@@ -116,6 +116,8 @@ We were assigned a task, so we started by investigating bike rental data and the
 
 During this tutorial, we will show you some code snippets and indicate the file where the code is located[^5]. You should then be able to follow the project's code, which is available on the [GitHub repo](https://github.com/jospablo777/ml_model_api).
 
+After some research and experimentation, we developed a CatBoost model capable of predicting the number of rented bikes at a specific time, given some environmental and temporal conditions. The code that generated the model is next.
+
 Filename: [`notebooks/eda_and_toy_model.ipynb`](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb)
 ```{python}
 #| label: predictive_model
