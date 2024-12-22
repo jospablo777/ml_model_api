@@ -3,7 +3,13 @@ title: "Bike Rentals Prediction API"
 author:
   name: "Jose P. Barrantes"
   url: "https://www.linkedin.com/in/jose-barrantes/"
-format: html
+description: "GitHub Repo: [Bike Rentals Prediction API](https://github.com/jospablo777/ml_model_api)"
+format: 
+  html:
+    toc: true
+    toc-location: right
+    toc-title: "On this page"
+    aside: true
 editor: source
 ---
 
@@ -13,6 +19,7 @@ editor: source
 #| output: false
 Sys.setenv(RETICULATE_PYTHON = "../venv/bin/python")
 ```
+
 
 ![](img/pondering_orb_meme.png)
 
@@ -148,7 +155,7 @@ The API will move data around (receive and deliver) as its primary job, so it is
 
 ![An ambiguous (and invalid) request request to the API, so no enchiladas :(](img/restaurant_api_jap.png)
 
-So, we will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let's get our hands on the Pydantic model.
+We will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let's establish a Pydantic model for our API requests and learn more about the library in the process.
 
 Filename: [`app/models/bike_sharing.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/models/bike_sharing.py)
 ```{python}
@@ -206,6 +213,8 @@ class BikeSharingRequest(BaseModel):
         return v
 ```
 
+First thing to notice is that the Pydantic model is defined as a Python class that inherits `BaseModel`
+
 [^7]: エンチラーダをいただけますか？
 
 ## Containarization
@@ -216,7 +225,7 @@ class BikeSharingRequest(BaseModel):
 
 ## Microservice up and running
 
-
+## What we learned?
 
 ## Whats left?
 Model monitoring, automatic training incorporated to the CI/CD, model versioning, high level applications that consume the APIs

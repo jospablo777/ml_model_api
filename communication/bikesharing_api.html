@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jose P. Barrantes">
+<meta name="description" content="GitHub Repo: Bike Rentals Prediction API">
 
 <title>Bike Rentals Prediction API</title>
 <style>
@@ -72,10 +73,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#an-accesible-inference-system" id="toc-an-accesible-inference-system" class="nav-link active" data-scroll-target="#an-accesible-inference-system">An accesible inference system</a></li>
+  <li><a href="#an-ml-model-as-a-microservice" id="toc-an-ml-model-as-a-microservice" class="nav-link" data-scroll-target="#an-ml-model-as-a-microservice">An ML model as a microservice</a></li>
+  <li><a href="#but-what-is-an-api" id="toc-but-what-is-an-api" class="nav-link" data-scroll-target="#but-what-is-an-api">But what is an API?</a></li>
+  <li><a href="#software-engineering-for-data-scientists" id="toc-software-engineering-for-data-scientists" class="nav-link" data-scroll-target="#software-engineering-for-data-scientists">Software engineering for data scientists</a></li>
+  <li><a href="#about-the-technologies" id="toc-about-the-technologies" class="nav-link" data-scroll-target="#about-the-technologies">About the technologies</a></li>
+  <li><a href="#lets-get-started" id="toc-lets-get-started" class="nav-link" data-scroll-target="#lets-get-started">Let’s get started</a></li>
+  <li><a href="#problem-we-want-to-solve" id="toc-problem-we-want-to-solve" class="nav-link" data-scroll-target="#problem-we-want-to-solve">Problem we want to solve</a></li>
+  <li><a href="#microservice-development" id="toc-microservice-development" class="nav-link" data-scroll-target="#microservice-development">Microservice development</a></li>
+  <li><a href="#api-development" id="toc-api-development" class="nav-link" data-scroll-target="#api-development">API development</a></li>
+  <li><a href="#containarization" id="toc-containarization" class="nav-link" data-scroll-target="#containarization">Containarization</a></li>
+  <li><a href="#automated-tests" id="toc-automated-tests" class="nav-link" data-scroll-target="#automated-tests">Automated tests</a></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
+  <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a></li>
+  <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned">What we learned?</a></li>
+  <li><a href="#whats-left" id="toc-whats-left" class="nav-link" data-scroll-target="#whats-left">Whats left?</a></li>
+  <li><a href="#recommended-readings" id="toc-recommended-readings" class="nav-link" data-scroll-target="#recommended-readings">Recommended readings</a></li>
+  <li><a href="#about-the-pondering-guy-in-the-header" id="toc-about-the-pondering-guy-in-the-header" class="nav-link" data-scroll-target="#about-the-pondering-guy-in-the-header">About the pondering guy in the header</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -83,6 +108,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 class="title">Bike Rentals Prediction API</h1>
 </div>
 
+<div>
+  <div class="description">
+    GitHub Repo: <a href="https://github.com/jospablo777/ml_model_api">Bike Rentals Prediction API</a>
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -218,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>An ambiguous (and invalid) request request to the API, so no enchiladas :(</figcaption>
 </figure>
 </div>
-<p>So, we will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let’s get our hands on the Pydantic model.</p>
+<p>We will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let’s establish a Pydantic model for our API requests and learn more about the library in the process.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/models/bike_sharing.py"><code>app/models/bike_sharing.py</code></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field, field_validator</span>
@@ -274,6 +304,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"weathersit must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>First thing to notice is that the Pydantic model is defined as a Python class that inherits <code>BaseModel</code></p>
 </section>
 <section id="containarization" class="level2">
 <h2 class="anchored" data-anchor-id="containarization">Containarization</h2>
@@ -286,6 +317,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="microservice-up-and-running" class="level2">
 <h2 class="anchored" data-anchor-id="microservice-up-and-running">Microservice up and running</h2>
+</section>
+<section id="what-we-learned" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-learned">What we learned?</h2>
 </section>
 <section id="whats-left" class="level2">
 <h2 class="anchored" data-anchor-id="whats-left">Whats left?</h2>
