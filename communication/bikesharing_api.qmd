@@ -265,8 +265,19 @@ Model monitoring, automatic training incorporated to the CI/CD, model versioning
 
 ## Recommended readings
 
-Docker Deep Dive by Nigel Poulton
-Microservice APIs: Using Python, Flask, FastAPI, OpenAPI and more by Jose Haro Peralta
+### Microservice APIs by Jose Haro Peralta
+
+If you're new to APIs and microservices, [Microservice APIs](https://www.manning.com/books/microservice-apis) by Jose Haro Peralta provides an excellent starting point. The author presents fundamental software architecture and engineering principles in an accessible, hands-on way. You'll find practical code examples to experiment with, paired with clear theoretical explanations that help you understand both the "how" and the "why" behind the code.
+
+### Docker Deep Dive by Nigel Poulton
+
+For anyone looking to learn Docker, Nigel Poulton's [Docker Deep Dive](https://www.amazon.com/Docker-Deep-Dive-Zero-single/dp/191658537X) offers a concise yet insightful introduction. Despite its brevity, the book covers many concepts and provides straightforward exercises. By following along with the examples, you'll quickly gain the confidence to use Docker effectively in real-world scenarios.
+
+### Software Engineering for Data Scientists by Andrew Treadway
+
+Currently available as a MEAP (Manning Early Access Program), [Software Engineering for Data Scientists](https://www.manning.com/books/software-engineering-for-data-scientists) by Andrew Treadway is a remarkable resource for data professionals eager to strengthen their software engineering skills. The book’s in-progress chapters seamlessly blend theory and practice, offering well-researched explanations and practical examples. This is a must-read if you want to elevate your data projects with solid engineering principles.
+
+
 
 ## About the pondering guy in the header
 

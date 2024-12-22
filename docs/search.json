@@ -109,7 +109,7 @@
     "href": "bikesharing_api.html#recommended-readings",
     "title": "Bike Rentals Prediction API",
     "section": "Recommended readings",
-    "text": "Recommended readings\nDocker Deep Dive by Nigel Poulton Microservice APIs: Using Python, Flask, FastAPI, OpenAPI and more by Jose Haro Peralta"
+    "text": "Recommended readings\n\nMicroservice APIs by Jose Haro Peralta\nIf you’re new to APIs and microservices, Microservice APIs by Jose Haro Peralta provides an excellent starting point. The author presents fundamental software architecture and engineering principles in an accessible, hands-on way. You’ll find practical code examples to experiment with, paired with clear theoretical explanations that help you understand both the “how” and the “why” behind the code.\n\n\nDocker Deep Dive by Nigel Poulton\nFor anyone looking to learn Docker, Nigel Poulton’s Docker Deep Dive offers a concise yet insightful introduction. Despite its brevity, the book covers many concepts and provides straightforward exercises. By following along with the examples, you’ll quickly gain the confidence to use Docker effectively in real-world scenarios.\n\n\nSoftware Engineering for Data Scientists by Andrew Treadway\nCurrently available as a MEAP (Manning Early Access Program), Software Engineering for Data Scientists by Andrew Treadway is a remarkable resource for data professionals eager to strengthen their software engineering skills. The book’s in-progress chapters seamlessly blend theory and practice, offering well-researched explanations and practical examples. This is a must-read if you want to elevate your data projects with solid engineering principles."
   },
   {
     "objectID": "bikesharing_api.html#about-the-pondering-guy-in-the-header",
