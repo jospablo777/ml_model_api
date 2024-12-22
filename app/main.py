@@ -30,6 +30,8 @@ async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:
     Returns:
         dict: A dictionary containing the predictions as a list.
     """
+
+    # Handles the case when an empty list is posted
     if not requests:
         raise HTTPException(
             status_code=422,
@@ -54,6 +56,3 @@ async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:
     return {
         'predictions': predictions.tolist()
     }
-
-if __name__ == '__main__':
-    uvicorn.run(app, host='127.0.0.1', port=8000)
