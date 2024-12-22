@@ -18,7 +18,9 @@ async def index() -> dict:
     return {"message": "Bike rentals ML predictor (regressor)"} # Returns a simple JSON response with a message
 
 # Defines a POST endpoint for predictions
-@app.post('/predict', summary="Predict bike rentals", description="Takes input data and returns amount rental predictions (regression).")
+@app.post('/predict', 
+          summary = "Predict bike rentals", 
+          description = "Takes input data and returns amount rental predictions (regression).")
 async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:
     """
     Predict bike rentals based on input features.
@@ -33,8 +35,8 @@ async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:
     # Handles the case when an empty list is posted
     if not requests:
         raise HTTPException(
-            status_code=422,
-            detail="The request is empty"
+            status_code = 422,
+            detail = "The request is empty"
         )
     
     # Convert each pydantic model to a dict and load into a Polars DataFrame
