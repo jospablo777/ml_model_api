@@ -249,6 +249,8 @@ Great! Now, we have a Pydantic model and a better understanding of it. Next, we 
 
 ### FastAPI development
 
+------- All the text below needs LOTS of editing after I had some sleep ------------------
+
 With the data model in place (the class `BikeSharingRequest`), we can continue developing our microservice served via an API.
 
 Filename: [`app/main.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/main.py)
@@ -316,7 +318,7 @@ async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:          
     predictions = ml_model.predict(features) # <6>
 
     return {
-        'predictions': predictions.tolist() 
+        'predictions': predictions.tolist()  # <7>
     }
 ```
 1. Defines a POST endpoint at `/predict`. Some metada is included with the parameters `summary` and `description.
@@ -325,7 +327,15 @@ async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:          
 4. Converts the list of `BikeSharingRequest` into a polars data frame.
 5. To date of writing, CatBoost do not accept polars data frames as input, so we convert to a list of numpy arrays.
 6. Generates predictions.
+7. Returns a JSON.
 
+### Pydantic model
+
+If you navigate to our FastAPI application documentation (http://127.0.0.1:8000/docs) you will be able to see the Pydantic model used for data validation, even the `description` of the fields especified as attributes in the class `BikeSharingRequest`. Here you will be able to read the default constraints (data type), and the ones specified with the `Field()` function. The numeric restrictions we indicated appear between the square brackets(e.g. `[0, 23]` for the `hr` field) Custom constraints are no automatically displayed, yet we indicated them as metadata in in the `description` parameter.
+
+FastAPI uses Pydantic behind the scenes to convert each JSON object in the incoming list to a BikeSharingRequest instance.
+ 
+![Pydantic model](img/schema_pydantic_model.png)
 
 ## Automated tests
 

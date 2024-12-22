@@ -129,6 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#the-pydantic-model" id="toc-the-pydantic-model" class="nav-link" data-scroll-target="#the-pydantic-model">The Pydantic model</a></li>
   <li><a href="#fastapi-development" id="toc-fastapi-development" class="nav-link" data-scroll-target="#fastapi-development">FastAPI development</a></li>
+  <li><a href="#pydantic-model" id="toc-pydantic-model" class="nav-link" data-scroll-target="#pydantic-model">Pydantic model</a></li>
   </ul></li>
   <li><a href="#automated-tests" id="toc-automated-tests" class="nav-link" data-scroll-target="#automated-tests">Automated tests</a></li>
   <li><a href="#containarization" id="toc-containarization" class="nav-link" data-scroll-target="#containarization">Containarization</a></li>
@@ -423,6 +424,7 @@ Note
 </section>
 <section id="fastapi-development" class="level3">
 <h3 class="anchored" data-anchor-id="fastapi-development">FastAPI development</h3>
+<p>——- All the text below needs LOTS of editing after I had some sleep ——————</p>
 <p>With the data model in place (the class <code>BikeSharingRequest</code>), we can continue developing our microservice served via an API.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/main.py"><code>app/main.py</code></a></p>
 <div class="cell">
@@ -493,7 +495,7 @@ Note
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-5-32" class="code-annotation-target"><a href="#annotated-cell-5-32" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> ml_model.predict(features)</span>
 <span id="annotated-cell-5-33"><a href="#annotated-cell-5-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-5-34"><a href="#annotated-cell-5-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="annotated-cell-5-35"><a href="#annotated-cell-5-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">'predictions'</span>: predictions.tolist() </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-5-35" class="code-annotation-target"><a href="#annotated-cell-5-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">'predictions'</span>: predictions.tolist()</span>
 <span id="annotated-cell-5-36"><a href="#annotated-cell-5-36" aria-hidden="true" tabindex="-1"></a>    }</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
@@ -521,8 +523,23 @@ Note
 <dd>
 <span data-code-cell="annotated-cell-5" data-code-lines="32" data-code-annotation="6">Generates predictions.</span>
 </dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="35" data-code-annotation="7">Returns a JSON.</span>
+</dd>
 </dl>
 </div>
+</div>
+</section>
+<section id="pydantic-model" class="level3">
+<h3 class="anchored" data-anchor-id="pydantic-model">Pydantic model</h3>
+<p>If you navigate to our FastAPI application documentation (http://127.0.0.1:8000/docs) you will be able to see the Pydantic model used for data validation, even the <code>description</code> of the fields especified as attributes in the class <code>BikeSharingRequest</code>. Here you will be able to read the default constraints (data type), and the ones specified with the <code>Field()</code> function. The numeric restrictions we indicated appear between the square brackets(e.g.&nbsp;<code>[0, 23]</code> for the <code>hr</code> field) Custom constraints are no automatically displayed, yet we indicated them as metadata in in the <code>description</code> parameter.</p>
+<p>FastAPI uses Pydantic behind the scenes to convert each JSON object in the incoming list to a BikeSharingRequest instance.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/schema_pydantic_model.png" class="img-fluid figure-img"></p>
+<figcaption>Pydantic model</figcaption>
+</figure>
 </div>
 </section>
 </section>
