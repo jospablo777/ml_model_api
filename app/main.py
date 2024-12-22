@@ -1,9 +1,8 @@
 from fastapi import FastAPI
-import uvicorn
 from typing import List
 from app.services.ml_model import load_model
+from app.services.requests_to_polars import req_to_polars
 from app.models.bike_sharing import BikeSharingRequest # Pydantic data model (data validation)
-import polars as pl
 from fastapi import HTTPException
 
 # Instantiate a FastAPI class, the core of the application
@@ -39,16 +38,10 @@ async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:
         )
     
     # Convert each pydantic model to a dict and load into a Polars DataFrame
-    df = pl.DataFrame([req.model_dump() for req in requests])
-
-    # Expected feature order
-    feature_df = df.select([
-        "season", "mnth", "hr", "holiday", "weekday",
-        "workingday", "weathersit", "temp", "atemp", "hum", "windspeed"
-    ])
+    df = req_to_polars(requests)
 
     # Instances to predict
-    features = feature_df.to_numpy()
+    features = df.to_numpy()
 
     # Make predictions
     predictions = ml_model.predict(features)
