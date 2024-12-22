@@ -337,6 +337,10 @@ FastAPI uses Pydantic behind the scenes to convert each JSON object in the incom
  
 ![Pydantic model](img/schema_pydantic_model.png)
 
+### FastAPI app
+
+![](img/fastapi_app_flowchart.png)
+
 ## Automated tests
 
 ## Containarization
