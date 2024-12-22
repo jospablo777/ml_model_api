@@ -251,7 +251,26 @@ Great! Now, we have a Pydantic model and a better understanding of it. Next, we 
 
 ------- All the text below needs LOTS of editing after I had some sleep ------------------
 
-With the data model in place (the class `BikeSharingRequest`), we can continue developing our microservice served via an API.
+With the data model in place (the class `BikeSharingRequest`), we can continue developing our microservice served via an API. 
+
+To get started with our FastAPI app, we create the Python file `app/main.py`. Let's take a look at the imports we're gonna need.
+
+Filename: [`app/main.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/main.py)
+```{python}
+#| label: fastapi_app_imports
+#| include: true
+#| eval: false
+
+from fastapi import FastAPI
+from typing import List
+from app.services.ml_model import load_model
+from app.services.requests_to_polars import req_to_polars
+from app.models.bike_sharing import BikeSharingRequest # <1>
+from fastapi import HTTPException
+
+# --snip--
+```
+1. I'm not going to dwell much on this, but in we import the Pydantic data model we created in the previous step.
 
 Filename: [`app/main.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/main.py)
 ```{python}
@@ -339,7 +358,31 @@ FastAPI uses Pydantic behind the scenes to convert each JSON object in the incom
 
 ### FastAPI app
 
-![](img/fastapi_app_flowchart.png)
+The FastAPI process starts with a user sending a POST request containing the information in JSON format. 
+FastAPI inspects the request body and knows it should be parsed as a `List[BikeSharingRequest]` object. This awareness came from the endpoint function signature:
+
+Filename: [`app/main.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/main.py)
+```{python}
+#| label: predict_endpoint_signature
+#| include: true
+#| eval: false
+
+@app.post('/predict', 
+          summary = "Predict bike rentals", 
+          description = "Takes input data and returns amount rental predictions (regression).")
+async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:  # <1>
+```
+1. In this line, we inform FastAPI how to parse the JSON. So, after this declaration, it is known that the raw JSON must be interpreted as a list of JSON objects.
+
+Then, to instantiate each `BikesharingRequest`, FastAPI loops will be placed through each JSON object in the list. FastApi matches JSON keys to fields in the `BikeSharingRequest` model for each JSON object, enforcing types, constraints, and custom validators. So, this is when the validation occurs.
+
+If any item fails validation, the process stops, and FastAPI returns a `422` validation error without calling the function (`predict_rentals`). If all the validations are successful, FastAPI put all the `BikeSharingRequest` objects into a list.
+
+After we have our instance of `List(BikeSharingRequest)`, the process continues with data shaping and inference. If everything goes well, a JSON response with the predictions is sent to the user.
+
+You can inspect our FastAPI `app` process in the following chart.
+
+![Graphic representation of our FastAPI app](img/fastapi_app_flowchart.png)
 
 ## Automated tests
 
