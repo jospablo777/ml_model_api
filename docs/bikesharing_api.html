@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jose P. Barrantes">
+<meta name="description" content="GitHub Repo: Bike Rentals Prediction API">
+
+<title>Bike Rentals Prediction API</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#an-accesible-inference-system" id="toc-an-accesible-inference-system" class="nav-link active" data-scroll-target="#an-accesible-inference-system">An accesible inference system</a></li>
+  <li><a href="#an-ml-model-as-a-microservice" id="toc-an-ml-model-as-a-microservice" class="nav-link" data-scroll-target="#an-ml-model-as-a-microservice">An ML model as a microservice</a></li>
+  <li><a href="#but-what-is-an-api" id="toc-but-what-is-an-api" class="nav-link" data-scroll-target="#but-what-is-an-api">But what is an API?</a></li>
+  <li><a href="#software-engineering-for-data-scientists" id="toc-software-engineering-for-data-scientists" class="nav-link" data-scroll-target="#software-engineering-for-data-scientists">Software engineering for data scientists</a></li>
+  <li><a href="#about-the-technologies" id="toc-about-the-technologies" class="nav-link" data-scroll-target="#about-the-technologies">About the technologies</a></li>
+  <li><a href="#lets-get-started" id="toc-lets-get-started" class="nav-link" data-scroll-target="#lets-get-started">Let’s get started</a></li>
+  <li><a href="#problem-we-want-to-solve" id="toc-problem-we-want-to-solve" class="nav-link" data-scroll-target="#problem-we-want-to-solve">Problem we want to solve</a></li>
+  <li><a href="#microservice-development" id="toc-microservice-development" class="nav-link" data-scroll-target="#microservice-development">Microservice development</a></li>
+  <li><a href="#api-development" id="toc-api-development" class="nav-link" data-scroll-target="#api-development">API development</a>
+  <ul class="collapse">
+  <li><a href="#the-pydantic-model" id="toc-the-pydantic-model" class="nav-link" data-scroll-target="#the-pydantic-model">The Pydantic model</a></li>
+  <li><a href="#fastapi-development" id="toc-fastapi-development" class="nav-link" data-scroll-target="#fastapi-development">FastAPI development</a></li>
+  </ul></li>
+  <li><a href="#automated-tests" id="toc-automated-tests" class="nav-link" data-scroll-target="#automated-tests">Automated tests</a></li>
+  <li><a href="#containarization" id="toc-containarization" class="nav-link" data-scroll-target="#containarization">Containarization</a></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
+  <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a></li>
+  <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned">What we learned?</a></li>
+  <li><a href="#whats-left" id="toc-whats-left" class="nav-link" data-scroll-target="#whats-left">Whats left?</a></li>
+  <li><a href="#recommended-readings" id="toc-recommended-readings" class="nav-link" data-scroll-target="#recommended-readings">Recommended readings</a></li>
+  <li><a href="#about-the-pondering-guy-in-the-header" id="toc-about-the-pondering-guy-in-the-header" class="nav-link" data-scroll-target="#about-the-pondering-guy-in-the-header">About the pondering guy in the header</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Bike Rentals Prediction API</h1>
+</div>
+
+<div>
+  <div class="description">
+    GitHub Repo: <a href="https://github.com/jospablo777/ml_model_api">Bike Rentals Prediction API</a>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://www.linkedin.com/in/jose-barrantes/">Jose P. Barrantes</a> </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><img src="img/pondering_orb_meme.png" class="img-fluid"></p>
+<section id="an-accesible-inference-system" class="level2">
+<h2 class="anchored" data-anchor-id="an-accesible-inference-system">An accesible inference system</h2>
+<p>In a fast-paced world, one of the problems we face as data professionals is delivering our data products promptly. Also, distributing them in a manner that doesn’t affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.</p>
+<p>An idea that is not new, is to deliver the “answers” in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (<em>machine learning</em> if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.</p>
+</section>
+<section id="an-ml-model-as-a-microservice" class="level2">
+<h2 class="anchored" data-anchor-id="an-ml-model-as-a-microservice">An ML model as a microservice</h2>
+<p>Imagine your (predictive) model being accessed anytime without disturbing your peace or consuming your time; after all, your time is expensive, and you have many tasks. Here is where the idea of microservices comes into action. A microservice is an isolated piece of software that is in charge of a single task (service) and communicates through a well-defined API. You finish your model, pack it in a microservice, and make it available through an API.</p>
+<p>This way, the model will always be available, and its consumption won’t block other tasks. Also, more products could be potentially developed with the API.</p>
+</section>
+<section id="but-what-is-an-api" class="level2">
+<h2 class="anchored" data-anchor-id="but-what-is-an-api">But what is an API?</h2>
+<p>An API is an intermediary that enables you to interact with a service without requiring knowledge of how this service works. You just need to know precisely what you want, tell it to the API, and the API will serve you what you requested.</p>
+<p>Let’s say that after work, you get hungry, so you park your Capital Bikeshare™ bike out of your favorite Mexican restaurant<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. You enter the restaurant and sit at a table. Instead of going directly to the kitchen to cook your own meal or asking the chef what you want, you need to place your order through the waiter or waitress. You kindly request your enchiladas, and after a while, they bring your meal to you.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/restaurant_api.png" class="img-fluid figure-img"></p>
+<figcaption>Allegory of a restaurant. The waiter/waitress is the API; the kitchen is the service (they are dedicated to cooking); you are the client</figcaption>
+</figure>
+</div>
+<p>Notice that you, as the client, are not required to know how to cook enchiladas. Also, you do not interact directly with the people who prepare the food. You get what you want through a waiter (the API).</p>
+<p>In summary, an API is the piece of the system you interact with to get a result generated by a service. Producing this result might be complex, but you don’t care about that since you only have to deal with the API.</p>
+</section>
+<section id="software-engineering-for-data-scientists" class="level2">
+<h2 class="anchored" data-anchor-id="software-engineering-for-data-scientists">Software engineering for data scientists</h2>
+<p>Another problem common to data scientists is that research, predictive modeling, and analytics are dirty processes. This is partly due to a lack of training in <strong>software engineering</strong>, which involves <strong>design</strong>, testing, and software maintenance.</p>
+<p>We usually have many problems to solve, questions to answer, and limited time at work. This leaves little to no time to apply the best practices to develop our analysis and maintain our code, leaving a trail of technical debt with each delivery. Yet, since most of us write code, we are, in fact, software developers because we develop software. This should be a hard-to-miss hint that software engineering practices must be core in our profession, or at least not ignored.</p>
+<p>Here, we will implement some practices core of software engineering like:</p>
+<ul>
+<li><strong>CI/CD:</strong> Continuous Integration (CI) and Continuous Deployment (CD) with GitHub Actions.</li>
+<li><strong>Automated tests:</strong> unit, integration, and inference tests with <code>pytest</code>.</li>
+<li><strong>Containerization:</strong> package the application with Docker for consistency across environments (i.e., it should work on every machine with a well-setup Docker). Dependency Management: For reproducibility, dependencies were specified in a <code>requirements.txt</code> file, and development was conducted in an isolated environment (<code>venv</code>).</li>
+<li><strong>Microservices architecture:</strong> The project is a self-contained microservice focused on a single responsibility: predicting bike rentals. It is independently deployable and communicates through HTTP.</li>
+</ul>
+<p>We intend to review these concepts in a practical, applied way. This will give us more tools to design and produce more sustainable systems, which we can develop more efficiently through good practices without sacrificing smooth delivery to our clients.</p>
+</section>
+<section id="about-the-technologies" class="level2">
+<h2 class="anchored" data-anchor-id="about-the-technologies">About the technologies</h2>
+<p>Through this practical project, we will deal with several technologies, the most important:</p>
+<ul>
+<li><strong>FastAPI:</strong> a framework to develop APIs with Python. It is easy to learn, and it makes the development of APIs incredibly fast.</li>
+<li><strong>Uvicorn:</strong> an ASGI (Asynchronous Server Getaway Interface) Server. It handles incoming HTTP requests and sends responses. This lightweight server is appropriate for our microservice.</li>
+<li><strong>Docker:</strong> a platform to pack our application into isolated “containers” and make them available to be run in several systems. Perfect to build microservices.</li>
+<li><strong>GitHub Actions:</strong> a CI/CD platform that allows us to automate your development pipelines. We will use them here to automate the software tests and build and push our docker images.</li>
+<li><strong>pytest:</strong> a Python framework to simplify our software testing.</li>
+</ul>
+<p>These tools will make the development and publishing of our microservice a breeze.</p>
+</section>
+<section id="lets-get-started" class="level2">
+<h2 class="anchored" data-anchor-id="lets-get-started">Let’s get started</h2>
+<p>We will start with the mandatory xkcd comic that this kind of articles include so we can continue with the tutorial.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/exploits_of_a_mom.png" class="img-fluid figure-img"></p>
+<figcaption>Exploits of a Mom, by xkcd Comics. Available at https://xkcd.com/3027/</figcaption>
+</figure>
+</div>
+<p>I know that this has nothing to do with software engineering or APIs, but little Bobby Tables always cracks me laugh. Now we can continue with the build of our API and some software engineering practices.</p>
+</section>
+<section id="problem-we-want-to-solve" class="level2">
+<h2 class="anchored" data-anchor-id="problem-we-want-to-solve">Problem we want to solve</h2>
+<p>Now, let’s focus on the problem we want to solve; this is probably the most crucial step since it is how we <strong>add value</strong> to the business. We are hired to solve analytical problems with evidence (data) as our raw material to produce those solutions.</p>
+<p>You probably won’t be surprised to learn this project started as a Jupyter Notebook, which I encourage you to <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb">check out here</a>. We are using an open data set from the <a href="https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset">UCI Machine Learning Repository</a>.</p>
+<p>Let’s assume we are working for <a href="https://capitalbikeshare.com/">Capital Bikeshare</a>, a company dedicated to providing a self-service bike rental service managed through a mobile app. For the company, it is crucial to predict the peaks of service usage so they can restock or make more available their products when they’re more needed. These products can be cloud computing resources during peak hours, bicycle units, human staff, etc. Also it can b convenient to predict the dates and hours of least use for maintenance tasks, like server updates or bike maintenance.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/Capital_Bikeshare_station_outside_Eastern_Market_Metro.jpg" class="img-fluid figure-img"></p>
+<figcaption>Capital Bikeshare station outside of the Eastern Market Metro station. Author: Ben Schumin (2010). Licensed under CC BY-SA 3.0</figcaption>
+</figure>
+</div>
+<p>Working as a data scientist for a big tech transport company, you will have lots of data and computational resources. On this occasion, you were put in charge of finding a way to predict the days and hours they will have to replenish their stock and increase the server’s capacity, investing in more resources only when necessary (saving money). Also, knowing when to schedule the maintenance labor will be valuable as well.</p>
+<p>After finishing the data exploration, you know that working days and the entry and exit from work hours are the busiest time frames. Also, climatic conditions can affect the willingness to rent a bike. You are cautious, so you first took the time to understand the phenomenon. Then, you built the model prototype and corroborated that it is possible to forecast the number of rented bikes at an hour-of-the-day granularity level.</p>
+<p>Success! You have a model that can help determine the best time to provide more resources or the times for maintenance. Does this mean that you have already finished with the task and can go on to live the good life?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Well, you already know that Jupyter is not a tool that produces clean results and that if you leave it there, your model will have to be run manually each time, which can introduce bugs and errors. This also means that you will have a high and constant influx of people knocking at your door<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> asking for predictions and insights.</p>
+<p>Jupyter is ideal for experimenting and testing but not for delivering results. Hence, you have decided to deploy this first iteration of the model (the prototype) as a microservice that can be consumed via an API. Here, you can assess how the model behaves in the wild and prepare for future iterations. You will start adding value with predictions and valuable information that will help improve your model.</p>
+<p>The engineering team, for example, will quickly adopt the app to know when to conduct maintenance jobs.</p>
+</section>
+<section id="microservice-development" class="level2">
+<h2 class="anchored" data-anchor-id="microservice-development">Microservice development</h2>
+<p>We were assigned a task, so we started by investigating bike rental data and then continued by building a predictive model using the <a href="https://catboost.ai/">CatBoost</a> algorithm. This model will be the inference engine of our microservice. You can see this part of the project <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb">here</a> in the notebook<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. We saved the model in our project’s <code>predictive_models/</code> folder.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>During this tutorial, we will show you some code snippets and indicate the file where the code is located<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. You should then be able to follow the project’s code, which is available on the <a href="https://github.com/jospablo777/ml_model_api">GitHub repo</a>.</p>
+</div>
+</div>
+<p>After some research and experimentation, we developed a CatBoost model capable of predicting the number of rented bikes at a specific time, given some environmental and temporal conditions. The code that generated the model is next.</p>
+<p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb"><code>notebooks/eda_and_toy_model.ipynb</code></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> catboost <span class="im">import</span> CatBoostRegressor</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Instantiate our model</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>catboost_model <span class="op">=</span> CatBoostRegressor(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    iterations<span class="op">=</span><span class="dv">1000</span>,       <span class="co"># Boosting iterations</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    depth<span class="op">=</span><span class="dv">6</span>,               <span class="co"># Tree depth</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    loss_function<span class="op">=</span><span class="st">'RMSE'</span>,  <span class="co"># Loss</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">100</span>            <span class="co"># Let it print the learning state every 100 iterations</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Train</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>catboost_model.fit(X_train, y_train, cat_features<span class="op">=</span>categorical_features)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Save trained model</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>catboost_model.save_model(<span class="st">"../predictive_models/catboost_model_19Dec2024.cbm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb">this analysis</a>, we generated some insights<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> and the core of our microservice, a predictive model stored in <code>predictive_models/catboost_model_19Dec2024.cbm</code>. Now that we have our predictor, let’s see how we can make the predictions accessible to others in the company.</p>
+</section>
+<section id="api-development" class="level2">
+<h2 class="anchored" data-anchor-id="api-development">API development</h2>
+<p>The API will move data around (receive and deliver) as its primary job, so it is key to establish a clear set of rules for the data our clients send. Moving back to our restaurant example, you probably could put your enchiladas order in English or Spanish, but it might be hard for the waiter if you place the order in Japanese<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. Hence, to get your enchiladas, you must request them in a way that the staff can understand, and <a href="https://docs.pydantic.dev/latest/">Pydantic</a> is here to enforce the rules that make such understanding happen.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/restaurant_api_jap.png" class="img-fluid figure-img"></p>
+<figcaption>An ambiguous (and invalid) request request to the API, so no enchiladas :(</figcaption>
+</figure>
+</div>
+<section id="the-pydantic-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-pydantic-model">The Pydantic model</h3>
+<p>We will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let’s establish a Pydantic model for our API requests and learn more about the library in the process.</p>
+<p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/models/bike_sharing.py"><code>app/models/bike_sharing.py</code></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field, field_validator</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BikeSharingRequest(BaseModel):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-2-4" class="code-annotation-target"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>    season: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Season (Winter/Spring/Summer/Fall)"</span>)</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>    mnth: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Month name (January, etc.)"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>    hr: <span class="bu">int</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">23</span>, description<span class="op">=</span><span class="st">"Hour of the day"</span>)</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if holiday"</span>)</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>    weekday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Name of the weekday (Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday)"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-2-9" class="code-annotation-target"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>    workingday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if working day"</span>)</span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>    weathersit: <span class="bu">int</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Weather code"</span>)</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>    temp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized temperature"</span>)</span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>    atemp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized feeling temperature"</span>)</span>
+<span id="annotated-cell-2-13"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a>    hum: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized humidity"</span>)</span>
+<span id="annotated-cell-2-14"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a>    windspeed: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized wind speed"</span>)</span>
+<span id="annotated-cell-2-15"><a href="#annotated-cell-2-15" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-2-16" class="code-annotation-target"><a href="#annotated-cell-2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"season"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-2-17" class="code-annotation-target"><a href="#annotated-cell-2-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_season(cls, v):</span>
+<span id="annotated-cell-2-18"><a href="#annotated-cell-2-18" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {<span class="st">"Winter"</span>, <span class="st">"Spring"</span>, <span class="st">"Summer"</span>, <span class="st">"Fall"</span>} </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-2-19" class="code-annotation-target"><a href="#annotated-cell-2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-2-20" class="code-annotation-target"><a href="#annotated-cell-2-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"season must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="annotated-cell-2-21"><a href="#annotated-cell-2-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span>
+<span id="annotated-cell-2-22"><a href="#annotated-cell-2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-23"><a href="#annotated-cell-2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># -- snip -- (validators continue)</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="1">The first thing to notice is that the Pydantic model is defined as a Python class that inherits from <code>BaseModel</code>; this is the Pydantic base class used to create models with built-in data validation.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="4" data-code-annotation="2">Each class attribute is defined with a data type; <code>season</code>, for example, is defined as <code>str</code>. We also use the function <code>Field()</code> to specify constraints and metadata; the ellipsis literal <code>...</code> here means two things: first, a value must be provided, and second, there is no default value for this attribute. Then, some metadata is specified in the <code>description</code> parameter.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="3">For <code>hr</code> attribute, we have constraints used for numeric validation. So, <code>ge=0</code> means that the hour has to be greater or equal to 0, while <code>le=23</code> indicates that the hour should be less or equal to 23. So if the user send a request with <code>hr=-1</code> the system will complain and throw a warning.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="9" data-code-annotation="4">With what we know so far, we could read this line as “<code>workingday</code> is a required <code>str</code> field with a description.”</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="16" data-code-annotation="5">We have the <code>field_validator</code> decorator<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> to build custom validation logic for a specific field. Besides the already fantastic default capabilities of Pydantic, we can define our custom validations. In this case, we want to be sure that the client will provide only valid values for the <code>season</code> field. CatBoost uses categories as predictors, and it is case sensitive (i.e., <code>"Summer" != "summer</code>). With this extra step, FastAPI will send a custom message to the client, informing that the API expects <code>"Summer"</code> not <code>"summer"</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="17" data-code-annotation="6">We define the function <code>validate_season</code>, which takes two parameters: <code>cls</code>, a keyword indicating a reference to the class (<code>BikeSharingRequest</code>), and <code>v</code>, representing the value of the field we’re validating.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="19" data-code-annotation="7">Check if the value we validate is within the <code>allowed</code> set.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="20" data-code-annotation="8">Raise an error if the value is not allowed; it also tells the client which values are expected.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>To summarize the structure of our Pydantic model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field, field_validator</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BikeSharingRequest(BaseModel):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    season: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Season (Winter/Spring/Summer/Fall)"</span>)</span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>    mnth: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Month name (January, etc.)"</span>)</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>    hr: <span class="bu">int</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">23</span>, description<span class="op">=</span><span class="st">"Hour of the day"</span>)</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if holiday"</span>)</span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>    weekday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Name of the weekday (Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday)"</span>)</span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>    workingday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if working day"</span>)</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>    weathersit: <span class="bu">int</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Weather code"</span>)</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>    temp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized temperature"</span>)</span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>    atemp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized feeling temperature"</span>)</span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>    hum: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized humidity"</span>)</span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>    windspeed: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized wind speed"</span>)</span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-16" class="code-annotation-target"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"season"</span>)</span>
+<span id="annotated-cell-3-17"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_season(cls, v):</span>
+<span id="annotated-cell-3-18"><a href="#annotated-cell-3-18" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {<span class="st">"Winter"</span>, <span class="st">"Spring"</span>, <span class="st">"Summer"</span>, <span class="st">"Fall"</span>}</span>
+<span id="annotated-cell-3-19"><a href="#annotated-cell-3-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
+<span id="annotated-cell-3-20"><a href="#annotated-cell-3-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"season must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="annotated-cell-3-21"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span>
+<span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-23"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># -- snip -- (validators continue)</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">Required Pydantic imports.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="2">The model is defined as a Python class.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="4,5,6,7,8,9,10,11,12,13,14" data-code-annotation="3">Within the class, we define the model’s fields as attributes of the class</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="16,17,18,19,20,21" data-code-annotation="4">We can include custom validators within the model.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Great! Now, we have a Pydantic model and a better understanding of it. Next, we will work on our API.</p>
+</section>
+<section id="fastapi-development" class="level3">
+<h3 class="anchored" data-anchor-id="fastapi-development">FastAPI development</h3>
+<p>With the data model in place (the class <code>BikeSharingRequest</code>), we can continue developing our microservice served via an API.</p>
+</section>
+</section>
+<section id="automated-tests" class="level2">
+<h2 class="anchored" data-anchor-id="automated-tests">Automated tests</h2>
+</section>
+<section id="containarization" class="level2">
+<h2 class="anchored" data-anchor-id="containarization">Containarization</h2>
+</section>
+<section id="inference" class="level2">
+<h2 class="anchored" data-anchor-id="inference">Inference</h2>
+</section>
+<section id="microservice-up-and-running" class="level2">
+<h2 class="anchored" data-anchor-id="microservice-up-and-running">Microservice up and running</h2>
+</section>
+<section id="what-we-learned" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-learned">What we learned?</h2>
+</section>
+<section id="whats-left" class="level2">
+<h2 class="anchored" data-anchor-id="whats-left">Whats left?</h2>
+<p>Model monitoring, automatic training incorporated to the CI/CD, model versioning, high level applications that consume the APIs</p>
+</section>
+<section id="recommended-readings" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-readings">Recommended readings</h2>
+<p>Docker Deep Dive by Nigel Poulton Microservice APIs: Using Python, Flask, FastAPI, OpenAPI and more by Jose Haro Peralta</p>
+</section>
+<section id="about-the-pondering-guy-in-the-header" class="level2">
+<h2 class="anchored" data-anchor-id="about-the-pondering-guy-in-the-header">About the pondering guy in the header</h2>
+<p>It’s the wizard from “Pondering My Orb.” The art is the work by Angus Mcbride and was featured in a Lord of the Rings game book :) you can check <a href="https://knowyourmeme.com/memes/pondering-my-orb">Know Your Meme</a> for more info/memes.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>This must be how George R. R. Martin feels when foreshadowing a major (traumatic) event in his novels.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>At the time of writing, I am aware that “no” is the answer since we’re still just at the introduction of this tutorial.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>It’s even worse today, in our modern remote era. The dreaded Microsoft Teams ringtone will constantly haunt you.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>You probably already noticed that we keep bringing up the link to this notebook. That’s because we spent so much time on it, and we was hoping you could look at our precious.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>I learned this tip for technical writing from “The Rust Programming Language” book by Steve Klabnik, Carol Nichols, and the Rust Community. The book is a masterpiece and a highly recommended reading; you can find it <a href="https://doc.rust-lang.org/book/title-page.html">here</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the <span style="text-decoration: line-through;">interesting</span> technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I’ve used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders’ trust in us.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>エンチラーダをいただけますか？<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>A decorator is a function whose intention is to modify the behavior of other functions; it takes the original function and converts it into a different function. Luciano Ramalho does a great job explaining decorators in chapter 9 of his book <a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/">“Fluent Python”</a>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
