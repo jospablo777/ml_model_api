@@ -84,3 +84,11 @@ def test_invalid_numeric_values():
     ]
     response = client.post("/predict", json=data)
     assert response.status_code == 422  # Validation error
+
+# Empty POST
+def test_empty_payload():
+    # Sending an empty payload
+    response = client.post("/predict", json=[])
+    
+    # Check the status code for a 422 Unprocessable Entity (validation error)
+    assert response.status_code == 422
