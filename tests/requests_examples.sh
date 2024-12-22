@@ -57,3 +57,6 @@ curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/j
     "windspeed": 0.21
   }
 ]'
+
+# Empty list
+curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/json"     -d '[]'
