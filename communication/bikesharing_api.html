@@ -217,7 +217,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="microservice-development" class="level2">
 <h2 class="anchored" data-anchor-id="microservice-development">Microservice development</h2>
 <p>We were assigned a task, so we started by investigating bike rental data and then continued by building a predictive model using the <a href="https://catboost.ai/">CatBoost</a> algorithm. This model will be the inference engine of our microservice. You can see this part of the project <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb">here</a> in the notebook<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. We saved the model in our project’s <code>predictive_models/</code> folder.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>During this tutorial, we will show you some code snippets and indicate the file where the code is located<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. You should then be able to follow the project’s code, which is available on the <a href="https://github.com/jospablo777/ml_model_api">GitHub repo</a>.</p>
+</div>
+</div>
 <p>After some research and experimentation, we developed a CatBoost model capable of predicting the number of rented bikes at a specific time, given some environmental and temporal conditions. The code that generated the model is next.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb"><code>notebooks/eda_and_toy_model.ipynb</code></a></p>
 <div class="cell">
