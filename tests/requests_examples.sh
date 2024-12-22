@@ -1,3 +1,5 @@
+# Some examples to manual test at the terminal
+
 # Single instance
 curl -X POST "http://127.0.0.1:8000/predict"     -H "Content-Type: application/json"     -d '[{
           "season": "Summer",
