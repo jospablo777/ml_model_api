@@ -246,5 +246,6 @@ rsconnect/
 
 # Quarto
 /.quarto/
+/_site/
 
 communication/*_files/
