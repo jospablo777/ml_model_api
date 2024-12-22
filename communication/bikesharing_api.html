@@ -89,9 +89,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#lets-get-started" id="toc-lets-get-started" class="nav-link" data-scroll-target="#lets-get-started">Let’s get started</a></li>
   <li><a href="#problem-we-want-to-solve" id="toc-problem-we-want-to-solve" class="nav-link" data-scroll-target="#problem-we-want-to-solve">Problem we want to solve</a></li>
   <li><a href="#microservice-development" id="toc-microservice-development" class="nav-link" data-scroll-target="#microservice-development">Microservice development</a></li>
-  <li><a href="#api-development" id="toc-api-development" class="nav-link" data-scroll-target="#api-development">API development</a></li>
-  <li><a href="#containarization" id="toc-containarization" class="nav-link" data-scroll-target="#containarization">Containarization</a></li>
+  <li><a href="#api-development" id="toc-api-development" class="nav-link" data-scroll-target="#api-development">API development</a>
+  <ul class="collapse">
+  <li><a href="#the-pydantic-model" id="toc-the-pydantic-model" class="nav-link" data-scroll-target="#the-pydantic-model">The Pydantic model</a></li>
+  <li><a href="#fastapi-development" id="toc-fastapi-development" class="nav-link" data-scroll-target="#fastapi-development">FastAPI development</a></li>
+  </ul></li>
   <li><a href="#automated-tests" id="toc-automated-tests" class="nav-link" data-scroll-target="#automated-tests">Automated tests</a></li>
+  <li><a href="#containarization" id="toc-containarization" class="nav-link" data-scroll-target="#containarization">Containarization</a></li>
   <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
   <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a></li>
   <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned">What we learned?</a></li>
@@ -248,69 +252,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>An ambiguous (and invalid) request request to the API, so no enchiladas :(</figcaption>
 </figure>
 </div>
+<section id="the-pydantic-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-pydantic-model">The Pydantic model</h3>
 <p>We will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let’s establish a Pydantic model for our API requests and learn more about the library in the process.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/models/bike_sharing.py"><code>app/models/bike_sharing.py</code></a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field, field_validator</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BikeSharingRequest(BaseModel):</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    season: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Season (Winter/Spring/Summer/Fall)"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    mnth: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Month name (January, etc.)"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    hr: <span class="bu">int</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">23</span>, description<span class="op">=</span><span class="st">"Hour of the day"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if holiday"</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    weekday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Name of the weekday (Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday)"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    workingday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if working day"</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    weathersit: <span class="bu">int</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Weather code"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    temp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized temperature"</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    atemp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized feeling temperature"</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    hum: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized humidity"</span>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    windspeed: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized wind speed"</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"season"</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_season(cls, v):</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {<span class="st">"Winter"</span>, <span class="st">"Spring"</span>, <span class="st">"Summer"</span>, <span class="st">"Fall"</span>}</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"season must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"mnth"</span>)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_mnth(cls, v):</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span>, <span class="st">"April"</span>, <span class="st">"May"</span>, <span class="st">"June"</span>,</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            <span class="st">"July"</span>, <span class="st">"August"</span>, <span class="st">"September"</span>, <span class="st">"October"</span>, <span class="st">"November"</span>, <span class="st">"December"</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"mnth must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"holiday"</span>, <span class="st">"workingday"</span>)</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_binary_strings(cls, v):</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {<span class="st">"Yes"</span>, <span class="st">"No"</span>}</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"weekday"</span>)</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_weekday(cls, v):</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {<span class="st">"Monday"</span>, <span class="st">"Tuesday"</span>, <span class="st">"Wednesday"</span>, <span class="st">"Thursday"</span>, <span class="st">"Friday"</span>, <span class="st">"Saturday"</span>, <span class="st">"Sunday"</span>}</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"weekday must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"weathersit"</span>)</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_weathersit(cls, v):</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>}</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"weathersit must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field, field_validator</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();" href="">1</a><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BikeSharingRequest(BaseModel):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();" href="">2</a><span id="annotated-cell-2-4" class="code-annotation-target"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>    season: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Season (Winter/Spring/Summer/Fall)"</span>)</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>    mnth: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Month name (January, etc.)"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3" onclick="event.preventDefault();" href="">3</a><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>    hr: <span class="bu">int</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">23</span>, description<span class="op">=</span><span class="st">"Hour of the day"</span>)</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if holiday"</span>)</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>    weekday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Name of the weekday (Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday)"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4" onclick="event.preventDefault();" href="">4</a><span id="annotated-cell-2-9" class="code-annotation-target"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>    workingday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if working day"</span>)</span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>    weathersit: <span class="bu">int</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Weather code"</span>)</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>    temp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized temperature"</span>)</span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>    atemp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized feeling temperature"</span>)</span>
+<span id="annotated-cell-2-13"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a>    hum: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized humidity"</span>)</span>
+<span id="annotated-cell-2-14"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a>    windspeed: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized wind speed"</span>)</span>
+<span id="annotated-cell-2-15"><a href="#annotated-cell-2-15" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="5" onclick="event.preventDefault();" href="">5</a><span id="annotated-cell-2-16" class="code-annotation-target"><a href="#annotated-cell-2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"season"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="6" onclick="event.preventDefault();" href="">6</a><span id="annotated-cell-2-17" class="code-annotation-target"><a href="#annotated-cell-2-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_season(cls, v):</span>
+<span id="annotated-cell-2-18"><a href="#annotated-cell-2-18" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {<span class="st">"Winter"</span>, <span class="st">"Spring"</span>, <span class="st">"Summer"</span>, <span class="st">"Fall"</span>} </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="7" onclick="event.preventDefault();" href="">7</a><span id="annotated-cell-2-19" class="code-annotation-target"><a href="#annotated-cell-2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="8" onclick="event.preventDefault();" href="">8</a><span id="annotated-cell-2-20" class="code-annotation-target"><a href="#annotated-cell-2-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"season must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="annotated-cell-2-21"><a href="#annotated-cell-2-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span>
+<span id="annotated-cell-2-22"><a href="#annotated-cell-2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-23"><a href="#annotated-cell-2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># -- snip -- (validators continue)</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="1">The first thing to notice is that the Pydantic model is defined as a Python class that inherits from <code>BaseModel</code>; this is the Pydantic base class used to create models with built-in data validation.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="4" data-code-annotation="2">Each class attribute is defined with a data type; <code>season</code>, for example, is defined as <code>str</code>. We also use the function <code>Field()</code> to specify constraints and metadata; the ellipsis literal <code>...</code> here means two things: first, a value must be provided, and second, there is no default value for this attribute. Then, some metadata is specified in the <code>description</code> parameter.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="3">For <code>hr</code> attribute, we have constraints used for numeric validation. So, <code>ge=0</code> means that the hour has to be greater or equal to 0, while <code>le=23</code> indicates that the hour should be less or equal to 23. So if the user send a request with <code>hr=-1</code> the system will complain and throw a warning.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="9" data-code-annotation="4">With what we know so far, we could read this line as “<code>workingday</code> is a required <code>str</code> field with a description.”</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="16" data-code-annotation="5">We have the <code>field_validator</code> decorator<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> to build custom validation logic for a specific field. Besides the already fantastic default capabilities of Pydantic, we can define our custom validations. In this case, we want to be sure that the client will provide only valid values for the <code>season</code> field. CatBoost uses categories as predictors, and it is case sensitive (i.e., <code>"Summer" != "summer</code>). With this extra step, FastAPI will send a custom message to the client, informing that the API expects <code>"Summer"</code> not <code>"summer"</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="17" data-code-annotation="6">We define the function <code>validate_season</code>, which takes two parameters: <code>cls</code>, a keyword indicating a reference to the class (<code>BikeSharingRequest</code>), and <code>v</code>, representing the value of the field we’re validating.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="19" data-code-annotation="7">Check if the value we validate is within the <code>allowed</code> set.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="20" data-code-annotation="8">Raise an error if the value is not allowed; it also tells the client which values are expected.</span>
+</dd>
+</dl>
 </div>
-<p>First thing to notice is that the Pydantic model is defined as a Python class that inherits <code>BaseModel</code></p>
+</div>
+<p>To summarize the structure of our Pydantic model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();" href="">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field, field_validator</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();" href="">2</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BikeSharingRequest(BaseModel):</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();" href="">3</a><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    season: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Season (Winter/Spring/Summer/Fall)"</span>)</span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>    mnth: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Month name (January, etc.)"</span>)</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>    hr: <span class="bu">int</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">23</span>, description<span class="op">=</span><span class="st">"Hour of the day"</span>)</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if holiday"</span>)</span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>    weekday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Name of the weekday (Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday)"</span>)</span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>    workingday: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Yes/No if working day"</span>)</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>    weathersit: <span class="bu">int</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"Weather code"</span>)</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>    temp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized temperature"</span>)</span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>    atemp: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized feeling temperature"</span>)</span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>    hum: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized humidity"</span>)</span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>    windspeed: <span class="bu">float</span> <span class="op">=</span> Field(..., ge<span class="op">=</span><span class="dv">0</span>, le<span class="op">=</span><span class="dv">1</span>, description<span class="op">=</span><span class="st">"Normalized wind speed"</span>)</span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();" href="">4</a><span id="annotated-cell-3-16" class="code-annotation-target"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"season"</span>)</span>
+<span id="annotated-cell-3-17"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate_season(cls, v):</span>
+<span id="annotated-cell-3-18"><a href="#annotated-cell-3-18" aria-hidden="true" tabindex="-1"></a>        allowed <span class="op">=</span> {<span class="st">"Winter"</span>, <span class="st">"Spring"</span>, <span class="st">"Summer"</span>, <span class="st">"Fall"</span>}</span>
+<span id="annotated-cell-3-19"><a href="#annotated-cell-3-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> allowed:</span>
+<span id="annotated-cell-3-20"><a href="#annotated-cell-3-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"season must be one of </span><span class="sc">{</span>allowed<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="annotated-cell-3-21"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> v</span>
+<span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-23"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># -- snip -- (validators continue)</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">Required Pydantic imports.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="2">The model is defined as a Python class.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="4,5,6,7,8,9,10,11,12,13,14" data-code-annotation="3">Within the class, we define the model’s fields as attributes of the class</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="16,17,18,19,20,21" data-code-annotation="4">We can include custom validators within the model.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Great! Now, we have a Pydantic model and a better understanding of it. Next, we will work on our API.</p>
 </section>
-<section id="containarization" class="level2">
-<h2 class="anchored" data-anchor-id="containarization">Containarization</h2>
+<section id="fastapi-development" class="level3">
+<h3 class="anchored" data-anchor-id="fastapi-development">FastAPI development</h3>
+<p>With the data model in place (the class <code>BikeSharingRequest</code>), we can continue developing our microservice served via an API.</p>
+</section>
 </section>
 <section id="automated-tests" class="level2">
 <h2 class="anchored" data-anchor-id="automated-tests">Automated tests</h2>
+</section>
+<section id="containarization" class="level2">
+<h2 class="anchored" data-anchor-id="containarization">Containarization</h2>
 </section>
 <section id="inference" class="level2">
 <h2 class="anchored" data-anchor-id="inference">Inference</h2>
@@ -345,6 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li id="fn5"><p>I learned this tip for technical writing from “The Rust Programming Language” book by Steve Klabnik, Carol Nichols, and the Rust Community. The book is a masterpiece and a highly recommended reading; you can find it <a href="https://doc.rust-lang.org/book/title-page.html">here</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the <span style="text-decoration: line-through;">interesting</span> technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I’ve used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders’ trust in us.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>エンチラーダをいただけますか？<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>A decorator is a function whose intention is to modify the behavior of other functions; it takes the original function and converts it into a different function. Luciano Ramalho does a great job explaining decorators in chapter 9 of his book <a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/">“Fluent Python”</a>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main>
 <!-- /main column -->

@@ -17,6 +17,8 @@ editor: source
 #| label: setup
 #| include: false
 #| output: false
+
+# Tell quarto where is our python venv
 Sys.setenv(RETICULATE_PYTHON = "../venv/bin/python")
 ```
 
@@ -155,71 +157,98 @@ The API will move data around (receive and deliver) as its primary job, so it is
 
 ![An ambiguous (and invalid) request request to the API, so no enchiladas :(](img/restaurant_api_jap.png)
 
+### The Pydantic model
+
 We will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let's establish a Pydantic model for our API requests and learn more about the library in the process.
 
 Filename: [`app/models/bike_sharing.py`](https://github.com/jospablo777/ml_model_api/blob/main/app/models/bike_sharing.py)
 ```{python}
+#| label: pydantic_model
+#| include: true
+#| eval: false
+
 from pydantic import BaseModel, Field, field_validator
 
-class BikeSharingRequest(BaseModel):
-    season: str = Field(..., description="Season (Winter/Spring/Summer/Fall)")
+class BikeSharingRequest(BaseModel):                                           # <1>                     
+    season: str = Field(..., description="Season (Winter/Spring/Summer/Fall)") # <2>
     mnth: str = Field(..., description="Month name (January, etc.)")
-    hr: int = Field(..., ge=0, le=23, description="Hour of the day")
+    hr: int = Field(..., ge=0, le=23, description="Hour of the day")           # <3>
     holiday: str = Field(..., description="Yes/No if holiday")
     weekday: str = Field(..., description="Name of the weekday (Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday)")
-    workingday: str = Field(..., description="Yes/No if working day")
+    workingday: str = Field(..., description="Yes/No if working day")          # <4>
     weathersit: int = Field(..., description="Weather code")
     temp: float = Field(..., ge=0, le=1, description="Normalized temperature")
     atemp: float = Field(..., ge=0, le=1, description="Normalized feeling temperature")
     hum: float = Field(..., ge=0, le=1, description="Normalized humidity")
     windspeed: float = Field(..., ge=0, le=1, description="Normalized wind speed")
 
-    @field_validator("season")
-    def validate_season(cls, v):
-        allowed = {"Winter", "Spring", "Summer", "Fall"}
-        if v not in allowed:
-            raise ValueError(f"season must be one of {allowed}")
+    @field_validator("season")   # <5>
+    def validate_season(cls, v): # <6>
+        allowed = {"Winter", "Spring", "Summer", "Fall"} 
+        if v not in allowed:                             # <7>
+            raise ValueError(f"season must be one of {allowed}") # <8>
         return v
 
-    @field_validator("mnth")
-    def validate_mnth(cls, v):
-        allowed = {
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        }
-        if v not in allowed:
-            raise ValueError(f"mnth must be one of {allowed}")
-        return v
-
-    @field_validator("holiday", "workingday")
-    def validate_binary_strings(cls, v):
-        allowed = {"Yes", "No"}
-        if v not in allowed:
-            raise ValueError(f"Must be one of {allowed}")
-        return v
-
-    @field_validator("weekday")
-    def validate_weekday(cls, v):
-        allowed = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
-        if v not in allowed:
-            raise ValueError(f"weekday must be one of {allowed}")
-        return v
-
-    @field_validator("weathersit")
-    def validate_weathersit(cls, v):
-        allowed = {1, 2, 3, 4}
-        if v not in allowed:
-            raise ValueError(f"weathersit must be one of {allowed}")
-        return v
+# -- snip -- (validators continue)
 ```
 
-First thing to notice is that the Pydantic model is defined as a Python class that inherits `BaseModel`
+1. The first thing to notice is that the Pydantic model is defined as a Python class that inherits from `BaseModel`; this is the Pydantic base class used to create models with built-in data validation.
+2. Each class attribute is defined with a data type; `season`, for example, is defined as `str`. We also use the function `Field()` to specify constraints and metadata; the ellipsis literal `...` here means two things: first, a value must be provided, and second, there is no default value for this attribute. Then, some metadata is specified in the `description` parameter.
+3. For `hr` attribute, we have constraints used for numeric validation. So, `ge=0` means that the hour has to be greater or equal to 0, while `le=23` indicates that the hour should be less or equal to 23. So if the user send a request with `hr=-1` the system will complain and throw a warning.
+4. With what we know so far, we could read this line as "`workingday` is a required `str` field with a description."
+5. We have the `field_validator` decorator[^8] to build custom validation logic for a specific field. Besides the already fantastic default capabilities of Pydantic, we can define our custom validations. In this case, we want to be sure that the client will provide only valid values for the `season` field. CatBoost uses categories as predictors, and it is case sensitive (i.e., `"Summer" != "summer`). With this extra step, FastAPI will send a custom message to the client, informing that the API expects `"Summer"` not `"summer"`.
+6. We define the function `validate_season`, which takes two parameters: `cls`, a keyword indicating a reference to the class (`BikeSharingRequest`), and `v`, representing the value of the field we're validating.
+7. Check if the value we validate is within the `allowed` set.
+8. Raise an error if the value is not allowed; it also tells the client which values are expected.
+
+To summarize the structure of our Pydantic model:
+
+```{python}
+#| label: pydantic_model_description_1
+#| include: true
+#| eval: false
+
+from pydantic import BaseModel, Field, field_validator                         # <1>  
+
+class BikeSharingRequest(BaseModel):                                           # <2>
+    season: str = Field(..., description="Season (Winter/Spring/Summer/Fall)") # <3>
+    mnth: str = Field(..., description="Month name (January, etc.)")           # <3>
+    hr: int = Field(..., ge=0, le=23, description="Hour of the day")           # <3>
+    holiday: str = Field(..., description="Yes/No if holiday")                 # <3>
+    weekday: str = Field(..., description="Name of the weekday (Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday)")                   # <3>
+    workingday: str = Field(..., description="Yes/No if working day")          # <3>
+    weathersit: int = Field(..., description="Weather code")                   # <3>
+    temp: float = Field(..., ge=0, le=1, description="Normalized temperature") # <3>
+    atemp: float = Field(..., ge=0, le=1, description="Normalized feeling temperature") # <3>
+    hum: float = Field(..., ge=0, le=1, description="Normalized humidity")     # <3>
+    windspeed: float = Field(..., ge=0, le=1, description="Normalized wind speed") # <3>
+
+    @field_validator("season")                                   # <4>
+    def validate_season(cls, v):                                 # <4>
+        allowed = {"Winter", "Spring", "Summer", "Fall"}         # <4>
+        if v not in allowed:                                     # <4>
+            raise ValueError(f"season must be one of {allowed}") # <4>
+        return v                                                 # <4>
+
+# -- snip -- (validators continue)
+```
+1. Required Pydantic imports.
+2. The model is defined as a Python class.
+3. Within the class, we define the model's fields as attributes of the class
+4. We can include custom validators within the model.
+
+Great! Now, we have a Pydantic model and a better understanding of it. Next, we will work on our API.
 
 [^7]: エンチラーダをいただけますか？
+[^8]: A decorator is a function whose intention is to modify the behavior of other functions; it takes the original function and converts it into a different function. Luciano Ramalho does a great job explaining decorators in chapter 9 of his book ["Fluent Python"](https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/).
 
-## Containarization
+### FastAPI development
+
+With the data model in place (the class `BikeSharingRequest`), we can continue developing our microservice served via an API.
 
 ## Automated tests
+
+## Containarization
 
 ## Inference
 
