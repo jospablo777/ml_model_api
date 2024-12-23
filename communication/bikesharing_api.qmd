@@ -514,10 +514,19 @@ In the next section, we’ll set up a CI/CD workflow using GitHub Actions to:
 
 ## CI/CD (Continuous Integration / Continuos Deployment)
 
-Continuous Integration (CI) and Continuous Deployment (CD) are core to any software development system. I would love to be the one who gives you a great practical introduction here, but that one will be [Itskmyoo](https://itskmyoo.medium.com/), which already writed an great (and simple!) [tutorial](https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a) to automate with GitHub Actions the CI/CD your FastAPI developments.
+Continuous Integration (CI) and Continuous Deployment (CD) are essential pillars of modern software development, enabling teams to automate testing, building, and deployment processes. They ensure that every change to the codebase is rigorously tested and deployed efficiently.
 
-In his/her tutoria [Itskmyoo](https://itskmyoo.medium.com/), provides a clear set of instructions to setup GitHub Actions, and does it very well! The only modification we will do is in our Dockerfile. Its contents should look like:
+While I’d love to provide an in-depth introduction to CI/CD here, I highly recommend the excellent tutorial by [Itskmyoo](https://itskmyoo.medium.com/), titled [Automating FastAPI Project Build with GitHub Actions and Push to DockerHub](https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a). It offers a clear, practical guide to setting up CI/CD pipelines for FastAPI projects using GitHub Actions.
 
+### Our Customization
+
+Building on [Itskmyoo's](https://itskmyoo.medium.com/) tutorial, we’ll implement a similar CI/CD pipeline with minor adjustments tailored to our project. Below are the configurations you’ll need to get started.
+
+#### Dockerfile (Containerization)
+
+The Dockerfile is critical for containerizing our FastAPI app. Here’s the updated version for our project:
+
+Filename: [`Dockerfile`](https://github.com/jospablo777/ml_model_api/blob/main/Dockerfile)
 ```{Dockerfile}
 # Use an official Python runtime as a parent image
 FROM python:3.12-slim
@@ -525,29 +534,32 @@ FROM python:3.12-slim
 # Set the working directory in the container
 WORKDIR /api_app
 
-# Copy the requirements file into the container at /app
+# Copy the requirements file into the container
 COPY requirements.txt /api_app/
 
-# Install any needed packages specified in requirements.txt
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /app
+# Copy the project files into the container
 COPY . /api_app/
 
-# Make port 80 available to the world outside this container
+# Expose port 80 for external access
 EXPOSE 80
 
 # Define environment variable
 ENV NAME=ml-model-api-docker
 
 # Set the maintainer label
-LABEL maintainer="jospablo777 <jospablo777@gmail.com>" # Please modify this at your convenience
+LABEL maintainer="jospablo777 <jospablo777@gmail.com>" # Modify this as needed
 
-# Run main.py when the container launches
+# Run the FastAPI app with Uvicorn
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
 ```
 
-And you GitHub Actions workflow (`.github/workflows/main.yml`) should look like:
+#### GitHub Actions Workflow
+
+The GitHub Actions workflow (`.github/workflows/main.yml`) automates testing, building, and pushing the Docker image to Docker Hub. Below is the configuration for our project:
+
 ```{yml}
 name: ML Model API - Test, build, and push
 
@@ -605,12 +617,102 @@ jobs:
 
 ```
 
+The main modification was adding a testing section before the docker build.
 
-After the beautiful guidance of [Itskmyoo](https://itskmyoo.medium.com/), our CI/CD should be done
+##### How It Works
+
+1. **Testing:**
+
+- Runs on every push to the `main` branch.
+- Installs dependencies and runs `pytest` to verify the codebase, ensuring that only tested and reliable code proceeds to the build stage.
+
+2. **Building:**
+
+- After passing the tests, the build job creates a Docker image using the specified `Dockerfile.`
+- The image is tagged and pushed to Docker Hub.
+
+3. **Environment Variables:**
+
+- The pipeline uses `DOCKERHUB_ACCESS_TOKEN` and `DOCKERHUB_USERNAME`, securely stored in GitHub Secrets, to authenticate with Docker Hub.
+
+#### Final Steps
+
+With the guidance from [Itskmyoo’s tutorial](https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a) and the customizations above, our CI/CD pipeline is ready to go. Every push to the `main` branch will:
+
+1. Run automated tests.
+2. Build a Docker image.
+3. Push the image to Docker Hub for seamless deployment.
+
+This setup ensures your application is always deployable and meets high-quality standards.
+
 
 ## Automated tests
 
-## Containarization
+Although we touched on testing briefly in the CI/CD section, it’s time to dive deeper into this critical aspect of software development.
+
+Automated testing is a cornerstone of modern software engineering practices. It accelerates the development process while ensuring the quality and reliability of the codebase. For example, imagine you need to refactor a clunky series of steps into a cleaner, more modular function. During this process, there's always a risk of unintentionally introducing hard-to-detect bugs. This is where automated tests prove invaluable—they act as a safety net, quickly identifying errors and verifying that your changes didn’t break any existing functionality.
+
+In this section, we’ll explore how automated tests are implemented in our project, focusing on key scenarios such as:
+
+- Validating the functionality of the `/predict` endpoint.
+- Ensuring data transformation processes work as expected.
+- Verifying the behavior of the trained CatBoost model.
+
+Let’s dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the tests/ directory, categorized into three logical groups:
+
+- **API tests:** Validate the endpoints of our FastAPI app.
+- **Inference tests:** Ensure the ML model behaves as expected during predictions.
+- **Unit tests:** Test isolated components, such as helper functions or data transformations.
+
+### API tests
+
+While we won’t cover every example, feel free to explore the full test suite in the repository. For now, let’s focus on a test for the API.
+
+Below is an example test for the /predict endpoint, which validates predictions for a single input row:
+
+Filename: [`tests/test_api.py`](https://github.com/jospablo777/ml_model_api/blob/main/tests/test_api.py)
+
+```{python}
+#| label: api_test
+#| include: true
+#| eval: false
+
+# --snip--
+
+# Test the /predict endpoint with a single row
+def test_predict_rentals_single():
+    payload = {              # <1>
+        "season": "Summer",  # <1>
+        "mnth": "June",      # <1>
+        "hr": 14,            # <1>
+        "holiday": "No",     # <1>
+        "weekday": "Monday", # <1>
+        "workingday": "Yes", # <1>
+        "weathersit": 1,     # <1>
+        "temp": 0.78,        # <1>
+        "atemp": 0.697,      # <1>
+        "hum": 0.43,         # <1>
+        "windspeed": 0.2537  # <1>
+    }                        # <1>
+    response = client.post("/predict", json=[payload])  
+    assert response.status_code == 200                  # <2>
+    assert "predictions" in response.json()             # <2>
+    assert isinstance(response.json()["predictions"], list) # <2>
+
+# --snip--
+```
+
+1. **Simulates a Request:** Sends a single payload to the `/predict` endpoint, mimicking a real-world API request.
+2. **Validates the Response:**
+  - Ensures the API returns a `200 OK` status, confirming successful processing.
+  - Verifies that the response contains a `predictions` key.
+  - Checks that the predictions are returned as a list, as expected.
+
+This test is important for ensuring the `/predict` endpoint handles individual requests correctly. By automating it, we safeguard against regressions whenever the API logic or underlying model is updated.
+
+Let’s now move forward to explore other tests or dive deeper into how the inference logic is validated.
+
+### Inference tests
 
 ## Inference
 

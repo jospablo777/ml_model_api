@@ -133,9 +133,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pydantic-model" id="toc-pydantic-model" class="nav-link" data-scroll-target="#pydantic-model">Pydantic model</a></li>
   <li><a href="#fastapi-app" id="toc-fastapi-app" class="nav-link" data-scroll-target="#fastapi-app">FastAPI app</a></li>
   </ul></li>
-  <li><a href="#cicd-continuous-integration-continuos-deployment" id="toc-cicd-continuous-integration-continuos-deployment" class="nav-link" data-scroll-target="#cicd-continuous-integration-continuos-deployment">CI/CD (Continuous Integration / Continuos Deployment)</a></li>
-  <li><a href="#automated-tests" id="toc-automated-tests" class="nav-link" data-scroll-target="#automated-tests">Automated tests</a></li>
-  <li><a href="#containarization" id="toc-containarization" class="nav-link" data-scroll-target="#containarization">Containarization</a></li>
+  <li><a href="#cicd-continuous-integration-continuos-deployment" id="toc-cicd-continuous-integration-continuos-deployment" class="nav-link" data-scroll-target="#cicd-continuous-integration-continuos-deployment">CI/CD (Continuous Integration / Continuos Deployment)</a>
+  <ul class="collapse">
+  <li><a href="#our-customization" id="toc-our-customization" class="nav-link" data-scroll-target="#our-customization">Our Customization</a></li>
+  </ul></li>
+  <li><a href="#automated-tests" id="toc-automated-tests" class="nav-link" data-scroll-target="#automated-tests">Automated tests</a>
+  <ul class="collapse">
+  <li><a href="#api-tests" id="toc-api-tests" class="nav-link" data-scroll-target="#api-tests">API tests</a></li>
+  <li><a href="#inference-tests" id="toc-inference-tests" class="nav-link" data-scroll-target="#inference-tests">Inference tests</a></li>
+  </ul></li>
   <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
   <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a></li>
   <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned">What we learned?</a></li>
@@ -730,8 +736,15 @@ Note
 </section>
 <section id="cicd-continuous-integration-continuos-deployment" class="level2">
 <h2 class="anchored" data-anchor-id="cicd-continuous-integration-continuos-deployment">CI/CD (Continuous Integration / Continuos Deployment)</h2>
-<p>Continuous Integration (CI) and Continuous Deployment (CD) are core to any software development system. I would love to be the one who gives you a great practical introduction here, but that one will be <a href="https://itskmyoo.medium.com/">Itskmyoo</a>, which already writed an great (and simple!) <a href="https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a">tutorial</a> to automate with GitHub Actions the CI/CD your FastAPI developments.</p>
-<p>In his/her tutoria <a href="https://itskmyoo.medium.com/">Itskmyoo</a>, provides a clear set of instructions to setup GitHub Actions, and does it very well! The only modification we will do is in our Dockerfile. Its contents should look like:</p>
+<p>Continuous Integration (CI) and Continuous Deployment (CD) are essential pillars of modern software development, enabling teams to automate testing, building, and deployment processes. They ensure that every change to the codebase is rigorously tested and deployed efficiently.</p>
+<p>While I’d love to provide an in-depth introduction to CI/CD here, I highly recommend the excellent tutorial by <a href="https://itskmyoo.medium.com/">Itskmyoo</a>, titled <a href="https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a">Automating FastAPI Project Build with GitHub Actions and Push to DockerHub</a>. It offers a clear, practical guide to setting up CI/CD pipelines for FastAPI projects using GitHub Actions.</p>
+<section id="our-customization" class="level3">
+<h3 class="anchored" data-anchor-id="our-customization">Our Customization</h3>
+<p>Building on <a href="https://itskmyoo.medium.com/">Itskmyoo’s</a> tutorial, we’ll implement a similar CI/CD pipeline with minor adjustments tailored to our project. Below are the configurations you’ll need to get started.</p>
+<section id="dockerfile-containerization" class="level4">
+<h4 class="anchored" data-anchor-id="dockerfile-containerization">Dockerfile (Containerization)</h4>
+<p>The Dockerfile is critical for containerizing our FastAPI app. Here’s the updated version for our project:</p>
+<p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/Dockerfile"><code>Dockerfile</code></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use an official Python runtime as a parent image</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> python:3.12-slim</span>
@@ -739,33 +752,192 @@ Note
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the working directory in the container</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /api_app</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the requirements file into the container at /app</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the requirements file into the container</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> requirements.txt /api_app/</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Install any needed packages specified in requirements.txt</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Install dependencies</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">-r</span> requirements.txt</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the current directory contents into the container at /app</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the project files into the container</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> . /api_app/</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Make port 80 available to the world outside this container</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Expose port 80 for external access</span></span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="kw">EXPOSE</span> 80</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Define environment variable</span></span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> NAME=ml-model-api-docker</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the maintainer label</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="kw">LABEL</span> maintainer=<span class="st">"jospablo777 &lt;jospablo777@gmail.com&gt;"</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="kw">LABEL</span> maintainer=<span class="st">"jospablo777 &lt;jospablo777@gmail.com&gt;"</span> <span class="co"># Modify this as needed</span></span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Run main.py when the container launches</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the FastAPI app with Uvicorn</span></span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> [<span class="st">"uvicorn"</span>, <span class="st">"app.main:app"</span>, <span class="st">"--host"</span>, <span class="st">"0.0.0.0"</span>, <span class="st">"--port"</span>, <span class="st">"80"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+<section id="github-actions-workflow" class="level4">
+<h4 class="anchored" data-anchor-id="github-actions-workflow">GitHub Actions Workflow</h4>
+<p>The GitHub Actions workflow (<code>.github/workflows/main.yml</code>) automates testing, building, and pushing the Docker image to Docker Hub. Below is the configuration for our project:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> ML Model API - Test, build, and push</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> main</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">test</span><span class="kw">:</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Checkout code</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v2</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Set up Python</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/setup-python@v4</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">python-version</span><span class="kw">:</span><span class="at"> </span><span class="st">"3.12"</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install dependencies</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">      run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        python -m pip install --upgrade pip</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        pip install -r requirements.txt</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Run tests</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">run</span><span class="kw">:</span><span class="at"> pytest tests/ --cov=app</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">build</span><span class="kw">:</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">needs</span><span class="kw">:</span><span class="at"> test</span><span class="co"> # build job runs only if tests pass</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Checkout code</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v2</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Set up Docker Buildx</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/setup-buildx-action@v1</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Login to Docker Hub</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">run</span><span class="kw">:</span><span class="at"> echo ${{ secrets.DOCKERHUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Build and push Docker image</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="fu">      run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        docker buildx create --use</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        docker buildx build \</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>          --file Dockerfile \</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>          --tag jospablo777/ml-model-api:latest \</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>          --push .</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">DOCKER_CLI_EXPERIMENTAL</span><span class="kw">:</span><span class="at"> enabled</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">DOCKER_BUILDKIT</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The main modification was adding a testing section before the docker build.</p>
+<section id="how-it-works" class="level5">
+<h5 class="anchored" data-anchor-id="how-it-works">How It Works</h5>
+<ol type="1">
+<li><strong>Testing:</strong></li>
+</ol>
+<ul>
+<li>Runs on every push to the <code>main</code> branch.</li>
+<li>Installs dependencies and runs <code>pytest</code> to verify the codebase, ensuring that only tested and reliable code proceeds to the build stage.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Building:</strong></li>
+</ol>
+<ul>
+<li>After passing the tests, the build job creates a Docker image using the specified <code>Dockerfile.</code></li>
+<li>The image is tagged and pushed to Docker Hub.</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Environment Variables:</strong></li>
+</ol>
+<ul>
+<li>The pipeline uses <code>DOCKERHUB_ACCESS_TOKEN</code> and <code>DOCKERHUB_USERNAME</code>, securely stored in GitHub Secrets, to authenticate with Docker Hub.</li>
+</ul>
+</section>
+</section>
+<section id="final-steps" class="level4">
+<h4 class="anchored" data-anchor-id="final-steps">Final Steps</h4>
+<p>With the guidance from <a href="https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a">Itskmyoo’s tutorial</a> and the customizations above, our CI/CD pipeline is ready to go. Every push to the <code>main</code> branch will:</p>
+<ol type="1">
+<li>Run automated tests.</li>
+<li>Build a Docker image.</li>
+<li>Push the image to Docker Hub for seamless deployment.</li>
+</ol>
+<p>This setup ensures your application is always deployable and meets high-quality standards.</p>
+</section>
+</section>
+</section>
 <section id="automated-tests" class="level2">
 <h2 class="anchored" data-anchor-id="automated-tests">Automated tests</h2>
+<p>Although we touched on testing briefly in the CI/CD section, it’s time to dive deeper into this critical aspect of software development.</p>
+<p>Automated testing is a cornerstone of modern software engineering practices. It accelerates the development process while ensuring the quality and reliability of the codebase. For example, imagine you need to refactor a clunky series of steps into a cleaner, more modular function. During this process, there’s always a risk of unintentionally introducing hard-to-detect bugs. This is where automated tests prove invaluable—they act as a safety net, quickly identifying errors and verifying that your changes didn’t break any existing functionality.</p>
+<p>In this section, we’ll explore how automated tests are implemented in our project, focusing on key scenarios such as:</p>
+<ul>
+<li>Validating the functionality of the <code>/predict</code> endpoint.</li>
+<li>Ensuring data transformation processes work as expected.</li>
+<li>Verifying the behavior of the trained CatBoost model.</li>
+</ul>
+<p>Let’s dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the tests/ directory, categorized into three logical groups:</p>
+<ul>
+<li><strong>API tests:</strong> Validate the endpoints of our FastAPI app.</li>
+<li><strong>Inference tests:</strong> Ensure the ML model behaves as expected during predictions.</li>
+<li><strong>Unit tests:</strong> Test isolated components, such as helper functions or data transformations.</li>
+</ul>
+<section id="api-tests" class="level3">
+<h3 class="anchored" data-anchor-id="api-tests">API tests</h3>
+<p>While we won’t cover every example, feel free to explore the full test suite in the repository. For now, let’s focus on a test for the API.</p>
+<p>Below is an example test for the /predict endpoint, which validates predictions for a single input row:</p>
+<p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/tests/test_api.py"><code>tests/test_api.py</code></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-13"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-13-1"><a href="#annotated-cell-13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span>
+<span id="annotated-cell-13-2"><a href="#annotated-cell-13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-13-3"><a href="#annotated-cell-13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the /predict endpoint with a single row</span></span>
+<span id="annotated-cell-13-4"><a href="#annotated-cell-13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_predict_rentals_single():</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-13-5" class="code-annotation-target"><a href="#annotated-cell-13-5" aria-hidden="true" tabindex="-1"></a>    payload <span class="op">=</span> {</span>
+<span id="annotated-cell-13-6"><a href="#annotated-cell-13-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"season"</span>: <span class="st">"Summer"</span>,</span>
+<span id="annotated-cell-13-7"><a href="#annotated-cell-13-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mnth"</span>: <span class="st">"June"</span>,</span>
+<span id="annotated-cell-13-8"><a href="#annotated-cell-13-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hr"</span>: <span class="dv">14</span>,</span>
+<span id="annotated-cell-13-9"><a href="#annotated-cell-13-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"holiday"</span>: <span class="st">"No"</span>,</span>
+<span id="annotated-cell-13-10"><a href="#annotated-cell-13-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"weekday"</span>: <span class="st">"Monday"</span>,</span>
+<span id="annotated-cell-13-11"><a href="#annotated-cell-13-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"workingday"</span>: <span class="st">"Yes"</span>,</span>
+<span id="annotated-cell-13-12"><a href="#annotated-cell-13-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"weathersit"</span>: <span class="dv">1</span>,</span>
+<span id="annotated-cell-13-13"><a href="#annotated-cell-13-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"temp"</span>: <span class="fl">0.78</span>,</span>
+<span id="annotated-cell-13-14"><a href="#annotated-cell-13-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"atemp"</span>: <span class="fl">0.697</span>,</span>
+<span id="annotated-cell-13-15"><a href="#annotated-cell-13-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hum"</span>: <span class="fl">0.43</span>,</span>
+<span id="annotated-cell-13-16"><a href="#annotated-cell-13-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"windspeed"</span>: <span class="fl">0.2537</span></span>
+<span id="annotated-cell-13-17"><a href="#annotated-cell-13-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="annotated-cell-13-18"><a href="#annotated-cell-13-18" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> client.post(<span class="st">"/predict"</span>, json<span class="op">=</span>[payload])  </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-13-19" class="code-annotation-target"><a href="#annotated-cell-13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> response.status_code <span class="op">==</span> <span class="dv">200</span></span>
+<span id="annotated-cell-13-20"><a href="#annotated-cell-13-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="st">"predictions"</span> <span class="kw">in</span> response.json()</span>
+<span id="annotated-cell-13-21"><a href="#annotated-cell-13-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">isinstance</span>(response.json()[<span class="st">"predictions"</span>], <span class="bu">list</span>)</span>
+<span id="annotated-cell-13-22"><a href="#annotated-cell-13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-13-23"><a href="#annotated-cell-13-23" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-annotation="1"><strong>Simulates a Request:</strong> Sends a single payload to the <code>/predict</code> endpoint, mimicking a real-world API request.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="19,20,21" data-code-annotation="2"><strong>Validates the Response:</strong></span>
+</dd>
+</dl>
+</div>
+</div>
+<ul>
+<li>Ensures the API returns a <code>200 OK</code> status, confirming successful processing.</li>
+<li>Verifies that the response contains a <code>predictions</code> key.</li>
+<li>Checks that the predictions are returned as a list, as expected.</li>
+</ul>
+<p>This test is important for ensuring the <code>/predict</code> endpoint handles individual requests correctly. By automating it, we safeguard against regressions whenever the API logic or underlying model is updated.</p>
+<p>Let’s now move forward to explore other tests or dive deeper into how the inference logic is validated.</p>
 </section>
-<section id="containarization" class="level2">
-<h2 class="anchored" data-anchor-id="containarization">Containarization</h2>
+<section id="inference-tests" class="level3">
+<h3 class="anchored" data-anchor-id="inference-tests">Inference tests</h3>
+</section>
 </section>
 <section id="inference" class="level2">
 <h2 class="anchored" data-anchor-id="inference">Inference</h2>
