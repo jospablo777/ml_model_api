@@ -564,7 +564,7 @@ EXPOSE 80
 ENV NAME=ml-model-api-docker
 
 # Set the maintainer label
-LABEL maintainer="jospablo777 <jospablo777@gmail.com>" # Modify this as needed
+LABEL maintainer="jospablo777 <jospablo777@gmail.com>"
 
 # Run the FastAPI app with Uvicorn
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
