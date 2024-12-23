@@ -142,8 +142,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#api-tests" id="toc-api-tests" class="nav-link" data-scroll-target="#api-tests">API tests</a></li>
   <li><a href="#inference-tests" id="toc-inference-tests" class="nav-link" data-scroll-target="#inference-tests">Inference tests</a></li>
   </ul></li>
-  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
   <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
   <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned">What we learned?</a></li>
   <li><a href="#whats-left" id="toc-whats-left" class="nav-link" data-scroll-target="#whats-left">Whats left?</a></li>
   <li><a href="#about-the-pondering-guy-in-the-header" id="toc-about-the-pondering-guy-in-the-header" class="nav-link" data-scroll-target="#about-the-pondering-guy-in-the-header">About the pondering guy in the header</a></li>
@@ -836,25 +836,21 @@ Note
 <section id="how-it-works" class="level5">
 <h5 class="anchored" data-anchor-id="how-it-works">How It Works</h5>
 <ol type="1">
-<li><strong>Testing:</strong></li>
-</ol>
+<li><strong>Testing:</strong>
 <ul>
 <li>Runs on every push to the <code>main</code> branch.</li>
 <li>Installs dependencies and runs <code>pytest</code> to verify the codebase, ensuring that only tested and reliable code proceeds to the build stage.</li>
-</ul>
-<ol start="2" type="1">
-<li><strong>Building:</strong></li>
-</ol>
+</ul></li>
+<li><strong>Building:</strong>
 <ul>
 <li>After passing the tests, the build job creates a Docker image using the specified <code>Dockerfile.</code></li>
 <li>The image is tagged and pushed to Docker Hub.</li>
-</ul>
-<ol start="3" type="1">
-<li><strong>Environment Variables:</strong></li>
-</ol>
+</ul></li>
+<li><strong>Environment Variables:</strong>
 <ul>
 <li>The pipeline uses <code>DOCKERHUB_ACCESS_TOKEN</code> and <code>DOCKERHUB_USERNAME</code>, securely stored in GitHub Secrets, to authenticate with Docker Hub.</li>
-</ul>
+</ul></li>
+</ol>
 </section>
 </section>
 <section id="final-steps" class="level4">
@@ -865,6 +861,13 @@ Note
 <li>Build a Docker image.</li>
 <li>Push the image to Docker Hub for seamless deployment.</li>
 </ol>
+<p>This process is illustrated here:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ci_cd_test_build.png" class="img-fluid figure-img"></p>
+<figcaption>CI/CD configuration for our project</figcaption>
+</figure>
+</div>
 <p>This setup ensures your application is always deployable and meets high-quality standards.</p>
 </section>
 </section>
@@ -918,11 +921,11 @@ Note
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-annotation="1"><strong>Simulates a Request:</strong> Sends a single payload to the <code>/predict</code> endpoint, mimicking a real-world API request.</span>
+<span data-code-cell="annotated-cell-13" data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-annotation="1"><strong>Simulates a Request</strong> Sends a single payload to the <code>/predict</code> endpoint, mimicking a real-world API request.</span>
 </dd>
 <dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="19,20,21" data-code-annotation="2"><strong>Validates the Response:</strong></span>
+<span data-code-cell="annotated-cell-13" data-code-lines="19,20,21" data-code-annotation="2"><strong>Validates the Response</strong></span>
 </dd>
 </dl>
 </div>
@@ -937,13 +940,47 @@ Note
 </section>
 <section id="inference-tests" class="level3">
 <h3 class="anchored" data-anchor-id="inference-tests">Inference tests</h3>
+<p>Inference tests are designed to verify that the predictive model is functioning correctly in terms of processing inputs and generating outputs. While these tests don’t evaluate whether the model’s predictions are accurate (a more complex task we will leave for the company data scientists<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>), they ensure that the model receives the expected input features and produces predictions in the correct format.</p>
+<p>The following is an example inference test:</p>
+<p>File: <a href="https://github.com/jospablo777/ml_model_api/blob/main/tests/test_inference.py"><code>tests/test_inference.py</code></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Test model prediction with a single row</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_model_single_prediction():</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    features <span class="op">=</span> np.array([[<span class="st">"Summer"</span>, <span class="st">"June"</span>, <span class="dv">14</span>, <span class="st">"No"</span>, <span class="st">"Monday"</span>, <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="fl">0.78</span>, <span class="fl">0.697</span>, <span class="fl">0.43</span>, <span class="fl">0.2537</span>]])</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    prediction <span class="op">=</span> ml_model.predict(features)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> prediction <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">isinstance</span>(prediction, np.ndarray)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><strong>Input Simulation</strong>
+<ul>
+<li>Creates a NumPy array representing a single row of input features for the predictive model.</li>
+<li>Mimics real-world input data to ensure the test is practical and relevant.</li>
+</ul></li>
+<li><strong>Output Validation</strong>
+<ul>
+<li>Confirms that the model returns a valid prediction (i.e., not <code>None</code> or empty).</li>
+<li>Verifies that the output is a NumPy array, as expected from the CatBoost model.</li>
+</ul></li>
+</ol>
+<p>Inference tests are essential for detecting issues such as:</p>
+<ul>
+<li><strong>Input Format Errors:</strong> Ensuring the model can process the provided features without errors.</li>
+<li><strong>Output Integrity:</strong> Verifying that predictions are returned in the correct data structure (e.g., NumPy array).</li>
+<li><strong>Model Loading:</strong> Checking that the model is correctly loaded and operational.</li>
+</ul>
+<p>By running these tests, we gain confidence that the model pipeline is intact and ready for deployment, even if further evaluation of the model’s predictions requires additional analysis by data scientists.</p>
 </section>
-</section>
-<section id="inference" class="level2">
-<h2 class="anchored" data-anchor-id="inference">Inference</h2>
 </section>
 <section id="microservice-up-and-running" class="level2">
 <h2 class="anchored" data-anchor-id="microservice-up-and-running">Microservice up and running</h2>
+</section>
+<section id="inference" class="level2">
+<h2 class="anchored" data-anchor-id="inference">Inference</h2>
 </section>
 <section id="what-we-learned" class="level2">
 <h2 class="anchored" data-anchor-id="what-we-learned">What we learned?</h2>
@@ -975,6 +1012,7 @@ Note
 <li id="fn6"><p>Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the <span style="text-decoration: line-through;">interesting</span> technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I’ve used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders’ trust in us.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>エンチラーダをいただけますか？<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>A decorator is a function whose intention is to modify the behavior of other functions; it takes the original function and converts it into a different function. Luciano Ramalho does a great job explaining decorators in chapter 9 of his book <a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/">“Fluent Python”</a>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Probably you, as there aren’t many.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

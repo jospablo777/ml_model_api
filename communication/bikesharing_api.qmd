@@ -622,18 +622,15 @@ The main modification was adding a testing section before the docker build.
 ##### How It Works
 
 1. **Testing:**
-
-- Runs on every push to the `main` branch.
-- Installs dependencies and runs `pytest` to verify the codebase, ensuring that only tested and reliable code proceeds to the build stage.
+    - Runs on every push to the `main` branch.
+    - Installs dependencies and runs `pytest` to verify the codebase, ensuring that only tested and reliable code proceeds to the build stage.
 
 2. **Building:**
-
-- After passing the tests, the build job creates a Docker image using the specified `Dockerfile.`
-- The image is tagged and pushed to Docker Hub.
+    - After passing the tests, the build job creates a Docker image using the specified `Dockerfile.`
+    - The image is tagged and pushed to Docker Hub.
 
 3. **Environment Variables:**
-
-- The pipeline uses `DOCKERHUB_ACCESS_TOKEN` and `DOCKERHUB_USERNAME`, securely stored in GitHub Secrets, to authenticate with Docker Hub.
+    - The pipeline uses `DOCKERHUB_ACCESS_TOKEN` and `DOCKERHUB_USERNAME`, securely stored in GitHub Secrets, to authenticate with Docker Hub.
 
 #### Final Steps
 
@@ -642,6 +639,10 @@ With the guidance from [Itskmyoo’s tutorial](https://itskmyoo.medium.com/autom
 1. Run automated tests.
 2. Build a Docker image.
 3. Push the image to Docker Hub for seamless deployment.
+
+This process is illustrated here:
+
+![CI/CD configuration for our project](img/ci_cd_test_build.png)
 
 This setup ensures your application is always deployable and meets high-quality standards.
 
@@ -702,8 +703,8 @@ def test_predict_rentals_single():
 # --snip--
 ```
 
-1. **Simulates a Request:** Sends a single payload to the `/predict` endpoint, mimicking a real-world API request.
-2. **Validates the Response:**
+1. **Simulates a Request** Sends a single payload to the `/predict` endpoint, mimicking a real-world API request.
+2. **Validates the Response**
   - Ensures the API returns a `200 OK` status, confirming successful processing.
   - Verifies that the response contains a `predictions` key.
   - Checks that the predictions are returned as a list, as expected.
@@ -714,9 +715,47 @@ Let’s now move forward to explore other tests or dive deeper into how the infe
 
 ### Inference tests
 
-## Inference
+Inference tests are designed to verify that the predictive model is functioning correctly in terms of processing inputs and generating outputs. While these tests don’t evaluate whether the model’s predictions are accurate (a more complex task we will leave for the company data scientists[^9]), they ensure that the model receives the expected input features and produces predictions in the correct format.
+
+The following is an example inference test:
+
+File: [`tests/test_inference.py`](https://github.com/jospablo777/ml_model_api/blob/main/tests/test_inference.py)
+```{python}
+#| label: inference_test
+#| include: true
+#| eval: false
+
+# --snip--
+
+# Test model prediction with a single row
+def test_model_single_prediction():
+    features = np.array([["Summer", "June", 14, "No", "Monday", "Yes", 1, 0.78, 0.697, 0.43, 0.2537]])
+    prediction = ml_model.predict(features)
+    assert prediction is not None
+    assert isinstance(prediction, np.ndarray)
+
+# --snip--
+```
+1. **Input Simulation**
+    - Creates a NumPy array representing a single row of input features for the predictive model.
+    - Mimics real-world input data to ensure the test is practical and relevant.
+2. **Output Validation**
+    - Confirms that the model returns a valid prediction (i.e., not `None` or empty).
+    - Verifies that the output is a NumPy array, as expected from the CatBoost model.
+
+Inference tests are essential for detecting issues such as:
+
+- **Input Format Errors:** Ensuring the model can process the provided features without errors.
+- **Output Integrity:** Verifying that predictions are returned in the correct data structure (e.g., NumPy array).
+- **Model Loading:** Checking that the model is correctly loaded and operational.
+
+By running these tests, we gain confidence that the model pipeline is intact and ready for deployment, even if further evaluation of the model’s predictions requires additional analysis by data scientists.
+
+[^9]: Probably you, as there aren't many.
 
 ## Microservice up and running
+
+## Inference
 
 ## What we learned?
 
