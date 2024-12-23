@@ -437,11 +437,11 @@ You can inspect our FastAPI `app` process in the following chart.
 
 Please notice, that for simplicity, the Uvicorn server is abstracted away from the diagram.
 
+## CI/CD
+
 ## Automated tests
 
 ## Containarization
-
-## CI/CD
 
 ## Inference
 
@@ -457,3 +457,6 @@ Model monitoring, automatic training incorporated to the CI/CD, model versioning
 
 It's the wizard from "Pondering My Orb." The art is the work by Angus Mcbride and was featured in a Lord of the Rings game book :) you can check [Know Your Meme](https://knowyourmeme.com/memes/pondering-my-orb) for more info/memes.
 
+## Citation
+
+No needed, but feel free to mention me 😄 I would appreciate it a lot!
