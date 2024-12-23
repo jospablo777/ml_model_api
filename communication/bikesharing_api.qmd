@@ -34,7 +34,7 @@ In a fast-paced world, one of the problems we face as data professionals is deli
 
 An idea that is not new, is to deliver the "answers" in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (*machine learning* if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.
 
-With that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you’ll have a solid understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you’re a data scientist looking to scale your models or a developer exploring microservices, this guide is for you.
+With that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you’ll have a better understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you’re a data scientist looking to scale your models or a developer exploring microservices, this guide is for you. To take better advantage of this guide, please keep the accompanying [GitHub repo](https://github.com/jospablo777/ml_model_api) at hand.
 
 
 ## An ML model as a microservice
@@ -955,6 +955,7 @@ If you’re in Costa Rica, let’s connect over a cup of tea or a beer and have 
 
 ## Acknowledgements
 
-This work was possible thanks to Little Mai, my home office manager. She is always full of support and fresh ideas, a best in class professional—setting the gold standard in both dedication and cuteness. From offering moral support to keeping me on schedule (and occasionally demanding breaks), Little Mai has been an indispensable part of this journey.
+This work was possible thanks to Little Mai, my home office manager. She is always full of support and fresh ideas, a best in class professional—setting the gold standard in both dedication and cuteness. From offering moral support to keeping me on schedule (and occasionally demanding breaks), Little Mai has been an indispensable part of this journey. 
+
 
 ![Little Mai](img/Little_Mai.png)

@@ -4,7 +4,7 @@
     "href": "bikesharing_api.html#an-accesible-inference-system",
     "title": "Bike Rentals Prediction API",
     "section": "An accesible inference system",
-    "text": "An accesible inference system\nIn a fast-paced world, one of the problems we face as data professionals is delivering our data products promptly. Also, distributing them in a manner that doesn’t affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.\nAn idea that is not new, is to deliver the “answers” in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (machine learning if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.\nWith that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you’ll have a solid understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you’re a data scientist looking to scale your models or a developer exploring microservices, this guide is for you."
+    "text": "An accesible inference system\nIn a fast-paced world, one of the problems we face as data professionals is delivering our data products promptly. Also, distributing them in a manner that doesn’t affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.\nAn idea that is not new, is to deliver the “answers” in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (machine learning if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.\nWith that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you’ll have a better understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you’re a data scientist looking to scale your models or a developer exploring microservices, this guide is for you. To take better advantage of this guide, please keep the accompanying GitHub repo at hand."
   },
   {
     "objectID": "bikesharing_api.html#an-ml-model-as-a-microservice",
@@ -151,6 +151,6 @@
     "href": "bikesharing_api.html#acknowledgements",
     "title": "Bike Rentals Prediction API",
     "section": "Acknowledgements",
-    "text": "Acknowledgements\nThis work was possible thanks to Little Mai, my home office manager. She is always full of support and fresh ideas, a best in class professional.\n\n\n\nLittle Mai"
+    "text": "Acknowledgements\nThis work was possible thanks to Little Mai, my home office manager. She is always full of support and fresh ideas, a best in class professional—setting the gold standard in both dedication and cuteness. From offering moral support to keeping me on schedule (and occasionally demanding breaks), Little Mai has been an indispensable part of this journey.\n\n\n\nLittle Mai"
   }
 ]
