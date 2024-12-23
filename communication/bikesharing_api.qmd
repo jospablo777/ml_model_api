@@ -34,7 +34,7 @@ In a fast-paced world, one of the problems we face as data professionals is deli
 
 An idea that is not new, is to deliver the "answers" in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (*machine learning* if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.
 
-With that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you’ll have a better understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you’re a data scientist looking to scale your models or a developer exploring microservices, this guide is for you. To take better advantage of this guide, please keep the accompanying [GitHub repo](https://github.com/jospablo777/ml_model_api) at hand.
+With that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you'll have a better understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you're a data scientist looking to scale your models or a developer exploring microservices, this guide is for you. To take better advantage of this guide, please keep the accompanying [GitHub repo](https://github.com/jospablo777/ml_model_api) at hand.
 
 
 ## An ML model as a microservice
@@ -309,7 +309,7 @@ async def index() -> dict:
 2. Read the predictive model, which is a trained CatBoost model.
 3. A GET endpoint to the root URL. When someone accesses this endpoint, they will be served with the "message."
 
-So far, we have instantiated the FastAPI application and defined the root endpoint. Next, we’ll implement the core functionality of our app by defining the `/predict` endpoint. This endpoint serves as the heart of the API, handling four key responsibilities:
+So far, we have instantiated the FastAPI application and defined the root endpoint. Next, we'll implement the core functionality of our app by defining the `/predict` endpoint. This endpoint serves as the heart of the API, handling four key responsibilities:
 
 1. **Validation:** Ensures the incoming requests meet the expected format and constraints.
 2. **Data Processing:** Transforms input data into a format compatible with the trained CatBoost model.
@@ -318,7 +318,7 @@ So far, we have instantiated the FastAPI application and defined the root endpoi
 
 #### Defining the `/predict` Endpoint
 
-In this step, we define the core functionality of our API: the /predict endpoint. This endpoint handles incoming POST requests, validates the input data, processes it, generates predictions using the trained CatBoost model, and returns the predictions as a JSON response.
+In this step, we define the core functionality of our API: the `/predict` endpoint. This endpoint handles incoming POST requests, validates the input data, processes it, generates predictions using the trained CatBoost model, and returns the predictions as a JSON response.
 
 Let's see the code.
 
@@ -384,11 +384,11 @@ The `predict_rentals` function handles multiple responsibilities:
 
 #### Testing the Application
 
-With the '/predict' endpoint defined, we now have the core functionality of our prediction API. Let’s test it!
+With the `/predict` endpoint defined, we now have the core functionality of our prediction API. Let's test it!
 
 ##### Clone the Repository
 
-If you haven’t already, clone the GitHub repository to follow along.
+If you haven't already, clone the GitHub repository to follow along.
 
 ##### Run the Application
 
@@ -422,7 +422,7 @@ With the app running, you can now access the API:
 
 - API Root: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-When you visit the root endpoint, you’ll see the following message:
+When you visit the root endpoint, you'll see the following message:
 
 ```{json}
 #| label: root_endpoint_response
@@ -448,7 +448,7 @@ In this interface, you can:
 
 #### Exploring the Pydantic Model
 
-FastAPI uses Pydantic under the hood to validate and parse incoming JSON data. If you navigate to the Swagger UI, you’ll find the schema for the `BikeSharingRequest` model. This schema provides key information:
+FastAPI uses Pydantic under the hood to validate and parse incoming JSON data. If you navigate to the Swagger UI, you'll find the schema for the `BikeSharingRequest` model. This schema provides key information:
 
 - **Field Descriptions:** Attributes in the BikeSharingRequest class are documented, including the description parameter provided via Field().
 - **Data Type Constraints:** Default type constraints (e.g., string, integer) are visible for each field.
@@ -518,7 +518,7 @@ The entire process is summarized in the flowchart below:
 
 For simplicity, the Uvicorn server is abstracted away from the diagram. The focus is solely on the core FastAPI application flow, from receiving a request to sending a response.
 
-With the core functionality of our FastAPI application in place, (i.e., the `/predict/predict endpoint for serving predictions), it’s time to focus on deployment and automation. While building a robust application is essential, ensuring that it can be reliably tested, built, and deployed is equally important. This is where Continuous Integration (CI) and Continuous Deployment (CD) come into play.
+With the core functionality of our FastAPI application in place, (i.e., the `/predict/predict endpoint for serving predictions), it's time to focus on deployment and automation. While building a robust application is essential, ensuring that it can be reliably tested, built, and deployed is equally important. This is where Continuous Integration (CI) and Continuous Deployment (CD) come into play.
 
 ##### By implementing CI/CD pipelines, we can:
 
@@ -526,26 +526,26 @@ With the core functionality of our FastAPI application in place, (i.e., the `/pr
 2. **Streamline Deployment:** Build and push a Docker image of the application to a container registry (e.g., Docker Hub), ready for deployment in any environment.
 3. **Maintain Code Quality:** Catch bugs early and enforce consistent standards with every change.
 
-In the next section, we’ll set up a CI/CD workflow using GitHub Actions to:
+In the next section, we'll set up a CI/CD workflow using GitHub Actions to:
 
 - Run automated tests with pytest.
 - Build and publish a Docker image of our FastAPI app.
-- Let’s dive into automating the lifecycle of our application!
+- Let's dive into automating the lifecycle of our application!
 
 
 ## CI/CD (Continuous Integration / Continuos Deployment)
 
 Continuous Integration (CI) and Continuous Deployment (CD) are essential pillars of modern software development, enabling teams to automate testing, building, and deployment processes. They ensure that every change to the codebase is rigorously tested and deployed efficiently.
 
-While I’d love to provide an in-depth introduction to CI/CD here, I highly recommend the excellent tutorial by [Itskmyoo](https://itskmyoo.medium.com/), titled [Automating FastAPI Project Build with GitHub Actions and Push to DockerHub](https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a). It offers a clear, practical guide to setting up CI/CD pipelines for FastAPI projects using GitHub Actions.
+While I'd love to provide an in-depth introduction to CI/CD here, I highly recommend the excellent tutorial by [Itskmyoo](https://itskmyoo.medium.com/), titled [Automating FastAPI Project Build with GitHub Actions and Push to DockerHub](https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a). It offers a clear, practical guide to setting up CI/CD pipelines for FastAPI projects using GitHub Actions.
 
 ### Our Customization
 
-Building on [Itskmyoo's](https://itskmyoo.medium.com/) tutorial, we’ll implement a similar CI/CD pipeline with minor adjustments tailored to our project. Below are the configurations you’ll need to get started.
+Building on [Itskmyoo's](https://itskmyoo.medium.com/) tutorial, we'll implement a similar CI/CD pipeline with minor adjustments tailored to our project. Below are the configurations you'll need to get started.
 
 #### Dockerfile (Containerization)
 
-The Dockerfile is critical for containerizing our FastAPI app. Here’s the updated version for our project:
+The Dockerfile is critical for containerizing our FastAPI app. Here's the updated version for our project:
 
 Filename: [`Dockerfile`](https://github.com/jospablo777/ml_model_api/blob/main/Dockerfile)
 ```{Dockerfile}
@@ -655,7 +655,7 @@ The main modification was adding a testing section before the docker build.
 
 #### Final Steps
 
-With the guidance from [Itskmyoo’s tutorial](https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a) and the customizations above, our CI/CD pipeline is ready to go. Every push to the `main` branch will:
+With the guidance from [Itskmyoo's tutorial](https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a) and the customizations above, our CI/CD pipeline is ready to go. Every push to the `main` branch will:
 
 1. Run automated tests.
 2. Build a Docker image.
@@ -670,17 +670,17 @@ This setup ensures your application is always deployable and meets high-quality 
 
 ## Automated tests
 
-Although we touched on testing briefly in the CI/CD section, it’s time to dive deeper into this critical aspect of software development.
+Although we touched on testing briefly in the CI/CD section, it's time to dive deeper into this critical aspect of software development.
 
-Automated testing is a cornerstone of modern software engineering practices. It accelerates the development process while ensuring the quality and reliability of the codebase. For example, imagine you need to refactor a clunky series of steps into a cleaner, more modular function. During this process, there's always a risk of unintentionally introducing hard-to-detect bugs. This is where automated tests prove invaluable—they act as a safety net, quickly identifying errors and verifying that your changes didn’t break any existing functionality.
+Automated testing is a cornerstone of modern software engineering practices. It accelerates the development process while ensuring the quality and reliability of the codebase. For example, imagine you need to refactor a clunky series of steps into a cleaner, more modular function. During this process, there's always a risk of unintentionally introducing hard-to-detect bugs. This is where automated tests prove invaluable—they act as a safety net, quickly identifying errors and verifying that your changes didn't break any existing functionality.
 
-In this section, we’ll explore how automated tests are implemented in our project, focusing on key scenarios such as:
+In this section, we'll explore how automated tests are implemented in our project, focusing on key scenarios such as:
 
 - Validating the functionality of the `/predict` endpoint.
 - Ensuring data transformation processes work as expected.
 - Verifying the behavior of the trained CatBoost model.
 
-Let’s dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the tests/ directory, categorized into three logical groups:
+Let's dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the tests/ directory, categorized into three logical groups:
 
 - **API tests:** Validate the endpoints of our FastAPI app.
 - **Inference tests:** Ensure the ML model behaves as expected during predictions.
@@ -688,7 +688,7 @@ Let’s dive into writing and running automated tests to ensure and enhance the 
 
 ### API tests
 
-While we won’t cover every example, feel free to explore the full test suite in the repository. For now, let’s focus on a test for the API.
+While we won't cover every example, feel free to explore the full test suite in the repository. For now, let's focus on a test for the API.
 
 Below is an example test for the /predict endpoint, which validates predictions for a single input row:
 
@@ -732,11 +732,11 @@ def test_predict_rentals_single():
 
 This test is important for ensuring the `/predict` endpoint handles individual requests correctly. By automating it, we safeguard against regressions whenever the API logic or underlying model is updated.
 
-Let’s now move forward to explore other tests or dive deeper into how the inference logic is validated.
+Let's now move forward to explore other tests or dive deeper into how the inference logic is validated.
 
 ### Inference tests
 
-Inference tests are designed to verify that the predictive model is functioning correctly in terms of processing inputs and generating outputs. While these tests don’t evaluate whether the model’s predictions are accurate (a more complex task we will leave for the company data scientists[^9]), they ensure that the model receives the expected input features and produces predictions in the correct format.
+Inference tests are designed to verify that the predictive model is functioning correctly in terms of processing inputs and generating outputs. While these tests don't evaluate whether the model's predictions are accurate (a more complex task we will leave for the company data scientists[^9]), they ensure that the model receives the expected input features and produces predictions in the correct format.
 
 The following is an example inference test:
 
@@ -805,14 +805,14 @@ tests/test_unit.py ....                                                         
 
 All three set of tests were successful.
 
-By running these tests, we gain confidence that the model pipeline is intact and ready for deployment. While further evaluation of the model’s predictions may require additional analysis by data scientists, our automated tests ensure that the system behaves as expected and is free from structural issues. With this strong foundation, we can now move on to deploying and running the microservice.
+By running these tests, we gain confidence that the model pipeline is intact and ready for deployment. While further evaluation of the model's predictions may require additional analysis by data scientists, our automated tests ensure that the system behaves as expected and is free from structural issues. With this strong foundation, we can now move on to deploying and running the microservice.
 
 [^9]: Probably you, as there aren't many.
 
 
 ## Microservice up and running
 
-Once the application passes all tests, it’s time to deploy the microservice and get it running. To simplify this process, we’ve containerized the application using Docker, making it easy to share, run, and scale across different environments.
+Once the application passes all tests, it's time to deploy the microservice and get it running. To simplify this process, we've containerized the application using Docker, making it easy to share, run, and scale across different environments.
 
 For this project, you can use the pre-built Docker image hosted on Docker Hub to quickly get the application up and running on your machine. The following steps will guide you through the deployment process:
 
@@ -820,7 +820,7 @@ For this project, you can use the pre-built Docker image hosted on Docker Hub to
 2. **Run the Docker Container:** Start the containerized application with a single command.
 3. **Access the API:** Use the provided endpoints to interact with the microservice.
 
-Let’s dive into each step!
+Let's dive into each step!
 
 ### Step 1: Pull the Image from Docker Hub
 Run the following command to download the image:
@@ -889,12 +889,12 @@ The server will respond with a prediction:
 }
 ```
 
-This inference process demonstrates the power of combining machine learning with FastAPI. By containerizing and exposing the model through an API, we’ve created a flexible, efficient way to generate predictions in real-time. Whether for testing, integrating into other systems, or deploying to production, this pipeline ensures the model's predictions are accessible and easy to use.
+This inference process demonstrates the power of combining machine learning with FastAPI. By containerizing and exposing the model through an API, we've created a flexible, efficient way to generate predictions in real-time. Whether for testing, integrating into other systems, or deploying to production, this pipeline ensures the model's predictions are accessible and easy to use.
 
 
 ## Whats left?
 
-In this project, we only scratched the surface of some of the many software engineering and MLOps practices that can elevate our workflows, improve delivery processes, and increase the value we generate as data professionals. While we covered foundational concepts like API development, containerization, and CI/CD, there’s so much more to explore when it comes to bridging the gap between machine learning and production-ready systems.
+In this project, we only scratched the surface of some of the many software engineering and MLOps practices that can elevate our workflows, improve delivery processes, and increase the value we generate as data professionals. While we covered foundational concepts like API development, containerization, and CI/CD, there's so much more to explore when it comes to bridging the gap between machine learning and production-ready systems.
 
 I hope that in future tutorials and practical projects we can deep dive more in MLOps subjects like:
 
@@ -908,9 +908,9 @@ These practices are at the heart of MLOps and represent the next steps toward cr
 
 ## What we learned?
 
-WWow! That was a lot of information and code to dive into, wasn’t it?
+Wow! That was a lot of information and code to dive into, wasn't it?
 
-Throughout this project, we explored the end-to-end process of developing a machine learning microservice. Hopefully, you’ve picked up a few valuable skills and techniques to enhance your workflow as a data professional. Here’s a quick recap of what we covered:
+Throughout this project, we explored the end-to-end process of developing a machine learning microservice. Hopefully, you've picked up a few valuable skills and techniques to enhance your workflow as a data professional. Here's a quick recap of what we covered:
 
 1. Building an API with FastAPI:
 
@@ -936,7 +936,7 @@ This journey showcased how modern tools and best practices in software engineeri
 
 ### Closing Thoughts
 
-Whether you’re building ML-powered APIs, automating pipelines, or just exploring FastAPI and Docker, these skills are a great foundation for developing scalable, production-ready solutions. If you have questions, ideas, or feedback, feel free to reach out—I’d love to hear from you!
+Whether you're building ML-powered APIs, automating pipelines, or just exploring FastAPI and Docker, these skills are a great foundation for developing scalable, production-ready solutions. If you have questions, ideas, or feedback, feel free to reach out—I'd love to hear from you!
 
 Thank you for following along, and happy coding! 🚀
 
@@ -948,9 +948,9 @@ It's the wizard from "Pondering My Orb." The art is the work by Angus Mcbride an
 
 ## Citation
 
-No citation is required, but if you found this project helpful, I’d greatly appreciate a mention! 😄
+No citation is required, but if you found this project helpful, I'd greatly appreciate a mention! 😄
 
-If you’re in Costa Rica, let’s connect over a cup of tea or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: [José Pablo Barrantes](https://www.linkedin.com/in/jose-barrantes/)
+If you're in Costa Rica, let's connect over a cup of tea or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: [José Pablo Barrantes](https://www.linkedin.com/in/jose-barrantes/)
 
 
 ## Acknowledgements
