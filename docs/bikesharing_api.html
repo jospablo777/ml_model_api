@@ -201,6 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="an-accesible-inference-system">An accesible inference system</h2>
 <p>In a fast-paced world, one of the problems we face as data professionals is delivering our data products promptly. Also, distributing them in a manner that doesn’t affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.</p>
 <p>An idea that is not new, is to deliver the “answers” in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (<em>machine learning</em> if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.</p>
+<p>With that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you’ll have a solid understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you’re a data scientist looking to scale your models or a developer exploring microservices, this guide is for you.</p>
 </section>
 <section id="an-ml-model-as-a-microservice" class="level2">
 <h2 class="anchored" data-anchor-id="an-ml-model-as-a-microservice">An ML model as a microservice</h2>
@@ -784,7 +785,7 @@ Note
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> NAME=ml-model-api-docker</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the maintainer label</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="kw">LABEL</span> maintainer=<span class="st">"jospablo777 &lt;jospablo777@gmail.com&gt;"</span> <span class="co"># Modify this as needed</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="kw">LABEL</span> maintainer=<span class="st">"jospablo777 &lt;jospablo777@gmail.com&gt;"</span></span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the FastAPI app with Uvicorn</span></span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> [<span class="st">"uvicorn"</span>, <span class="st">"app.main:app"</span>, <span class="st">"--host"</span>, <span class="st">"0.0.0.0"</span>, <span class="st">"--port"</span>, <span class="st">"80"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
