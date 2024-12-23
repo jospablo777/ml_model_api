@@ -34,6 +34,8 @@ In a fast-paced world, one of the problems we face as data professionals is deli
 
 An idea that is not new, is to deliver the "answers" in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (*machine learning* if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.
 
+With that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you’ll have a solid understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you’re a data scientist looking to scale your models or a developer exploring microservices, this guide is for you.
+
 ## An ML model as a microservice
 
 Imagine your (predictive) model being accessed anytime without disturbing your peace or consuming your time; after all, your time is expensive, and you have many tasks. Here is where the idea of microservices comes into action. A microservice is an isolated piece of software that is in charge of a single task (service) and communicates through a well-defined API. You finish your model, pack it in a microservice, and make it available through an API.
