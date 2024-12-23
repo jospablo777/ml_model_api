@@ -261,7 +261,7 @@ Great! Now, we have a Pydantic model and a better understanding of it. Next, we 
 
 ### FastAPI development
 
-With the data model in place (BikeSharingRequest), it's time to develop the core of our FastAPI microservice. FastAPI makes it easy to build performant APIs with built-in data validation and clear, concise code. In this section, we'll walk through setting up the app, creating endpoints, and serving a machine learning model for predictions.
+With the data model in place (`BikeSharingRequest`), it's time to develop the core of our FastAPI microservice. FastAPI makes it easy to build performant APIs with built-in data validation and clear, concise code. In this section, we'll walk through setting up the app, creating endpoints, and serving a machine learning model for predictions.
 
 To get started with our FastAPI app, we create the Python file `app/main.py`. Let's take a look at the imports we're gonna need.
 
@@ -318,7 +318,7 @@ So far, we have instantiated the FastAPI application and defined the root endpoi
 
 #### Defining the `/predict` Endpoint
 
-In this step, we define the core functionality of our API: the `/predict` endpoint. This endpoint handles incoming POST requests, validates the input data, processes it, generates predictions using the trained CatBoost model, and returns the predictions as a JSON response.
+In this step, we define the core functionality of our API: the `/predict` endpoint. This endpoint handles incoming `POST` requests, validates the input data, processes it, generates predictions using the trained CatBoost model, and returns the predictions as a JSON response.
 
 Let's see the code.
 
@@ -450,9 +450,9 @@ In this interface, you can:
 
 FastAPI uses Pydantic under the hood to validate and parse incoming JSON data. If you navigate to the Swagger UI, you'll find the schema for the `BikeSharingRequest` model. This schema provides key information:
 
-- **Field Descriptions:** Attributes in the BikeSharingRequest class are documented, including the description parameter provided via Field().
+- **Field Descriptions:** Attributes in the `BikeSharingRequest` class are documented, including the description parameter provided via `Field()`.
 - **Data Type Constraints:** Default type constraints (e.g., string, integer) are visible for each field.
-- **Range Restrictions:** For numeric fields, restrictions such as [0, 23] for the hr field are displayed clearly in square brackets.
+- **Range Restrictions:** For numeric fields, restrictions such as `[0, 23]` for the `hr` field are displayed clearly in square brackets.
 
 #### Custom Validators
 
@@ -460,7 +460,7 @@ While custom validators are not automatically displayed in the Swagger UI, their
 
 FastAPI ensures each JSON object in the incoming list is validated and parsed into a `BikeSharingRequest` instance using Pydantic. This guarantees data consistency and simplifies further processing.
 
-![Swagger UI. The Pydantic model for `BikeSharingRequest` is expanded in the Schemas section](img/schema_pydantic_model.png)
+![Swagger UI. The Pydantic model for `BikeSharingRequest` is expanded in the Schemas section.](img/schema_pydantic_model.png)
 
 ### FastAPI app
 
@@ -514,11 +514,11 @@ async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:  # <1>
 
 The entire process is summarized in the flowchart below:
 
-![Visual representation of our FastAPI app](img/fastapi_app_flowchart.png)
+![Visual representation of our FastAPI app.](img/fastapi_app_flowchart.png)
 
 For simplicity, the Uvicorn server is abstracted away from the diagram. The focus is solely on the core FastAPI application flow, from receiving a request to sending a response.
 
-With the core functionality of our FastAPI application in place, (i.e., the `/predict/predict endpoint for serving predictions), it's time to focus on deployment and automation. While building a robust application is essential, ensuring that it can be reliably tested, built, and deployed is equally important. This is where Continuous Integration (CI) and Continuous Deployment (CD) come into play.
+With the core functionality of our FastAPI application in place, (i.e., the `/predict` endpoint for serving predictions), it's time to focus on deployment and automation. While building a robust application is essential, ensuring that it can be reliably tested, built, and deployed is equally important. This is where Continuous Integration (CI) and Continuous Deployment (CD) come into play.
 
 ##### By implementing CI/CD pipelines, we can:
 
@@ -530,12 +530,13 @@ In the next section, we'll set up a CI/CD workflow using GitHub Actions to:
 
 - Run automated tests with pytest.
 - Build and publish a Docker image of our FastAPI app.
-- Let's dive into automating the lifecycle of our application!
+
+Let's dive into automating the lifecycle of our application!
 
 
 ## CI/CD (Continuous Integration / Continuos Deployment)
 
-Continuous Integration (CI) and Continuous Deployment (CD) are essential pillars of modern software development, enabling teams to automate testing, building, and deployment processes. They ensure that every change to the codebase is rigorously tested and deployed efficiently.
+Continuous Integration (CI) and Continuous Deployment (CD) are essential pillars of modern software development, enabling teams to automate testing, building, and deployment processes. They ensure that every change to the codebase is tested and deployed efficiently.
 
 While I'd love to provide an in-depth introduction to CI/CD here, I highly recommend the excellent tutorial by [Itskmyoo](https://itskmyoo.medium.com/), titled [Automating FastAPI Project Build with GitHub Actions and Push to DockerHub](https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a). It offers a clear, practical guide to setting up CI/CD pipelines for FastAPI projects using GitHub Actions.
 
@@ -581,6 +582,7 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
 
 The GitHub Actions workflow (`.github/workflows/main.yml`) automates testing, building, and pushing the Docker image to Docker Hub. Below is the configuration for our project:
 
+Filename: [`.github/workflows/main.yml`](https://github.com/jospablo777/ml_model_api/blob/main/.github/workflows/main.yml)
 ```{yml}
 name: ML Model API - Test, build, and push
 
@@ -638,7 +640,7 @@ jobs:
 
 ```
 
-The main modification was adding a testing section before the docker build.
+The main modification was adding a testing section before the docker build. 
 
 ##### How It Works
 
@@ -663,9 +665,9 @@ With the guidance from [Itskmyoo's tutorial](https://itskmyoo.medium.com/automat
 
 This process is illustrated here:
 
-![CI/CD configuration for our project](img/ci_cd_test_build.png)
+![CI/CD configuration for our project.](img/ci_cd_test_build.png)
 
-This setup ensures your application is always deployable and meets high-quality standards.
+This setup ensures your application is always deployable and meets quality standards.
 
 
 ## Automated tests
@@ -680,7 +682,7 @@ In this section, we'll explore how automated tests are implemented in our projec
 - Ensuring data transformation processes work as expected.
 - Verifying the behavior of the trained CatBoost model.
 
-Let's dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the tests/ directory, categorized into three logical groups:
+Let's dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the `tests/` directory, categorized into three logical groups:
 
 - **API tests:** Validate the endpoints of our FastAPI app.
 - **Inference tests:** Ensure the ML model behaves as expected during predictions.
@@ -690,7 +692,7 @@ Let's dive into writing and running automated tests to ensure and enhance the qu
 
 While we won't cover every example, feel free to explore the full test suite in the repository. For now, let's focus on a test for the API.
 
-Below is an example test for the /predict endpoint, which validates predictions for a single input row:
+Below is an example test for the `/predict` endpoint, which validates predictions for a single input row:
 
 Filename: [`tests/test_api.py`](https://github.com/jospablo777/ml_model_api/blob/main/tests/test_api.py)
 
@@ -732,11 +734,11 @@ def test_predict_rentals_single():
 
 This test is important for ensuring the `/predict` endpoint handles individual requests correctly. By automating it, we safeguard against regressions whenever the API logic or underlying model is updated.
 
-Let's now move forward to explore other tests or dive deeper into how the inference logic is validated.
+Let's now move forward to explore how the inference logic is validated.
 
 ### Inference tests
 
-Inference tests are designed to verify that the predictive model is functioning correctly in terms of processing inputs and generating outputs. While these tests don't evaluate whether the model's predictions are accurate (a more complex task we will leave for the company data scientists[^9]), they ensure that the model receives the expected input features and produces predictions in the correct format.
+Inference tests are designed to verify that the predictive model is functioning correctly in terms of processing inputs and generating outputs. While these tests don't evaluate whether the model's predictions are accurate (a non-trivial task we will leave for the company data scientists[^9]), they ensure that the model receives the expected input features and produces predictions in the correct format.
 
 The following is an example inference test:
 
@@ -750,25 +752,26 @@ File: [`tests/test_inference.py`](https://github.com/jospablo777/ml_model_api/bl
 
 # Test model prediction with a single row
 def test_model_single_prediction():
-    features = np.array([["Summer", "June", 14, "No", "Monday", "Yes", 1, 0.78, 0.697, 0.43, 0.2537]])
+    features = np.array([["Summer", "June", 14, "No", "Monday", "Yes",1, 0.78, 0.697, 0.43, 0.2537]]) 
     prediction = ml_model.predict(features)
-    assert prediction is not None
-    assert isinstance(prediction, np.ndarray)
+    assert prediction is not None             
+    assert isinstance(prediction, np.ndarray) 
 
 # --snip--
 ```
 1. **Input Simulation**
     - Creates a NumPy array representing a single row of input features for the predictive model.
     - Mimics real-world input data to ensure the test is practical and relevant.
+
 2. **Output Validation**
     - Confirms that the model returns a valid prediction (i.e., not `None` or empty).
     - Verifies that the output is a NumPy array, as expected from the CatBoost model.
 
 Inference tests are essential for detecting issues such as:
 
-- **Input Format Errors:** Ensuring the model can process the provided features without errors.
-- **Output Integrity:** Verifying that predictions are returned in the correct data structure (e.g., NumPy array).
-- **Model Loading:** Checking that the model is correctly loaded and operational.
+- **Input Format Errors:** ensuring the model can process the provided features without errors.
+- **Output Integrity:** verifying that predictions are returned in the correct data structure (e.g., NumPy array).
+- **Model Loading:** checking that the model is correctly loaded and operational.
 
 ### Running the tests
 
@@ -807,7 +810,7 @@ All three set of tests were successful.
 
 By running these tests, we gain confidence that the model pipeline is intact and ready for deployment. While further evaluation of the model's predictions may require additional analysis by data scientists, our automated tests ensure that the system behaves as expected and is free from structural issues. With this strong foundation, we can now move on to deploying and running the microservice.
 
-[^9]: Probably you, as there aren't many.
+[^9]: Probably you, as there aren't many due to budget reasons.
 
 
 ## Microservice up and running
@@ -816,9 +819,9 @@ Once the application passes all tests, it's time to deploy the microservice and 
 
 For this project, you can use the pre-built Docker image hosted on Docker Hub to quickly get the application up and running on your machine. The following steps will guide you through the deployment process:
 
-1. **Pull the Pre-Built Docker Image:** Download the image directly from Docker Hub.
-2. **Run the Docker Container:** Start the containerized application with a single command.
-3. **Access the API:** Use the provided endpoints to interact with the microservice.
+1. **Pull the Pre-Built Docker Image:** download the image directly from Docker Hub.
+2. **Run the Docker Container:** start the containerized application with a single command.
+3. **Access the API:** use the provided endpoints to interact with the microservice.
 
 Let's dive into each step!
 
@@ -842,12 +845,14 @@ The API will be accessible at:
 
 You can now send requests to the API, such as `POST` requests to `/predict` for bike rental predictions.
 
-With the microservice deployed and running successfully, you can now interact with the API to make predictions. The `/predict` endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: **inference**.
+With the microservice deployed and running successfully, you can now interact with the API to make predictions. The `/predict` endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: inference[^10].
 
 
 ## Inference
 
-Inference is the process of using the trained machine learning model to generate predictions based on input data. With the /predict endpoint, our FastAPI application makes it easy to perform real-time predictions for bike rentals.
+Inference is the process of using the trained machine learning model to generate predictions based on input data. With the `/predict` endpoint, our FastAPI application makes it easy to perform real-time predictions for bike rentals.
+
+[^10]: Love this word. The definition that I like the most is "driving conclusions given some evidence (data)."
 
 ### Example: Making a Prediction
 
@@ -898,10 +903,10 @@ In this project, we only scratched the surface of some of the many software engi
 
 I hope that in future tutorials and practical projects we can deep dive more in MLOps subjects like:
 
-- **Model Monitoring:** Continuously tracking model performance in production to detect data drift, monitor accuracy, and ensure reliability over time.
-- **Automated Retraining in CI/CD:** Incorporating automatic model retraining pipelines into the CI/CD process to seamlessly update models based on new data.
-- **Model Versioning:** Managing multiple versions of models to track changes, enable rollbacks when necessary, and ensure reproducibility in machine learning workflows.
-- **Feature Stores:** Centralizing feature engineering pipelines to create reusable, consistent features for training and inference.
+- **Model Monitoring:** continuously tracking model performance in production to detect data drift, monitor accuracy, and ensure reliability over time.
+- **Automated Retraining in CI/CD:** incorporating automatic model retraining pipelines into the CI/CD process to seamlessly update models based on new data.
+- **Model Versioning:** managing multiple versions of models to track changes, enable rollbacks when necessary, and ensure reproducibility in machine learning workflows.
+- **Feature Stores:** centralizing feature engineering pipelines to create reusable, consistent features for training and inference.
 
 These practices are at the heart of MLOps and represent the next steps toward creating robust, scalable, and maintainable machine learning systems. Stay tuned for more in-depth tutorials and practical projects that will dive into these topics!
 
@@ -914,7 +919,7 @@ Throughout this project, we explored the end-to-end process of developing a mach
 
 1. Building an API with FastAPI:
 
-    - We created endpoints, validated input data with Pydantic models, and exposed our machine learning model through a `/predict` API.
+    - We created endpoints, validated input data with Pydantic models, and exposed our machine learning model through a `/predict` endpoint.
 
 2. Containerizing Applications:
 
@@ -938,6 +943,8 @@ This journey showcased how modern tools and best practices in software engineeri
 
 Whether you're building ML-powered APIs, automating pipelines, or just exploring FastAPI and Docker, these skills are a great foundation for developing scalable, production-ready solutions. If you have questions, ideas, or feedback, feel free to reach out—I'd love to hear from you!
 
+Also, if you're in Costa Rica, let's connect over coffee, tea, or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: [José Pablo Barrantes](https://www.linkedin.com/in/jose-barrantes/)
+
 Thank you for following along, and happy coding! 🚀
 
 
@@ -949,8 +956,6 @@ It's the wizard from "Pondering My Orb." The art is the work by Angus Mcbride an
 ## Citation
 
 No citation is required, but if you found this project helpful, I'd greatly appreciate a mention! 😄
-
-If you're in Costa Rica, let's connect over a cup of tea or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: [José Pablo Barrantes](https://www.linkedin.com/in/jose-barrantes/)
 
 
 ## Acknowledgements

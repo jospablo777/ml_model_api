@@ -442,7 +442,7 @@ Note
 </section>
 <section id="fastapi-development" class="level3">
 <h3 class="anchored" data-anchor-id="fastapi-development">FastAPI development</h3>
-<p>With the data model in place (BikeSharingRequest), it’s time to develop the core of our FastAPI microservice. FastAPI makes it easy to build performant APIs with built-in data validation and clear, concise code. In this section, we’ll walk through setting up the app, creating endpoints, and serving a machine learning model for predictions.</p>
+<p>With the data model in place (<code>BikeSharingRequest</code>), it’s time to develop the core of our FastAPI microservice. FastAPI makes it easy to build performant APIs with built-in data validation and clear, concise code. In this section, we’ll walk through setting up the app, creating endpoints, and serving a machine learning model for predictions.</p>
 <p>To get started with our FastAPI app, we create the Python file <code>app/main.py</code>. Let’s take a look at the imports we’re gonna need.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/main.py"><code>app/main.py</code></a></p>
 <div class="cell">
@@ -506,7 +506,7 @@ Note
 </ol>
 <section id="defining-the-predict-endpoint" class="level4">
 <h4 class="anchored" data-anchor-id="defining-the-predict-endpoint">Defining the <code>/predict</code> Endpoint</h4>
-<p>In this step, we define the core functionality of our API: the <code>/predict</code> endpoint. This endpoint handles incoming POST requests, validates the input data, processes it, generates predictions using the trained CatBoost model, and returns the predictions as a JSON response.</p>
+<p>In this step, we define the core functionality of our API: the <code>/predict</code> endpoint. This endpoint handles incoming <code>POST</code> requests, validates the input data, processes it, generates predictions using the trained CatBoost model, and returns the predictions as a JSON response.</p>
 <p>Let’s see the code.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/main.py"><code>app/main.py</code></a></p>
 <div class="cell">
@@ -643,9 +643,9 @@ Note
 <h4 class="anchored" data-anchor-id="exploring-the-pydantic-model">Exploring the Pydantic Model</h4>
 <p>FastAPI uses Pydantic under the hood to validate and parse incoming JSON data. If you navigate to the Swagger UI, you’ll find the schema for the <code>BikeSharingRequest</code> model. This schema provides key information:</p>
 <ul>
-<li><strong>Field Descriptions:</strong> Attributes in the BikeSharingRequest class are documented, including the description parameter provided via Field().</li>
+<li><strong>Field Descriptions:</strong> Attributes in the <code>BikeSharingRequest</code> class are documented, including the description parameter provided via <code>Field()</code>.</li>
 <li><strong>Data Type Constraints:</strong> Default type constraints (e.g., string, integer) are visible for each field.</li>
-<li><strong>Range Restrictions:</strong> For numeric fields, restrictions such as [0, 23] for the hr field are displayed clearly in square brackets.</li>
+<li><strong>Range Restrictions:</strong> For numeric fields, restrictions such as <code>[0, 23]</code> for the <code>hr</code> field are displayed clearly in square brackets.</li>
 </ul>
 </section>
 <section id="custom-validators" class="level4">
@@ -655,7 +655,7 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/schema_pydantic_model.png" class="img-fluid figure-img"></p>
-<figcaption>Swagger UI. The Pydantic model for <code>BikeSharingRequest</code> is expanded in the Schemas section</figcaption>
+<figcaption>Swagger UI. The Pydantic model for <code>BikeSharingRequest</code> is expanded in the Schemas section.</figcaption>
 </figure>
 </div>
 </section>
@@ -730,11 +730,11 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/fastapi_app_flowchart.png" class="img-fluid figure-img"></p>
-<figcaption>Visual representation of our FastAPI app</figcaption>
+<figcaption>Visual representation of our FastAPI app.</figcaption>
 </figure>
 </div>
 <p>For simplicity, the Uvicorn server is abstracted away from the diagram. The focus is solely on the core FastAPI application flow, from receiving a request to sending a response.</p>
-<p>With the core functionality of our FastAPI application in place, (i.e., the `/predict/predict endpoint for serving predictions), it’s time to focus on deployment and automation. While building a robust application is essential, ensuring that it can be reliably tested, built, and deployed is equally important. This is where Continuous Integration (CI) and Continuous Deployment (CD) come into play.</p>
+<p>With the core functionality of our FastAPI application in place, (i.e., the <code>/predict</code> endpoint for serving predictions), it’s time to focus on deployment and automation. While building a robust application is essential, ensuring that it can be reliably tested, built, and deployed is equally important. This is where Continuous Integration (CI) and Continuous Deployment (CD) come into play.</p>
 <section id="by-implementing-cicd-pipelines-we-can" class="level5">
 <h5 class="anchored" data-anchor-id="by-implementing-cicd-pipelines-we-can">By implementing CI/CD pipelines, we can:</h5>
 <ol type="1">
@@ -746,15 +746,15 @@ Note
 <ul>
 <li>Run automated tests with pytest.</li>
 <li>Build and publish a Docker image of our FastAPI app.</li>
-<li>Let’s dive into automating the lifecycle of our application!</li>
 </ul>
+<p>Let’s dive into automating the lifecycle of our application!</p>
 </section>
 </section>
 </section>
 </section>
 <section id="cicd-continuous-integration-continuos-deployment" class="level2">
 <h2 class="anchored" data-anchor-id="cicd-continuous-integration-continuos-deployment">CI/CD (Continuous Integration / Continuos Deployment)</h2>
-<p>Continuous Integration (CI) and Continuous Deployment (CD) are essential pillars of modern software development, enabling teams to automate testing, building, and deployment processes. They ensure that every change to the codebase is rigorously tested and deployed efficiently.</p>
+<p>Continuous Integration (CI) and Continuous Deployment (CD) are essential pillars of modern software development, enabling teams to automate testing, building, and deployment processes. They ensure that every change to the codebase is tested and deployed efficiently.</p>
 <p>While I’d love to provide an in-depth introduction to CI/CD here, I highly recommend the excellent tutorial by <a href="https://itskmyoo.medium.com/">Itskmyoo</a>, titled <a href="https://itskmyoo.medium.com/automating-fastapi-project-build-with-github-actions-and-push-to-dockerhub-b4c6df319b2a">Automating FastAPI Project Build with GitHub Actions and Push to DockerHub</a>. It offers a clear, practical guide to setting up CI/CD pipelines for FastAPI projects using GitHub Actions.</p>
 <section id="our-customization" class="level3">
 <h3 class="anchored" data-anchor-id="our-customization">Our Customization</h3>
@@ -795,6 +795,7 @@ Note
 <section id="github-actions-workflow" class="level4">
 <h4 class="anchored" data-anchor-id="github-actions-workflow">GitHub Actions Workflow</h4>
 <p>The GitHub Actions workflow (<code>.github/workflows/main.yml</code>) automates testing, building, and pushing the Docker image to Docker Hub. Below is the configuration for our project:</p>
+<p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/.github/workflows/main.yml"><code>.github/workflows/main.yml</code></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> ML Model API - Test, build, and push</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -883,10 +884,10 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/ci_cd_test_build.png" class="img-fluid figure-img"></p>
-<figcaption>CI/CD configuration for our project</figcaption>
+<figcaption>CI/CD configuration for our project.</figcaption>
 </figure>
 </div>
-<p>This setup ensures your application is always deployable and meets high-quality standards.</p>
+<p>This setup ensures your application is always deployable and meets quality standards.</p>
 </section>
 </section>
 </section>
@@ -900,7 +901,7 @@ Note
 <li>Ensuring data transformation processes work as expected.</li>
 <li>Verifying the behavior of the trained CatBoost model.</li>
 </ul>
-<p>Let’s dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the tests/ directory, categorized into three logical groups:</p>
+<p>Let’s dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the <code>tests/</code> directory, categorized into three logical groups:</p>
 <ul>
 <li><strong>API tests:</strong> Validate the endpoints of our FastAPI app.</li>
 <li><strong>Inference tests:</strong> Ensure the ML model behaves as expected during predictions.</li>
@@ -909,7 +910,7 @@ Note
 <section id="api-tests" class="level3">
 <h3 class="anchored" data-anchor-id="api-tests">API tests</h3>
 <p>While we won’t cover every example, feel free to explore the full test suite in the repository. For now, let’s focus on a test for the API.</p>
-<p>Below is an example test for the /predict endpoint, which validates predictions for a single input row:</p>
+<p>Below is an example test for the <code>/predict</code> endpoint, which validates predictions for a single input row:</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/tests/test_api.py"><code>tests/test_api.py</code></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-13"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-13-1"><a href="#annotated-cell-13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span>
@@ -954,11 +955,11 @@ Note
 <li>Checks that the predictions are returned as a list, as expected.</li>
 </ul>
 <p>This test is important for ensuring the <code>/predict</code> endpoint handles individual requests correctly. By automating it, we safeguard against regressions whenever the API logic or underlying model is updated.</p>
-<p>Let’s now move forward to explore other tests or dive deeper into how the inference logic is validated.</p>
+<p>Let’s now move forward to explore how the inference logic is validated.</p>
 </section>
 <section id="inference-tests" class="level3">
 <h3 class="anchored" data-anchor-id="inference-tests">Inference tests</h3>
-<p>Inference tests are designed to verify that the predictive model is functioning correctly in terms of processing inputs and generating outputs. While these tests don’t evaluate whether the model’s predictions are accurate (a more complex task we will leave for the company data scientists<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>), they ensure that the model receives the expected input features and produces predictions in the correct format.</p>
+<p>Inference tests are designed to verify that the predictive model is functioning correctly in terms of processing inputs and generating outputs. While these tests don’t evaluate whether the model’s predictions are accurate (a non-trivial task we will leave for the company data scientists<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>), they ensure that the model receives the expected input features and produces predictions in the correct format.</p>
 <p>The following is an example inference test:</p>
 <p>File: <a href="https://github.com/jospablo777/ml_model_api/blob/main/tests/test_inference.py"><code>tests/test_inference.py</code></a></p>
 <div class="cell">
@@ -966,10 +967,10 @@ Note
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Test model prediction with a single row</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_model_single_prediction():</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    features <span class="op">=</span> np.array([[<span class="st">"Summer"</span>, <span class="st">"June"</span>, <span class="dv">14</span>, <span class="st">"No"</span>, <span class="st">"Monday"</span>, <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="fl">0.78</span>, <span class="fl">0.697</span>, <span class="fl">0.43</span>, <span class="fl">0.2537</span>]])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    features <span class="op">=</span> np.array([[<span class="st">"Summer"</span>, <span class="st">"June"</span>, <span class="dv">14</span>, <span class="st">"No"</span>, <span class="st">"Monday"</span>, <span class="st">"Yes"</span>,<span class="dv">1</span>, <span class="fl">0.78</span>, <span class="fl">0.697</span>, <span class="fl">0.43</span>, <span class="fl">0.2537</span>]]) </span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    prediction <span class="op">=</span> ml_model.predict(features)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> prediction <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">isinstance</span>(prediction, np.ndarray)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> prediction <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>             </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">isinstance</span>(prediction, np.ndarray) </span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># --snip--</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -987,9 +988,9 @@ Note
 </ol>
 <p>Inference tests are essential for detecting issues such as:</p>
 <ul>
-<li><strong>Input Format Errors:</strong> Ensuring the model can process the provided features without errors.</li>
-<li><strong>Output Integrity:</strong> Verifying that predictions are returned in the correct data structure (e.g., NumPy array).</li>
-<li><strong>Model Loading:</strong> Checking that the model is correctly loaded and operational.</li>
+<li><strong>Input Format Errors:</strong> ensuring the model can process the provided features without errors.</li>
+<li><strong>Output Integrity:</strong> verifying that predictions are returned in the correct data structure (e.g., NumPy array).</li>
+<li><strong>Model Loading:</strong> checking that the model is correctly loaded and operational.</li>
 </ul>
 </section>
 <section id="running-the-tests" class="level3">
@@ -1022,9 +1023,9 @@ Note
 <p>Once the application passes all tests, it’s time to deploy the microservice and get it running. To simplify this process, we’ve containerized the application using Docker, making it easy to share, run, and scale across different environments.</p>
 <p>For this project, you can use the pre-built Docker image hosted on Docker Hub to quickly get the application up and running on your machine. The following steps will guide you through the deployment process:</p>
 <ol type="1">
-<li><strong>Pull the Pre-Built Docker Image:</strong> Download the image directly from Docker Hub.</li>
-<li><strong>Run the Docker Container:</strong> Start the containerized application with a single command.</li>
-<li><strong>Access the API:</strong> Use the provided endpoints to interact with the microservice.</li>
+<li><strong>Pull the Pre-Built Docker Image:</strong> download the image directly from Docker Hub.</li>
+<li><strong>Run the Docker Container:</strong> start the containerized application with a single command.</li>
+<li><strong>Access the API:</strong> use the provided endpoints to interact with the microservice.</li>
 </ol>
 <p>Let’s dive into each step!</p>
 <section id="step-1-pull-the-image-from-docker-hub" class="level3">
@@ -1046,12 +1047,12 @@ Note
 <li>ReDoc: <a href="http://127.0.0.1:8000/redoc">http://127.0.0.1:8000/redoc</a></li>
 </ul>
 <p>You can now send requests to the API, such as <code>POST</code> requests to <code>/predict</code> for bike rental predictions.</p>
-<p>With the microservice deployed and running successfully, you can now interact with the API to make predictions. The <code>/predict</code> endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: <strong>inference</strong>.</p>
+<p>With the microservice deployed and running successfully, you can now interact with the API to make predictions. The <code>/predict</code> endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: inference<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>.</p>
 </section>
 </section>
 <section id="inference" class="level2">
 <h2 class="anchored" data-anchor-id="inference">Inference</h2>
-<p>Inference is the process of using the trained machine learning model to generate predictions based on input data. With the /predict endpoint, our FastAPI application makes it easy to perform real-time predictions for bike rentals.</p>
+<p>Inference is the process of using the trained machine learning model to generate predictions based on input data. With the <code>/predict</code> endpoint, our FastAPI application makes it easy to perform real-time predictions for bike rentals.</p>
 <section id="example-making-a-prediction" class="level3">
 <h3 class="anchored" data-anchor-id="example-making-a-prediction">Example: Making a Prediction</h3>
 <p>To test the inference process, you can send a <code>POST</code> request to the <code>/predict</code> endpoint with the required input features. Here’s an example using <code>curl</code>:</p>
@@ -1088,10 +1089,10 @@ Note
 <p>In this project, we only scratched the surface of some of the many software engineering and MLOps practices that can elevate our workflows, improve delivery processes, and increase the value we generate as data professionals. While we covered foundational concepts like API development, containerization, and CI/CD, there’s so much more to explore when it comes to bridging the gap between machine learning and production-ready systems.</p>
 <p>I hope that in future tutorials and practical projects we can deep dive more in MLOps subjects like:</p>
 <ul>
-<li><strong>Model Monitoring:</strong> Continuously tracking model performance in production to detect data drift, monitor accuracy, and ensure reliability over time.</li>
-<li><strong>Automated Retraining in CI/CD:</strong> Incorporating automatic model retraining pipelines into the CI/CD process to seamlessly update models based on new data.</li>
-<li><strong>Model Versioning:</strong> Managing multiple versions of models to track changes, enable rollbacks when necessary, and ensure reproducibility in machine learning workflows.</li>
-<li><strong>Feature Stores:</strong> Centralizing feature engineering pipelines to create reusable, consistent features for training and inference.</li>
+<li><strong>Model Monitoring:</strong> continuously tracking model performance in production to detect data drift, monitor accuracy, and ensure reliability over time.</li>
+<li><strong>Automated Retraining in CI/CD:</strong> incorporating automatic model retraining pipelines into the CI/CD process to seamlessly update models based on new data.</li>
+<li><strong>Model Versioning:</strong> managing multiple versions of models to track changes, enable rollbacks when necessary, and ensure reproducibility in machine learning workflows.</li>
+<li><strong>Feature Stores:</strong> centralizing feature engineering pipelines to create reusable, consistent features for training and inference.</li>
 </ul>
 <p>These practices are at the heart of MLOps and represent the next steps toward creating robust, scalable, and maintainable machine learning systems. Stay tuned for more in-depth tutorials and practical projects that will dive into these topics!</p>
 </section>
@@ -1102,7 +1103,7 @@ Note
 <ol type="1">
 <li><p>Building an API with FastAPI:</p>
 <ul>
-<li>We created endpoints, validated input data with Pydantic models, and exposed our machine learning model through a <code>/predict</code> API.</li>
+<li>We created endpoints, validated input data with Pydantic models, and exposed our machine learning model through a <code>/predict</code> endpoint.</li>
 </ul></li>
 <li><p>Containerizing Applications:</p>
 <ul>
@@ -1125,6 +1126,7 @@ Note
 <section id="closing-thoughts" class="level3">
 <h3 class="anchored" data-anchor-id="closing-thoughts">Closing Thoughts</h3>
 <p>Whether you’re building ML-powered APIs, automating pipelines, or just exploring FastAPI and Docker, these skills are a great foundation for developing scalable, production-ready solutions. If you have questions, ideas, or feedback, feel free to reach out—I’d love to hear from you!</p>
+<p>Also, if you’re in Costa Rica, let’s connect over coffee, tea, or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: <a href="https://www.linkedin.com/in/jose-barrantes/">José Pablo Barrantes</a></p>
 <p>Thank you for following along, and happy coding! 🚀</p>
 </section>
 </section>
@@ -1135,7 +1137,6 @@ Note
 <section id="citation" class="level2">
 <h2 class="anchored" data-anchor-id="citation">Citation</h2>
 <p>No citation is required, but if you found this project helpful, I’d greatly appreciate a mention! 😄</p>
-<p>If you’re in Costa Rica, let’s connect over a cup of tea or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: <a href="https://www.linkedin.com/in/jose-barrantes/">José Pablo Barrantes</a></p>
 </section>
 <section id="acknowledgements" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
@@ -1162,7 +1163,8 @@ Note
 <li id="fn6"><p>Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the <span style="text-decoration: line-through;">interesting</span> technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I’ve used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders’ trust in us.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>エンチラーダをいただけますか？<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>A decorator is a function whose intention is to modify the behavior of other functions; it takes the original function and converts it into a different function. Luciano Ramalho does a great job explaining decorators in chapter 9 of his book <a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/">“Fluent Python”</a>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>Probably you, as there aren’t many.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Probably you, as there aren’t many due to budget reasons.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Love this word. The definition that I like the most is “driving conclusions given some evidence (data).”<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
