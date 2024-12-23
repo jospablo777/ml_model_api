@@ -134,6 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#automated-tests" id="toc-automated-tests" class="nav-link" data-scroll-target="#automated-tests">Automated tests</a></li>
   <li><a href="#containarization" id="toc-containarization" class="nav-link" data-scroll-target="#containarization">Containarization</a></li>
+  <li><a href="#cicd" id="toc-cicd" class="nav-link" data-scroll-target="#cicd">CI/CD</a></li>
   <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
   <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a></li>
   <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned">What we learned?</a></li>
@@ -576,17 +577,19 @@ Note
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Waiting for application startup.</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Application startup complete.</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Uvicorn running on http://127.0.0.1:8000 <span class="er">(</span><span class="ex">Press</span> CTRL+C to quit<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With the app is running we can access the API and its documentation. So, let’s explore a little, first, the API’s root</p>
+<p>With the app running, we can access the API and its documentation. So, let’s explore a little, first, the API’s root:</p>
 <ul>
-<li>API Root: http://127.0.0.1:8000/</li>
+<li>API Root: <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></li>
 </ul>
-<p>Here we can see the message we writed earlier:</p>
-<pre><code>{
-  "message": "Bike rentals ML predictor (regressor)"
-}</code></pre>
+<p>Here we can see the message we wrote earlier:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Bike rentals ML predictor (regressor)"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ul>
-<li>Swagger UI (API Documentation): http://127.0.0.1:8000/docs</li>
-<li>ReDoc (Alternative Documentation): http://127.0.0.1:8000/redoc</li>
+<li>Swagger UI (API Documentation): <a href="http://127.0.0.1:8000/docs">http://127.0.0.1:8000/docs</a></li>
+<li>ReDoc (Alternative Documentation): <a href="http://127.0.0.1:8000/redoc">http://127.0.0.1:8000/redoc</a></li>
 </ul>
 </section>
 <section id="pydantic-model" class="level3">
@@ -636,6 +639,9 @@ Note
 </section>
 <section id="containarization" class="level2">
 <h2 class="anchored" data-anchor-id="containarization">Containarization</h2>
+</section>
+<section id="cicd" class="level2">
+<h2 class="anchored" data-anchor-id="cicd">CI/CD</h2>
 </section>
 <section id="inference" class="level2">
 <h2 class="anchored" data-anchor-id="inference">Inference</h2>

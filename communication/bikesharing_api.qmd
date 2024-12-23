@@ -388,14 +388,14 @@ With the app running, we can access the API and its documentation. So, let's exp
 
 Here we can see the message we wrote earlier:
 
-```
+```{json}
 {
   "message": "Bike rentals ML predictor (regressor)"
 }
 ```
 
-- Swagger UI (API Documentation): http://127.0.0.1:8000/docs
-- ReDoc (Alternative Documentation): http://127.0.0.1:8000/redoc
+- Swagger UI (API Documentation): [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- ReDoc (Alternative Documentation): [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
 
 
