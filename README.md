@@ -29,10 +29,11 @@ ml_model_api/
 │   ├── services/              # Services
 │   │   └── ml_model.py        # Tools for handling saved predictive models
 │   └── main.py                # Main FastAPI application
-├── communication/             # Folder for communication-related files (Quarto files, screenshots, etc.)
+├── communication/             # Contains the code to generate the tutorial article
 ├── data/
 │   ├── features_api_test_data.csv  # CSV file for testing API inputs
 │   └── target_api_test_data.csv    # CSV file for testing API outputs
+├── docs/                      # Tutorial article (web page)
 ├── notebooks/
 │   └── eda_and_toy_model.ipynb  # Exploratory data analysis and model experimentation
 ├── predictive_models/
