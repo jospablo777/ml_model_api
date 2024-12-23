@@ -143,10 +143,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#inference-tests" id="toc-inference-tests" class="nav-link" data-scroll-target="#inference-tests">Inference tests</a></li>
   <li><a href="#running-the-tests" id="toc-running-the-tests" class="nav-link" data-scroll-target="#running-the-tests">Running the tests</a></li>
   </ul></li>
-  <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a></li>
-  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
-  <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned">What we learned?</a></li>
+  <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a>
+  <ul class="collapse">
+  <li><a href="#step-1-pull-the-image-from-docker-hub" id="toc-step-1-pull-the-image-from-docker-hub" class="nav-link" data-scroll-target="#step-1-pull-the-image-from-docker-hub">Step 1: Pull the Image from Docker Hub</a></li>
+  <li><a href="#step-2-run-the-docker-container" id="toc-step-2-run-the-docker-container" class="nav-link" data-scroll-target="#step-2-run-the-docker-container">Step 2: Run the Docker Container</a></li>
+  <li><a href="#step-3-access-the-api" id="toc-step-3-access-the-api" class="nav-link" data-scroll-target="#step-3-access-the-api">Step 3: Access the API</a></li>
+  </ul></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a>
+  <ul class="collapse">
+  <li><a href="#example-making-a-prediction" id="toc-example-making-a-prediction" class="nav-link" data-scroll-target="#example-making-a-prediction">Example: Making a Prediction</a></li>
+  </ul></li>
   <li><a href="#whats-left" id="toc-whats-left" class="nav-link" data-scroll-target="#whats-left">Whats left?</a></li>
+  <li><a href="#what-we-learned" id="toc-what-we-learned" class="nav-link" data-scroll-target="#what-we-learned">What we learned?</a>
+  <ul class="collapse">
+  <li><a href="#closing-thoughts" id="toc-closing-thoughts" class="nav-link" data-scroll-target="#closing-thoughts">Closing Thoughts</a></li>
+  </ul></li>
   <li><a href="#about-the-pondering-guy-in-the-header" id="toc-about-the-pondering-guy-in-the-header" class="nav-link" data-scroll-target="#about-the-pondering-guy-in-the-header">About the pondering guy in the header</a></li>
   <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation">Citation</a></li>
   </ul>
@@ -987,33 +998,133 @@ Note
 </div>
 <p>If everything goes well, we will see an output like this output in our terminal:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">========================================</span> test session starts =========================================</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">platform</span> linux <span class="at">--</span> Python 3.12.3, pytest-8.3.4, pluggy-1.5.0</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rootdir:</span> /home/jose-p/Data Science/Projects/ml_model_api</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ex">plugins:</span> anyio-4.7.0, cov-6.0.0</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">collected</span> 12 items                                                                                   </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_api.py</span> .....                                                                        [ 41%]</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_inference.py</span> ...                                                                    [ 66%]</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_unit.py</span> ....                                                                        <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="ex">=========================================</span> 12 passed in 0.58s =========================================</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">user@user-pc:~/ml_model_api$</span> pytest tests/</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">========================================</span> test session starts =========================================</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">platform</span> linux <span class="at">--</span> Python 3.12.3, pytest-8.3.4, pluggy-1.5.0</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ex">rootdir:</span> ~/ml_model_api</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">plugins:</span> anyio-4.7.0, cov-6.0.0</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="ex">collected</span> 12 items                                                                                   </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_api.py</span> .....                                                                        [ 41%]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_inference.py</span> ...                                                                    [ 66%]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_unit.py</span> ....                                                                        <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="ex">=========================================</span> 12 passed in 0.58s =========================================</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>By running these tests, we gain confidence that the model pipeline is intact and ready for deployment, even if further evaluation of the model’s predictions requires additional analysis by data scientists.</p>
+<p>All three set of tests were successful.</p>
+<p>By running these tests, we gain confidence that the model pipeline is intact and ready for deployment. While further evaluation of the model’s predictions may require additional analysis by data scientists, our automated tests ensure that the system behaves as expected and is free from structural issues. With this strong foundation, we can now move on to deploying and running the microservice.</p>
 </section>
 </section>
 <section id="microservice-up-and-running" class="level2">
 <h2 class="anchored" data-anchor-id="microservice-up-and-running">Microservice up and running</h2>
+<p>Once the application passes all tests, it’s time to deploy the microservice and get it running. To simplify this process, we’ve containerized the application using Docker, making it easy to share, run, and scale across different environments.</p>
+<p>For this project, you can use the pre-built Docker image hosted on Docker Hub to quickly get the application up and running on your machine. The following steps will guide you through the deployment process:</p>
+<ol type="1">
+<li><strong>Pull the Pre-Built Docker Image:</strong> Download the image directly from Docker Hub.</li>
+<li><strong>Run the Docker Container:</strong> Start the containerized application with a single command.</li>
+<li><strong>Access the API:</strong> Use the provided endpoints to interact with the microservice.</li>
+</ol>
+<p>Let’s dive into each step!</p>
+<section id="step-1-pull-the-image-from-docker-hub" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-pull-the-image-from-docker-hub">Step 1: Pull the Image from Docker Hub</h3>
+<p>Run the following command to download the image:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull jospablo777/ml-model-api:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-2-run-the-docker-container" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-run-the-docker-container">Step 2: Run the Docker Container</h3>
+<p>Start the container with the following command:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="at">-p</span> 8000:80 <span class="at">--name</span> bike-sharing-api jospablo777/ml-model-api:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-3-access-the-api" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-access-the-api">Step 3: Access the API</h3>
+<p>The API will be accessible at:</p>
+<ul>
+<li>Base URL: http://localhost:8000</li>
+<li>Swagger UI: http://localhost:8000/docs</li>
+<li>ReDoc: http://localhost:8000/redoc</li>
+</ul>
+<p>You can now send requests to the API, such as <code>POST</code> requests to <code>/predict</code> for bike rental predictions.</p>
+<p>With the microservice deployed and running successfully, you can now interact with the API to make predictions. The <code>/predict</code> endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: <strong>inference</strong>.</p>
+</section>
 </section>
 <section id="inference" class="level2">
 <h2 class="anchored" data-anchor-id="inference">Inference</h2>
+<p>Inference is the process of using the trained machine learning model to generate predictions based on input data. With the /predict endpoint, our FastAPI application makes it easy to perform real-time predictions for bike rentals.</p>
+<section id="example-making-a-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="example-making-a-prediction">Example: Making a Prediction</h3>
+<p>To test the inference process, you can send a <code>POST</code> request to the <code>/predict</code> endpoint with the required input features. Here’s an example using <code>curl</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST <span class="st">"http://localhost:8000/predict"</span> <span class="dt">\</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>-H <span class="st">"Content-Type: application/json"</span> <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>-d <span class="st">'[</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">    {</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">        "season": "Summer",</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">        "mnth": "June",</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">        "hr": 14,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">        "holiday": "No",</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">        "weekday": "Monday",</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">        "workingday": "Yes",</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="st">        "weathersit": 1,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="st">        "temp": 0.78,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="st">        "atemp": 0.697,</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="st">        "hum": 0.43,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="st">        "windspeed": 0.2537</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">]'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The server will respond with a prediction:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"predictions"</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">225.755</span><span class="ot">]</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This inference process demonstrates the power of combining machine learning with FastAPI. By containerizing and exposing the model through an API, we’ve created a flexible, efficient way to generate predictions in real-time. Whether for testing, integrating into other systems, or deploying to production, this pipeline ensures the model’s predictions are accessible and easy to use.</p>
 </section>
-<section id="what-we-learned" class="level2">
-<h2 class="anchored" data-anchor-id="what-we-learned">What we learned?</h2>
 </section>
 <section id="whats-left" class="level2">
 <h2 class="anchored" data-anchor-id="whats-left">Whats left?</h2>
-<p>Model monitoring, automatic training incorporated to the CI/CD, model versioning, high level applications that consume the APIs</p>
+<p>In this project, we only scratched the surface of the many software engineering and MLOps practices that can elevate our workflows, improve delivery processes, and increase the value we generate as data professionals. While we covered foundational concepts like API development, containerization, and CI/CD, there’s so much more to explore when it comes to bridging the gap between machine learning and production-ready systems.</p>
+<p>I hope that in future tutorials and practical projects we can deep dive more in MLOps subjects like:</p>
+<ul>
+<li><strong>Model Monitoring:</strong> Continuously tracking model performance in production to detect data drift, monitor accuracy, and ensure reliability over time.</li>
+<li><strong>Automated Retraining in CI/CD:</strong> Incorporating automatic model retraining pipelines into the CI/CD process to seamlessly update models based on new data.</li>
+<li><strong>Model Versioning:</strong> Managing multiple versions of models to track changes, enable rollbacks when necessary, and ensure reproducibility in machine learning workflows.</li>
+<li><strong>Feature Stores:</strong> Centralizing feature engineering pipelines to create reusable, consistent features for training and inference.</li>
+</ul>
+<p>These practices are at the heart of MLOps and represent the next steps toward creating robust, scalable, and maintainable machine learning systems. Stay tuned for more in-depth tutorials and practical projects that will dive into these topics!</p>
+</section>
+<section id="what-we-learned" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-learned">What we learned?</h2>
+<p>WWow! That was a lot of information and code to dive into, wasn’t it?</p>
+<p>Throughout this project, we explored the end-to-end process of developing a machine learning microservice. Hopefully, you’ve picked up a few valuable skills and techniques to enhance your workflow as a data professional. Here’s a quick recap of what we covered:</p>
+<ol type="1">
+<li><p>Building an API with FastAPI:</p>
+<ul>
+<li>We created endpoints, validated input data with Pydantic models, and exposed our machine learning model through a <code>/predict</code> API.</li>
+</ul></li>
+<li><p>Containerizing Applications:</p>
+<ul>
+<li>Using Docker, we learned how to build a portable, scalable container for our app, complete with a pre-built image on Docker Hub.</li>
+</ul></li>
+<li><p>Automated Testing:</p>
+<ul>
+<li>We implemented unit, inference, and API tests to ensure our app is robust and reliable, catching issues before deployment.</li>
+</ul></li>
+<li><p>CI/CD Pipelines:</p>
+<ul>
+<li>By leveraging GitHub Actions, we automated the testing, building, and deployment process, making our development cycle more efficient.</li>
+</ul></li>
+<li><p>Real-Time Predictions:</p>
+<ul>
+<li>Through inference, we demonstrated how to use the trained CatBoost model to generate predictions in real-time via a FastAPI endpoint.</li>
+</ul></li>
+</ol>
+<p>This journey showcased how modern tools and best practices in software engineering can streamline machine learning workflows, from development to deployment.</p>
+<section id="closing-thoughts" class="level3">
+<h3 class="anchored" data-anchor-id="closing-thoughts">Closing Thoughts</h3>
+<p>Whether you’re building ML-powered APIs, automating pipelines, or just exploring FastAPI and Docker, these skills are a great foundation for developing scalable, production-ready solutions. If you have questions, ideas, or feedback, feel free to reach out—I’d love to hear from you!</p>
+<p>Thank you for following along, and happy coding! 🚀</p>
+</section>
 </section>
 <section id="about-the-pondering-guy-in-the-header" class="level2">
 <h2 class="anchored" data-anchor-id="about-the-pondering-guy-in-the-header">About the pondering guy in the header</h2>
@@ -1021,7 +1132,8 @@ Note
 </section>
 <section id="citation" class="level2">
 <h2 class="anchored" data-anchor-id="citation">Citation</h2>
-<p>No needed, but feel free to mention me 😄 I would appreciate it a lot!</p>
+<p>No citation is required, but if you found this project helpful, I’d greatly appreciate a mention! 😄</p>
+<p>If you’re in Costa Rica, let’s connect over a cup of tea or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: <a href="https://www.linkedin.com/in/jose-barrantes/">José Pablo Barrantes</a></p>
 
 
 </section>

@@ -417,6 +417,10 @@ With the app running, you can now access the API:
 When you visit the root endpoint, you’ll see the following message:
 
 ```{json}
+#| label: root_endpoint_response
+#| include: true
+#| eval: false
+
 {
   "message": "Bike rentals ML predictor (regressor)"
 }
@@ -792,19 +796,139 @@ tests/test_unit.py ....                                                         
 
 All three set of tests were successful.
 
-By running these tests, we gain confidence that the model pipeline is intact and ready for deployment, even if further evaluation of the model’s predictions requires additional analysis by data scientists.
+By running these tests, we gain confidence that the model pipeline is intact and ready for deployment. While further evaluation of the model’s predictions may require additional analysis by data scientists, our automated tests ensure that the system behaves as expected and is free from structural issues. With this strong foundation, we can now move on to deploying and running the microservice.
 
 [^9]: Probably you, as there aren't many.
 
 
 ## Microservice up and running
 
+Once the application passes all tests, it’s time to deploy the microservice and get it running. To simplify this process, we’ve containerized the application using Docker, making it easy to share, run, and scale across different environments.
+
+For this project, you can use the pre-built Docker image hosted on Docker Hub to quickly get the application up and running on your machine. The following steps will guide you through the deployment process:
+
+1. **Pull the Pre-Built Docker Image:** Download the image directly from Docker Hub.
+2. **Run the Docker Container:** Start the containerized application with a single command.
+3. **Access the API:** Use the provided endpoints to interact with the microservice.
+
+Let’s dive into each step!
+
+### Step 1: Pull the Image from Docker Hub
+Run the following command to download the image:
+```bash
+docker pull jospablo777/ml-model-api:latest
+```
+### Step 2: Run the Docker Container
+Start the container with the following command:
+```bash
+docker run -d -p 8000:80 --name bike-sharing-api jospablo777/ml-model-api:latest
+```
+
+### Step 3: Access the API
+The API will be accessible at:
+
+- Base URL: http://localhost:8000
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+You can now send requests to the API, such as `POST` requests to `/predict` for bike rental predictions.
+
+With the microservice deployed and running successfully, you can now interact with the API to make predictions. The `/predict` endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: **inference**.
+
 ## Inference
+
+Inference is the process of using the trained machine learning model to generate predictions based on input data. With the /predict endpoint, our FastAPI application makes it easy to perform real-time predictions for bike rentals.
+
+### Example: Making a Prediction
+
+To test the inference process, you can send a `POST` request to the `/predict` endpoint with the required input features. Here's an example using `curl`:
+
+```{bash}
+#| label: making_a_prediction
+#| include: true
+#| eval: false
+
+curl -X POST "http://localhost:8000/predict" \
+-H "Content-Type: application/json" \
+-d '[
+    {
+        "season": "Summer",
+        "mnth": "June",
+        "hr": 14,
+        "holiday": "No",
+        "weekday": "Monday",
+        "workingday": "Yes",
+        "weathersit": 1,
+        "temp": 0.78,
+        "atemp": 0.697,
+        "hum": 0.43,
+        "windspeed": 0.2537
+    }
+]'
+```
+
+The server will respond with a prediction:
+
+```{json}
+#| label: prediction_response
+#| include: true
+#| eval: false
+
+{
+  "predictions": [225.755]
+}
+```
+
+This inference process demonstrates the power of combining machine learning with FastAPI. By containerizing and exposing the model through an API, we’ve created a flexible, efficient way to generate predictions in real-time. Whether for testing, integrating into other systems, or deploying to production, this pipeline ensures the model's predictions are accessible and easy to use.
+
+
+## Whats left?
+
+In this project, we only scratched the surface of the many software engineering and MLOps practices that can elevate our workflows, improve delivery processes, and increase the value we generate as data professionals. While we covered foundational concepts like API development, containerization, and CI/CD, there’s so much more to explore when it comes to bridging the gap between machine learning and production-ready systems.
+
+I hope that in future tutorials and practical projects we can deep dive more in MLOps subjects like:
+
+- **Model Monitoring:** Continuously tracking model performance in production to detect data drift, monitor accuracy, and ensure reliability over time.
+- **Automated Retraining in CI/CD:** Incorporating automatic model retraining pipelines into the CI/CD process to seamlessly update models based on new data.
+- **Model Versioning:** Managing multiple versions of models to track changes, enable rollbacks when necessary, and ensure reproducibility in machine learning workflows.
+- **Feature Stores:** Centralizing feature engineering pipelines to create reusable, consistent features for training and inference.
+
+These practices are at the heart of MLOps and represent the next steps toward creating robust, scalable, and maintainable machine learning systems. Stay tuned for more in-depth tutorials and practical projects that will dive into these topics!
+
 
 ## What we learned?
 
-## Whats left?
-Model monitoring, automatic training incorporated to the CI/CD, model versioning, high level applications that consume the APIs
+WWow! That was a lot of information and code to dive into, wasn’t it?
+
+Throughout this project, we explored the end-to-end process of developing a machine learning microservice. Hopefully, you’ve picked up a few valuable skills and techniques to enhance your workflow as a data professional. Here’s a quick recap of what we covered:
+
+1. Building an API with FastAPI:
+
+    - We created endpoints, validated input data with Pydantic models, and exposed our machine learning model through a `/predict` API.
+
+2. Containerizing Applications:
+
+    - Using Docker, we learned how to build a portable, scalable container for our app, complete with a pre-built image on Docker Hub.
+
+3. Automated Testing:
+
+    - We implemented unit, inference, and API tests to ensure our app is robust and reliable, catching issues before deployment.
+
+4. CI/CD Pipelines:
+
+    - By leveraging GitHub Actions, we automated the testing, building, and deployment process, making our development cycle more efficient.
+
+5. Real-Time Predictions:
+
+    - Through inference, we demonstrated how to use the trained CatBoost model to generate predictions in real-time via a FastAPI endpoint.
+
+This journey showcased how modern tools and best practices in software engineering can streamline machine learning workflows, from development to deployment.
+
+### Closing Thoughts
+
+Whether you’re building ML-powered APIs, automating pipelines, or just exploring FastAPI and Docker, these skills are a great foundation for developing scalable, production-ready solutions. If you have questions, ideas, or feedback, feel free to reach out—I’d love to hear from you!
+
+Thank you for following along, and happy coding! 🚀
 
 
 ## About the pondering guy in the header
@@ -813,4 +937,6 @@ It's the wizard from "Pondering My Orb." The art is the work by Angus Mcbride an
 
 ## Citation
 
-No needed, but feel free to mention me 😄 I would appreciate it a lot!
+No citation is required, but if you found this project helpful, I’d greatly appreciate a mention! 😄
+
+If you’re in Costa Rica, let’s connect over a cup of tea or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: [José Pablo Barrantes](https://www.linkedin.com/in/jose-barrantes/)
