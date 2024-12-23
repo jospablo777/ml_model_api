@@ -29,7 +29,7 @@ ml_model_api/
 │   ├── services/              # Services
 │   │   └── ml_model.py        # Tools for handling saved predictive models
 │   └── main.py                # Main FastAPI application
-├── communication/             # Contains the code to generate the tutorial article
+├── communication/             # Contains the code to generate the tutorial article (Quarto)
 ├── data/
 │   ├── features_api_test_data.csv  # CSV file for testing API inputs
 │   └── target_api_test_data.csv    # CSV file for testing API outputs
