@@ -630,7 +630,7 @@ Note
 <h3 class="anchored" data-anchor-id="pydantic-model">Pydantic model</h3>
 <p>One of the standout features of FastAPI is its ability to automatically generate API documentation, complete with interactive functionality. You can access the API documentation for this project by visiting:</p>
 <ul>
-<li>Swagger UI (API Documentation): http://127.0.0.1:8000/docs</li>
+<li>Swagger UI (API Documentation): <a href="http://127.0.0.1:8000/docs">http://127.0.0.1:8000/docs</a></li>
 </ul>
 <p>In this interface, you can:</p>
 <ol type="1">
@@ -1040,9 +1040,9 @@ Note
 <h3 class="anchored" data-anchor-id="step-3-access-the-api">Step 3: Access the API</h3>
 <p>The API will be accessible at:</p>
 <ul>
-<li>Base URL: http://localhost:8000</li>
-<li>Swagger UI: http://localhost:8000/docs</li>
-<li>ReDoc: http://localhost:8000/redoc</li>
+<li>Base URL: <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a></li>
+<li>Swagger UI: <a href="http://127.0.0.1:8000/docs">http://127.0.0.1:8000/docs</a></li>
+<li>ReDoc: <a href="http://127.0.0.1:8000/redoc">http://127.0.0.1:8000/redoc</a></li>
 </ul>
 <p>You can now send requests to the API, such as <code>POST</code> requests to <code>/predict</code> for bike rental predictions.</p>
 <p>With the microservice deployed and running successfully, you can now interact with the API to make predictions. The <code>/predict</code> endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: <strong>inference</strong>.</p>
@@ -1055,7 +1055,7 @@ Note
 <h3 class="anchored" data-anchor-id="example-making-a-prediction">Example: Making a Prediction</h3>
 <p>To test the inference process, you can send a <code>POST</code> request to the <code>/predict</code> endpoint with the required input features. Here’s an example using <code>curl</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST <span class="st">"http://localhost:8000/predict"</span> <span class="dt">\</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST <span class="st">"http://127.0.0.1:8000/predict"</span> <span class="dt">\</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>-H <span class="st">"Content-Type: application/json"</span> <span class="dt">\</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>-d <span class="st">'[</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">    {</span></span>

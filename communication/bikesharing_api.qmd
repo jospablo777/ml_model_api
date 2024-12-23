@@ -438,7 +438,7 @@ When you visit the root endpoint, you’ll see the following message:
 
 One of the standout features of FastAPI is its ability to automatically generate API documentation, complete with interactive functionality. You can access the API documentation for this project by visiting:
 
-- Swagger UI (API Documentation): http://127.0.0.1:8000/docs
+- Swagger UI (API Documentation): [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 In this interface, you can:
 
@@ -836,9 +836,9 @@ docker run -d -p 8000:80 --name bike-sharing-api jospablo777/ml-model-api:latest
 ### Step 3: Access the API
 The API will be accessible at:
 
-- Base URL: http://localhost:8000
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+- Base URL: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
 You can now send requests to the API, such as `POST` requests to `/predict` for bike rental predictions.
 
@@ -858,7 +858,7 @@ To test the inference process, you can send a `POST` request to the `/predict` e
 #| include: true
 #| eval: false
 
-curl -X POST "http://localhost:8000/predict" \
+curl -X POST "http://127.0.0.1:8000/predict" \
 -H "Content-Type: application/json" \
 -d '[
     {
@@ -894,7 +894,7 @@ This inference process demonstrates the power of combining machine learning with
 
 ## Whats left?
 
-In this project, we only scratched the surface of the many software engineering and MLOps practices that can elevate our workflows, improve delivery processes, and increase the value we generate as data professionals. While we covered foundational concepts like API development, containerization, and CI/CD, there’s so much more to explore when it comes to bridging the gap between machine learning and production-ready systems.
+In this project, we only scratched the surface of some of the many software engineering and MLOps practices that can elevate our workflows, improve delivery processes, and increase the value we generate as data professionals. While we covered foundational concepts like API development, containerization, and CI/CD, there’s so much more to explore when it comes to bridging the gap between machine learning and production-ready systems.
 
 I hope that in future tutorials and practical projects we can deep dive more in MLOps subjects like:
 
