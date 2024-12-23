@@ -48,6 +48,7 @@ ml_model_api/
 ├── Dockerfile                 # Dockerfile for containerization
 ├── LICENSE                    # Project license
 ├── README.md                  # Project documentation
+├── memory_refresher.sh        # So I don't forget things
 └── requirements.txt           # Python dependencies
 ```
 
