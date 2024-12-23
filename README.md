@@ -7,6 +7,8 @@ The project demonstrates the integration of several modern tools and frameworks,
 - **CatBoost**: For inference and running the predictive ML model.
 - **Docker**: For containerization and deployment.
 
+Please check [this article](https://jospablo777.github.io/ml_model_api) to learn how to build an application like this.
+
 ## Features
 - **Prediction Endpoint**: Exposes a `/predict` endpoint to predict bike rentals based on input features such as season, temperature, and weather conditions.
 - **Scalability**: The project is containerized using Docker, making it easy to deploy and scale.
