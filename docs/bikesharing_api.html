@@ -128,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#microservice-development" id="toc-microservice-development" class="nav-link" data-scroll-target="#microservice-development">Microservice development</a></li>
   <li><a href="#api-development" id="toc-api-development" class="nav-link" data-scroll-target="#api-development">API development</a>
   <ul class="collapse">
-  <li><a href="#the-pydantic-model" id="toc-the-pydantic-model" class="nav-link" data-scroll-target="#the-pydantic-model">The Pydantic model</a></li>
+  <li><a href="#defining-the-pydantic-model" id="toc-defining-the-pydantic-model" class="nav-link" data-scroll-target="#defining-the-pydantic-model">Defining the Pydantic model</a></li>
   <li><a href="#fastapi-development" id="toc-fastapi-development" class="nav-link" data-scroll-target="#fastapi-development">FastAPI development</a></li>
   <li><a href="#pydantic-model" id="toc-pydantic-model" class="nav-link" data-scroll-target="#pydantic-model">Pydantic model</a></li>
   <li><a href="#fastapi-app" id="toc-fastapi-app" class="nav-link" data-scroll-target="#fastapi-app">FastAPI app</a></li>
@@ -141,6 +141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#api-tests" id="toc-api-tests" class="nav-link" data-scroll-target="#api-tests">API tests</a></li>
   <li><a href="#inference-tests" id="toc-inference-tests" class="nav-link" data-scroll-target="#inference-tests">Inference tests</a></li>
+  <li><a href="#running-the-tests" id="toc-running-the-tests" class="nav-link" data-scroll-target="#running-the-tests">Running the tests</a></li>
   </ul></li>
   <li><a href="#microservice-up-and-running" id="toc-microservice-up-and-running" class="nav-link" data-scroll-target="#microservice-up-and-running">Microservice up and running</a></li>
   <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
@@ -312,8 +313,8 @@ Note
 <figcaption>An ambiguous (and invalid) request request to the API, so no enchiladas :(</figcaption>
 </figure>
 </div>
-<section id="the-pydantic-model" class="level3">
-<h3 class="anchored" data-anchor-id="the-pydantic-model">The Pydantic model</h3>
+<section id="defining-the-pydantic-model" class="level3">
+<h3 class="anchored" data-anchor-id="defining-the-pydantic-model">Defining the Pydantic model</h3>
 <p>We will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let’s establish a Pydantic model for our API requests and learn more about the library in the process.</p>
 <p>Filename: <a href="https://github.com/jospablo777/ml_model_api/blob/main/app/models/bike_sharing.py"><code>app/models/bike_sharing.py</code></a></p>
 <div class="cell">
@@ -586,13 +587,17 @@ Note
 <section id="run-the-application" class="level5">
 <h5 class="anchored" data-anchor-id="run-the-application">Run the Application</h5>
 <p>From the root of the project, start the FastAPI app using Uvicorn:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uvicorn</span> app.main:app <span class="at">--host</span> 127.0.0.1 <span class="at">--port</span> 8000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uvicorn</span> app.main:app <span class="at">--host</span> 127.0.0.1 <span class="at">--port</span> 8000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Once the application is running, you should see output similar to this in your terminal:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">user@user-pc:~/ml_model_api$</span> uvicorn app.main:app</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">user@user-pc:~/ml_model_api$</span> uvicorn app.main:app</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Started server process <span class="pp">[</span><span class="ss">19168</span><span class="pp">]</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Waiting for application startup.</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Application startup complete.</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>     Uvicorn running on http://127.0.0.1:8000 <span class="er">(</span><span class="ex">Press</span> CTRL+C to quit<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </section>
 <section id="explore-the-api" class="level4">
@@ -973,6 +978,27 @@ Note
 <li><strong>Output Integrity:</strong> Verifying that predictions are returned in the correct data structure (e.g., NumPy array).</li>
 <li><strong>Model Loading:</strong> Checking that the model is correctly loaded and operational.</li>
 </ul>
+</section>
+<section id="running-the-tests" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-tests">Running the tests</h3>
+<p>Running these tests with pytest is a breeze. You just need to go to the root of the project (in a terminal) and run <code>pytest folder_that_contain_the_tests/</code>. So, let’s run the tests:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pytest</span> tests/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If everything goes well, we will see an output like this output in our terminal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">========================================</span> test session starts =========================================</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">platform</span> linux <span class="at">--</span> Python 3.12.3, pytest-8.3.4, pluggy-1.5.0</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rootdir:</span> /home/jose-p/Data Science/Projects/ml_model_api</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ex">plugins:</span> anyio-4.7.0, cov-6.0.0</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">collected</span> 12 items                                                                                   </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_api.py</span> .....                                                                        [ 41%]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_inference.py</span> ...                                                                    [ 66%]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/test_unit.py</span> ....                                                                        <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="ex">=========================================</span> 12 passed in 0.58s =========================================</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>By running these tests, we gain confidence that the model pipeline is intact and ready for deployment, even if further evaluation of the model’s predictions requires additional analysis by data scientists.</p>
 </section>
 </section>

@@ -164,7 +164,7 @@ The API will move data around (receive and deliver) as its primary job, so it is
 
 ![An ambiguous (and invalid) request request to the API, so no enchiladas :(](img/restaurant_api_jap.png)
 
-### The Pydantic model
+### Defining the Pydantic model
 
 We will start this section by defining our Pydantic model. Pydantic is a library for data validation that uses Python-type annotations. Let's establish a Pydantic model for our API requests and learn more about the library in the process.
 
@@ -386,13 +386,21 @@ If you haven’t already, clone the GitHub repository to follow along.
 
 From the root of the project, start the FastAPI app using Uvicorn:
 
-```{.bash}
+```{bash}
+#| label: run_uvicorn
+#| include: true
+#| eval: false
+
 uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
 Once the application is running, you should see output similar to this in your terminal:
 
-```{.bash}
+```{bash}
+#| label: uvicorn_fastapi_output
+#| include: true
+#| eval: false
+
 user@user-pc:~/ml_model_api$ uvicorn app.main:app
 INFO:     Started server process [19168]
 INFO:     Waiting for application startup.
@@ -749,9 +757,45 @@ Inference tests are essential for detecting issues such as:
 - **Output Integrity:** Verifying that predictions are returned in the correct data structure (e.g., NumPy array).
 - **Model Loading:** Checking that the model is correctly loaded and operational.
 
+### Running the tests
+
+Running these tests with pytest is a breeze. You just need to go to the root of the project (in a terminal) and run `pytest folder_that_contain_the_tests/`. So, let's run the tests:
+
+```{bash}
+#| label: pytest_in_terminal
+#| include: true
+#| eval: false
+
+pytest tests/
+```
+
+If everything goes well, we will see an output like this output in our terminal:
+
+```{bash}
+#| label: pytest_in_terminal_out
+#| include: true
+#| eval: false
+
+user@user-pc:~/ml_model_api$ pytest tests/
+======================================== test session starts =========================================
+platform linux -- Python 3.12.3, pytest-8.3.4, pluggy-1.5.0
+rootdir: ~/ml_model_api
+plugins: anyio-4.7.0, cov-6.0.0
+collected 12 items                                                                                   
+
+tests/test_api.py .....                                                                        [ 41%]
+tests/test_inference.py ...                                                                    [ 66%]
+tests/test_unit.py ....                                                                        [100%]
+
+========================================= 12 passed in 0.58s =========================================
+```
+
+All three set of tests were successful.
+
 By running these tests, we gain confidence that the model pipeline is intact and ready for deployment, even if further evaluation of the model’s predictions requires additional analysis by data scientists.
 
 [^9]: Probably you, as there aren't many.
+
 
 ## Microservice up and running
 
