@@ -23,4 +23,4 @@ ENV NAME=ml-model-api-docker
 LABEL maintainer="jospablo777 <jospablo777@gmail.com>" # Modify this as needed
 
 # Run the FastAPI app with Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"] 
