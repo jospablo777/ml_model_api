@@ -102,7 +102,7 @@ I know that this has nothing to do with software engineering or APIs, but little
 
 Now, let's focus on the problem we want to solve; this is probably the most crucial step since it is how we **add value** to the business. We are hired to solve analytical problems with evidence (i.e., data) as our raw material to produce those solutions.
 
-You probably won't be surprised to learn this project started as a Jupyter Notebook, which I encourage you to [check out here](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb). We are using an open data set from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset).
+You won't be surprised to learn this project started as a Jupyter Notebook, which I encourage you to [check out here](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb). We are using an open data set from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset).
 
 Let's assume we are working for [Capital Bikeshare](https://capitalbikeshare.com/), a company dedicated to providing a self-service bike rental service managed through a mobile app. For the company, it is crucial to predict the peaks of service usage so they can restock or make more available their products when they're more needed. These products can be cloud computing resources during peak hours, bicycle units, human staff, etc. Also it can be convenient to predict the dates and hours of least use for maintenance tasks, like server updates or bike maintenance.
 
