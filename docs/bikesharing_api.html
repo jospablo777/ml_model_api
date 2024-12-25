@@ -201,7 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="an-accesible-inference-system" class="level2">
 <h2 class="anchored" data-anchor-id="an-accesible-inference-system">An accesible inference system</h2>
 <p>In a fast-paced world, one of the problems we face as data professionals is delivering our data products promptly. Also, distributing them in a manner that doesn’t affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.</p>
-<p>An idea that is not new, is to deliver the “answers” in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (<em>machine learning</em> if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.</p>
+<p>An idea that is not new, is to deliver the “answers” in an automated way, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (<em>machine learning</em> if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.</p>
 <p>With that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you’ll have a better understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you’re a data scientist looking to scale your models or a developer exploring microservices, this guide is for you. To take better advantage of this guide, please keep the accompanying <a href="https://github.com/jospablo777/ml_model_api">GitHub repo</a> at hand.</p>
 </section>
 <section id="an-ml-model-as-a-microservice" class="level2">
@@ -212,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="but-what-is-an-api" class="level2">
 <h2 class="anchored" data-anchor-id="but-what-is-an-api">But what is an API?</h2>
 <p>An API is an intermediary that enables you to interact with a service without requiring knowledge of how this service works. You just need to know precisely what you want, tell it to the API, and the API will serve you what you requested.</p>
-<p>Let’s say that after work, you get hungry, so you park your Capital Bikeshare™ bike out of your favorite Mexican restaurant<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. You enter the restaurant and sit at a table. Instead of going directly to the kitchen to cook your own meal or asking the chef what you want, you need to place your order through the waiter or waitress. You kindly request your enchiladas, and after a while, they bring your meal to you.</p>
+<p>Let’s say that after work, you get hungry, so you park your Capital Bikeshare™ bike out of your favorite Mexican restaurant<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. You enter the restaurant and sit at a table. Instead of going directly to the kitchen to cook your own meal or asking the chef what you want, you need to place your order through the waiter or waitress. You kindly request your enchiladas, and after a while, they bring the meal to you.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/restaurant_api.png" class="img-fluid figure-img"></p>
@@ -226,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="software-engineering-for-data-scientists">Software engineering for data scientists</h2>
 <p>Another problem common to data scientists is that research, predictive modeling, and analytics are dirty processes. This is partly due to a lack of training in <strong>software engineering</strong>, which involves <strong>design</strong>, testing, and software maintenance.</p>
 <p>We usually have many problems to solve, questions to answer, and limited time at work. This leaves little to no time to apply the best practices to develop our analysis and maintain our code, leaving a trail of technical debt with each delivery. Yet, since most of us write code, we are, in fact, software developers because we develop software. This should be a hard-to-miss hint that software engineering practices must be core in our profession, or at least not ignored.</p>
-<p>Here, we will implement some practices core of software engineering like:</p>
+<p>In this hands-on project, we will implement some practices core of software engineering like:</p>
 <ul>
 <li><strong>CI/CD:</strong> Continuous Integration (CI) and Continuous Deployment (CD) with GitHub Actions.</li>
 <li><strong>Automated tests:</strong> unit, integration, and inference tests with <code>pytest</code>.</li>
@@ -260,9 +260,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="problem-we-want-to-solve" class="level2">
 <h2 class="anchored" data-anchor-id="problem-we-want-to-solve">Problem we want to solve</h2>
-<p>Now, let’s focus on the problem we want to solve; this is probably the most crucial step since it is how we <strong>add value</strong> to the business. We are hired to solve analytical problems with evidence (data) as our raw material to produce those solutions.</p>
+<p>Now, let’s focus on the problem we want to solve; this is probably the most crucial step since it is how we <strong>add value</strong> to the business. We are hired to solve analytical problems with evidence (i.e., data) as our raw material to produce those solutions.</p>
 <p>You probably won’t be surprised to learn this project started as a Jupyter Notebook, which I encourage you to <a href="https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb">check out here</a>. We are using an open data set from the <a href="https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset">UCI Machine Learning Repository</a>.</p>
-<p>Let’s assume we are working for <a href="https://capitalbikeshare.com/">Capital Bikeshare</a>, a company dedicated to providing a self-service bike rental service managed through a mobile app. For the company, it is crucial to predict the peaks of service usage so they can restock or make more available their products when they’re more needed. These products can be cloud computing resources during peak hours, bicycle units, human staff, etc. Also it can b convenient to predict the dates and hours of least use for maintenance tasks, like server updates or bike maintenance.</p>
+<p>Let’s assume we are working for <a href="https://capitalbikeshare.com/">Capital Bikeshare</a>, a company dedicated to providing a self-service bike rental service managed through a mobile app. For the company, it is crucial to predict the peaks of service usage so they can restock or make more available their products when they’re more needed. These products can be cloud computing resources during peak hours, bicycle units, human staff, etc. Also it can be convenient to predict the dates and hours of least use for maintenance tasks, like server updates or bike maintenance.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/Capital_Bikeshare_station_outside_Eastern_Market_Metro.jpg" class="img-fluid figure-img"></p>
@@ -288,7 +288,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>During this tutorial, we will show you some code snippets and indicate the file where the code is located<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. You should then be able to follow the project’s code, which is available on the <a href="https://github.com/jospablo777/ml_model_api">GitHub repo</a>.</p>
+<p>During this tutorial, we will show you some code snippets and indicate the file where the code is located<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. You should then, be able to follow the project’s code, which is available on the <a href="https://github.com/jospablo777/ml_model_api">GitHub repo</a>.</p>
 </div>
 </div>
 <p>After some research and experimentation, we developed a CatBoost model capable of predicting the number of rented bikes at a specific time, given some environmental and temporal conditions. The code that generated the model is next.</p>
@@ -1158,7 +1158,7 @@ Note
 <li id="fn1"><p>This must be how George R. R. Martin feels when foreshadowing a major (traumatic) event in his novels.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>At the time of writing, I am aware that “no” is the answer since we’re still just at the introduction of this tutorial.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>It’s even worse today, in our modern remote era. The dreaded Microsoft Teams ringtone will constantly haunt you.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>You probably already noticed that we keep bringing up the link to this notebook. That’s because we spent so much time on it, and we was hoping you could look at our precious.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>You probably already noticed that we keep bringing up the link to this notebook. That’s because we spent so much time on it, and we were hoping you could look at our precious.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>I learned this tip for technical writing from “The Rust Programming Language” book by Steve Klabnik, Carol Nichols, and the Rust Community. The book is a masterpiece and a highly recommended reading; you can find it <a href="https://doc.rust-lang.org/book/title-page.html">here</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the <span style="text-decoration: line-through;">interesting</span> technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I’ve used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders’ trust in us.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>エンチラーダをいただけますか？<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

@@ -32,7 +32,7 @@ Sys.setenv(RETICULATE_PYTHON = "../venv/bin/python")
 
 In a fast-paced world, one of the problems we face as data professionals is delivering our data products promptly. Also, distributing them in a manner that doesn't affect our productivity, for example, manually running a Jupyter Notebook or an R script every time someone needs insights, is awfully unproductive.
 
-An idea that is not new, is to deliver the "answers" in an automated, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (*machine learning* if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.
+An idea that is not new, is to deliver the "answers" in an automated way, from which the clients can self-serve each time they are in need. After we have a data product, for instance, a predictive model (*machine learning* if you are into buzzwords), we can make available its capabilities to our stakeholders via a micro service.
 
 With that in mind, we will use this small tutorial to understand better the building of a production-ready machine learning microservice to predict bike rentals. By the end, you'll have a better understanding of using FastAPI for API development, Docker for containerization, and GitHub Actions for CI/CD. Whether you're a data scientist looking to scale your models or a developer exploring microservices, this guide is for you. To take better advantage of this guide, please keep the accompanying [GitHub repo](https://github.com/jospablo777/ml_model_api) at hand.
 
@@ -48,7 +48,7 @@ This way, the model will always be available, and its consumption won't block ot
 
 An API is an intermediary that enables you to interact with a service without requiring knowledge of how this service works. You just need to know precisely what you want, tell it to the API, and the API will serve you what you requested.
 
-Let's say that after work, you get hungry, so you park your Capital Bikeshare™ bike out of your favorite Mexican restaurant[^1]. You enter the restaurant and sit at a table. Instead of going directly to the kitchen to cook your own meal or asking the chef what you want, you need to place your order through the waiter or waitress. You kindly request your enchiladas, and after a while, they bring your meal to you.
+Let's say that after work, you get hungry, so you park your Capital Bikeshare™ bike out of your favorite Mexican restaurant[^1]. You enter the restaurant and sit at a table. Instead of going directly to the kitchen to cook your own meal or asking the chef what you want, you need to place your order through the waiter or waitress. You kindly request your enchiladas, and after a while, they bring the meal to you.
 
 ![Allegory of a restaurant. The waiter/waitress is the API; the kitchen is the service (they are dedicated to cooking); you are the client](img/restaurant_api.png)
 
@@ -65,7 +65,7 @@ Another problem common to data scientists is that research, predictive modeling,
 
 We usually have many problems to solve, questions to answer, and limited time at work. This leaves little to no time to apply the best practices to develop our analysis and maintain our code, leaving a trail of technical debt with each delivery. Yet, since most of us write code, we are, in fact, software developers because we develop software. This should be a hard-to-miss hint that software engineering practices must be core in our profession, or at least not ignored.
 
-Here, we will implement some practices core of software engineering like:
+In this hands-on project, we will implement some practices core of software engineering like:
 
 - **CI/CD:** Continuous Integration (CI) and Continuous Deployment (CD) with GitHub Actions.
 - **Automated tests:** unit, integration, and inference tests with `pytest`.
@@ -100,11 +100,11 @@ I know that this has nothing to do with software engineering or APIs, but little
 
 ## Problem we want to solve
 
-Now, let's focus on the problem we want to solve; this is probably the most crucial step since it is how we **add value** to the business. We are hired to solve analytical problems with evidence (data) as our raw material to produce those solutions.
+Now, let's focus on the problem we want to solve; this is probably the most crucial step since it is how we **add value** to the business. We are hired to solve analytical problems with evidence (i.e., data) as our raw material to produce those solutions.
 
 You probably won't be surprised to learn this project started as a Jupyter Notebook, which I encourage you to [check out here](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb). We are using an open data set from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset).
 
-Let's assume we are working for [Capital Bikeshare](https://capitalbikeshare.com/), a company dedicated to providing a self-service bike rental service managed through a mobile app. For the company, it is crucial to predict the peaks of service usage so they can restock or make more available their products when they're more needed. These products can be cloud computing resources during peak hours, bicycle units, human staff, etc. Also it can b convenient to predict the dates and hours of least use for maintenance tasks, like server updates or bike maintenance.
+Let's assume we are working for [Capital Bikeshare](https://capitalbikeshare.com/), a company dedicated to providing a self-service bike rental service managed through a mobile app. For the company, it is crucial to predict the peaks of service usage so they can restock or make more available their products when they're more needed. These products can be cloud computing resources during peak hours, bicycle units, human staff, etc. Also it can be convenient to predict the dates and hours of least use for maintenance tasks, like server updates or bike maintenance.
 
 ![Capital Bikeshare station outside of the Eastern Market Metro station. Author: Ben Schumin (2010). Licensed under CC BY-SA 3.0](img/Capital_Bikeshare_station_outside_Eastern_Market_Metro.jpg)
 
@@ -127,7 +127,7 @@ The engineering team, for example, will quickly adopt the app to know when to co
 We were assigned a task, so we started by investigating bike rental data and then continued by building a predictive model using the [CatBoost](https://catboost.ai/) algorithm. This model will be the inference engine of our microservice. You can see this part of the project [here](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb) in the notebook[^4]. We saved the model in our project's `predictive_models/` folder.
 
 :::{.callout-note}
-During this tutorial, we will show you some code snippets and indicate the file where the code is located[^5]. You should then be able to follow the project's code, which is available on the [GitHub repo](https://github.com/jospablo777/ml_model_api).
+During this tutorial, we will show you some code snippets and indicate the file where the code is located[^5]. You should then, be able to follow the project's code, which is available on the [GitHub repo](https://github.com/jospablo777/ml_model_api).
 :::
 
 After some research and experimentation, we developed a CatBoost model capable of predicting the number of rented bikes at a specific time, given some environmental and temporal conditions. The code that generated the model is next.
@@ -162,7 +162,7 @@ catboost_model.save_model("../predictive_models/catboost_model_19Dec2024.cbm")
 
 In [this analysis](https://github.com/jospablo777/ml_model_api/blob/main/notebooks/eda_and_toy_model.ipynb), we generated some insights[^6] and the core of our microservice, a predictive model stored in `predictive_models/catboost_model_19Dec2024.cbm`. Now that we have our predictor, let's see how we can make the predictions accessible to others in the company.
 
-[^4]: You probably already noticed that we keep bringing up the link to this notebook. That's because we spent so much time on it, and we was hoping you could look at our precious.
+[^4]: You probably already noticed that we keep bringing up the link to this notebook. That's because we spent so much time on it, and we were hoping you could look at our precious.
 [^5]: I learned this tip for technical writing from "The Rust Programming Language" book by Steve Klabnik, Carol Nichols, and the Rust Community. The book is a masterpiece and a highly recommended reading; you can find it [here](https://doc.rust-lang.org/book/title-page.html).
 [^6]: Whoops, here is the notebook again. When presenting results to my stakeholders as a habit, I always prepare two decks, one with very high-level results and a second highly technical one with all the math of the statistical/ML models and intricacies of the system design, just in case somebody has a question on the [interesting]{style="text-decoration: line-through;"}  technical part. This is expecting a deep, nerdy discussion about models, gaps, opportunities, and science; to date, the counts for the times I've used this second deck remain at 0. The good news is that it might be a proxy of our stakeholders' trust in us.
 
