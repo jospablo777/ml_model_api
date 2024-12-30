@@ -7,6 +7,8 @@ author:
   name: "Jose P. Barrantes"
   url: "https://www.linkedin.com/in/jose-barrantes/"
 description: "GitHub Repo: [Bike Rentals Prediction API](https://github.com/jospablo777/ml_model_api)"
+date: "`r Sys.Date()`"
+published-title: "Last updated"
 format: 
   html:
     toc: true
@@ -70,7 +72,7 @@ In this hands-on project, we will implement some practices core of software engi
 - **CI/CD:** Continuous Integration (CI) and Continuous Deployment (CD) with GitHub Actions.
 - **Automated tests:** unit, integration, and inference tests with `pytest`.
 - **Containerization:** package the application with Docker for consistency across environments (i.e., it should work on every machine with a well-setup Docker).
-Dependency Management: For reproducibility, dependencies were specified in a `requirements.txt` file, and development was conducted in an isolated environment (`venv`).
+- **Dependency Management:** For reproducibility, dependencies were specified in a `requirements.txt` file, and development was conducted in an isolated environment (`venv`).
 - **Microservices architecture:** The project is a self-contained microservice focused on a single responsibility: predicting bike rentals. It is independently deployable and communicates through HTTP.
 
 We intend to review these concepts in a practical, applied way. This will give us more tools to design and produce more sustainable systems, which we can develop more efficiently through good practices without sacrificing smooth delivery to our clients.
