@@ -667,7 +667,7 @@ With the guidance from [Itskmyoo's tutorial](https://itskmyoo.medium.com/automat
 
 This process is illustrated here:
 
-![CI/CD configuration for our project.](img/ci_cd_test_build.png)
+![CI/CD configuration for our project.](img/ci_cd_test_build_v2.png)
 
 This setup ensures your application is always deployable and meets quality standards.
 
