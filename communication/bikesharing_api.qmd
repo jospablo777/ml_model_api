@@ -4,7 +4,7 @@ include-in-header:
   - text: |
       <link rel = "shortcut icon" href = "img/favicon.png" />
 author:
-  name: "Jose P. Barrantes"
+  name: "José P. Barrantes"
   url: "https://www.linkedin.com/in/jose-barrantes/"
 description: "GitHub Repo: [Bike Rentals Prediction API](https://github.com/jospablo777/ml_model_api)"
 date: "`r Sys.Date()`"
