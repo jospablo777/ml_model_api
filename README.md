@@ -223,4 +223,5 @@ No need to cite, but it would mean a lot if you did! 😃 Feel free to use this 
 
 Let's keep in touch!
 
-Linkedin: [jose-barrantes](https://www.linkedin.com/in/jose-barrantes/)
+- LinkedIn: [José Pablo Barrantes](https://www.linkedin.com/in/jose-barrantes/)
+- BlueSky: [doggofan77.bsky.social](https://bsky.app/profile/doggofan77.bsky.social)
