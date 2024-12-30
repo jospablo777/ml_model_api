@@ -810,7 +810,7 @@ tests/test_unit.py ....                                                         
 
 All three set of tests were successful.
 
-By running these tests, we gain confidence that the model pipeline is intact and ready for deployment. While further evaluation of the model's predictions may require additional analysis by data scientists, our automated tests ensure that the system behaves as expected and is free from structural issues. With this strong foundation, we can now move on to deploying and running the microservice.
+By running these tests, we gain confidence that the model pipeline is intact and ready for deployment. While further evaluation of the model's predictions may require additional analysis by data scientists, our automated tests ensure that the system behaves as expected and is free from structural issues. With this foundation, we can now move on to deploying and running the microservice.
 
 [^9]: Probably you, as there aren't many due to budget reasons.
 
@@ -847,7 +847,7 @@ The API will be accessible at:
 
 You can now send requests to the API, such as `POST` requests to `/predict` for bike rental predictions.
 
-With the microservice deployed and running successfully, you can now interact with the API to make predictions. The `/predict` endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: inference[^10].
+With the microservice deployed and running, you can now interact with the API to make predictions. The `/predict` endpoint allows you to send input data and receive predictions about bike rentals in real time. This brings us to the heart of the system: inference[^10].
 
 
 ## Inference
@@ -945,7 +945,10 @@ This journey showcased how modern tools and best practices in software engineeri
 
 Whether you're building ML-powered APIs, automating pipelines, or just exploring FastAPI and Docker, these skills are a great foundation for developing scalable, production-ready solutions. If you have questions, ideas, or feedback, feel free to reach out—I'd love to hear from you!
 
-Also, if you're in Costa Rica, let's connect over coffee, tea, or a beer and have a data-filled chat! Feel free to reach out to me on LinkedIn: [José Pablo Barrantes](https://www.linkedin.com/in/jose-barrantes/)
+Also, if you're in Costa Rica, let's connect over coffee, tea, or a beer and have a data-filled chat! Feel free to reach out to me on:
+
+- LinkedIn: [José Pablo Barrantes](https://www.linkedin.com/in/jose-barrantes/)
+- BlueSky: [doggofan77.bsky.social](https://bsky.app/profile/doggofan77.bsky.social)
 
 Thank you for following along, and happy coding! 🚀
 
