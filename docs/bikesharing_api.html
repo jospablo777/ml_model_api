@@ -507,10 +507,10 @@ Note
 </div>
 <p>So far, we have instantiated the FastAPI application and defined the root endpoint. Next, we’ll implement the core functionality of our app by defining the <code>/predict</code> endpoint. This endpoint serves as the heart of the API, handling four key responsibilities:</p>
 <ol type="1">
-<li><strong>Validation:</strong> Ensures the incoming requests meet the expected format and constraints.</li>
-<li><strong>Data Processing:</strong> Transforms input data into a format compatible with the trained CatBoost model.</li>
-<li><strong>Prediction:</strong> Uses the model to generate predictions based on the input.</li>
-<li><strong>Response Generation:</strong> Packages the predictions into a JSON response to return to the client.</li>
+<li><strong>Validation:</strong> ensures the incoming requests meet the expected format and constraints.</li>
+<li><strong>Data Processing:</strong> transforms input data into a format compatible with the trained CatBoost model.</li>
+<li><strong>Prediction:</strong> uses the model to generate predictions based on the input.</li>
+<li><strong>Response Generation:</strong> uackages the predictions into a JSON response to return to the client.</li>
 </ol>
 <section id="defining-the-predict-endpoint" class="level4">
 <h4 class="anchored" data-anchor-id="defining-the-predict-endpoint">Defining the <code>/predict</code> Endpoint</h4>
@@ -558,31 +558,31 @@ Note
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="4,5,6" data-code-annotation="1"><strong><code>POST</code> Endpoint Definition:</strong> Defines a <code>POST</code> endpoint at <code>/predict</code> with metadata for better documentation (<code>summary</code> and <code>description</code>).</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="4,5,6" data-code-annotation="1"><strong><code>POST</code> Endpoint Definition:</strong> defines a <code>POST</code> endpoint at <code>/predict</code> with metadata for better documentation (<code>summary</code> and <code>description</code>).</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="7" data-code-annotation="2"><strong>Input Validation:</strong> Expects a list of <code>BikeSharingRequest</code> objects, ensuring automatic data validation by FastAPI.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="7" data-code-annotation="2"><strong>Input Validation:</strong> expects a list of <code>BikeSharingRequest</code> objects, ensuring automatic data validation by FastAPI.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="19,20,21,22,23" data-code-annotation="3"><strong>Empty Request Handling:</strong> If the request body is empty (<code>[]</code>), returns a <code>422 Unprocessable Entity</code> error with a descriptive message.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="19,20,21,22,23" data-code-annotation="3"><strong>Empty Request Handling:</strong> if the request body is empty (<code>[]</code>), returns a <code>422 Unprocessable Entity</code> error with a descriptive message.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="26" data-code-annotation="4"><strong>Data Transformation:</strong> Converts the list of validated Pydantic objects into a Polars DataFrame for efficient processing.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="26" data-code-annotation="4"><strong>Data Transformation:</strong> converts the list of validated Pydantic objects into a Polars DataFrame for efficient processing.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="29" data-code-annotation="5"><strong>Compatibility with CatBoost:</strong> Since CatBoost does not accept Polars DataFrames, the data is converted to a NumPy array.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="29" data-code-annotation="5"><strong>Compatibility with CatBoost:</strong> since CatBoost does not accept Polars DataFrames, the data is converted to a NumPy array.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="32" data-code-annotation="6"><strong>Predictions:</strong> Uses the trained CatBoost model to compute predictions based on the input data.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="32" data-code-annotation="6"><strong>Predictions:</strong> uses the trained CatBoost model to compute predictions based on the input data.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="35" data-code-annotation="7"><strong>Response Creation:</strong> Returns the predictions as a JSON-compatible dictionary.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="35" data-code-annotation="7"><strong>Response Creation:</strong> returns the predictions as a JSON-compatible dictionary.</span>
 </dd>
 </dl>
 </div>
@@ -592,10 +592,10 @@ Note
 <h4 class="anchored" data-anchor-id="endpoint-responsibilities">Endpoint Responsibilities</h4>
 <p>The <code>predict_rentals</code> function handles multiple responsibilities:</p>
 <ul>
-<li><strong>Edge Case Handling:</strong> Validates and handles empty input.</li>
-<li><strong>Data Transformation:</strong> Converts structured input data into a format compatible with the machine learning model (numpy).</li>
-<li><strong>Inference:</strong> Generates predictions using the trained CatBoost model.</li>
-<li><strong>Response Generation:</strong> Packages the results into a JSON response.</li>
+<li><strong>Edge Case Handling:</strong> validates and handles empty input.</li>
+<li><strong>Data Transformation:</strong> converts structured input data into a format compatible with the machine learning model (numpy).</li>
+<li><strong>Inference:</strong> generates predictions using the trained CatBoost model.</li>
+<li><strong>Response Generation:</strong> packages the results into a JSON response.</li>
 </ul>
 </section>
 <section id="testing-the-application" class="level4">
@@ -651,9 +651,9 @@ Note
 <h4 class="anchored" data-anchor-id="exploring-the-pydantic-model">Exploring the Pydantic Model</h4>
 <p>FastAPI uses Pydantic under the hood to validate and parse incoming JSON data. If you navigate to the Swagger UI, you’ll find the schema for the <code>BikeSharingRequest</code> model. This schema provides key information:</p>
 <ul>
-<li><strong>Field Descriptions:</strong> Attributes in the <code>BikeSharingRequest</code> class are documented, including the description parameter provided via <code>Field()</code>.</li>
-<li><strong>Data Type Constraints:</strong> Default type constraints (e.g., string, integer) are visible for each field.</li>
-<li><strong>Range Restrictions:</strong> For numeric fields, restrictions such as <code>[0, 23]</code> for the <code>hr</code> field are displayed clearly in square brackets.</li>
+<li><strong>Field Descriptions:</strong> attributes in the <code>BikeSharingRequest</code> class are documented, including the description parameter provided via <code>Field()</code>.</li>
+<li><strong>Data Type Constraints:</strong> default type constraints (e.g., string, integer) are visible for each field.</li>
+<li><strong>Range Restrictions:</strong> for numeric fields, restrictions such as <code>[0, 23]</code> for the <code>hr</code> field are displayed clearly in square brackets.</li>
 </ul>
 </section>
 <section id="custom-validators" class="level4">
@@ -746,9 +746,9 @@ Note
 <section id="by-implementing-cicd-pipelines-we-can" class="level5">
 <h5 class="anchored" data-anchor-id="by-implementing-cicd-pipelines-we-can">By implementing CI/CD pipelines, we can:</h5>
 <ol type="1">
-<li><strong>Automate Testing:</strong> Ensure every change to the codebase is verified by running unit tests and integration tests automatically.</li>
-<li><strong>Streamline Deployment:</strong> Build and push a Docker image of the application to a container registry (e.g., Docker Hub), ready for deployment in any environment.</li>
-<li><strong>Maintain Code Quality:</strong> Catch bugs early and enforce consistent standards with every change.</li>
+<li><strong>Automate Testing:</strong> ensure every change to the codebase is verified by running unit tests and integration tests automatically.</li>
+<li><strong>Streamline Deployment:</strong> build and push a Docker image of the application to a container registry (e.g., Docker Hub), ready for deployment in any environment.</li>
+<li><strong>Maintain Code Quality:</strong> catch bugs early and enforce consistent standards with every change.</li>
 </ol>
 <p>In the next section, we’ll set up a CI/CD workflow using GitHub Actions to:</p>
 <ul>
@@ -911,9 +911,9 @@ Note
 </ul>
 <p>Let’s dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the <code>tests/</code> directory, categorized into three logical groups:</p>
 <ul>
-<li><strong>API tests:</strong> Validate the endpoints of our FastAPI app.</li>
-<li><strong>Inference tests:</strong> Ensure the ML model behaves as expected during predictions.</li>
-<li><strong>Unit tests:</strong> Test isolated components, such as helper functions or data transformations.</li>
+<li><strong>API tests:</strong> validate the endpoints of our FastAPI app.</li>
+<li><strong>Inference tests:</strong> ensure the ML model behaves as expected during predictions.</li>
+<li><strong>Unit tests:</strong> test isolated components, such as helper functions or data transformations.</li>
 </ul>
 <section id="api-tests" class="level3">
 <h3 class="anchored" data-anchor-id="api-tests">API tests</h3>
@@ -948,7 +948,7 @@ Note
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-annotation="1"><strong>Simulates a Request</strong> Sends a single payload to the <code>/predict</code> endpoint, mimicking a real-world API request.</span>
+<span data-code-cell="annotated-cell-13" data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-annotation="1"><strong>Simulates a Request</strong> sends a single payload to the <code>/predict</code> endpoint, mimicking a real-world API request.</span>
 </dd>
 <dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
 <dd>

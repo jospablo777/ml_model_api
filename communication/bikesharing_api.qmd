@@ -313,10 +313,10 @@ async def index() -> dict:
 
 So far, we have instantiated the FastAPI application and defined the root endpoint. Next, we'll implement the core functionality of our app by defining the `/predict` endpoint. This endpoint serves as the heart of the API, handling four key responsibilities:
 
-1. **Validation:** Ensures the incoming requests meet the expected format and constraints.
-2. **Data Processing:** Transforms input data into a format compatible with the trained CatBoost model.
-3. **Prediction:** Uses the model to generate predictions based on the input.
-4. **Response Generation:** Packages the predictions into a JSON response to return to the client.
+1. **Validation:** ensures the incoming requests meet the expected format and constraints.
+2. **Data Processing:** transforms input data into a format compatible with the trained CatBoost model.
+3. **Prediction:** uses the model to generate predictions based on the input.
+4. **Response Generation:** uackages the predictions into a JSON response to return to the client.
 
 #### Defining the `/predict` Endpoint
 
@@ -367,22 +367,22 @@ async def predict_rentals(requests: List[BikeSharingRequest]) -> dict:          
         'predictions': predictions.tolist()  # <7>
     }
 ```
-1. **`POST` Endpoint Definition:** Defines a `POST` endpoint at `/predict` with metadata for better documentation (`summary` and `description`).
-2. **Input Validation:** Expects a list of `BikeSharingRequest` objects, ensuring automatic data validation by FastAPI.
-3. **Empty Request Handling:** If the request body is empty (`[]`), returns a `422 Unprocessable Entity` error with a descriptive message.
-4. **Data Transformation:** Converts the list of validated Pydantic objects into a Polars DataFrame for efficient processing.
-5. **Compatibility with CatBoost:** Since CatBoost does not accept Polars DataFrames, the data is converted to a NumPy array.
-6. **Predictions:** Uses the trained CatBoost model to compute predictions based on the input data.
-7. **Response Creation:** Returns the predictions as a JSON-compatible dictionary.
+1. **`POST` Endpoint Definition:** defines a `POST` endpoint at `/predict` with metadata for better documentation (`summary` and `description`).
+2. **Input Validation:** expects a list of `BikeSharingRequest` objects, ensuring automatic data validation by FastAPI.
+3. **Empty Request Handling:** if the request body is empty (`[]`), returns a `422 Unprocessable Entity` error with a descriptive message.
+4. **Data Transformation:** converts the list of validated Pydantic objects into a Polars DataFrame for efficient processing.
+5. **Compatibility with CatBoost:** since CatBoost does not accept Polars DataFrames, the data is converted to a NumPy array.
+6. **Predictions:** uses the trained CatBoost model to compute predictions based on the input data.
+7. **Response Creation:** returns the predictions as a JSON-compatible dictionary.
 
 #### Endpoint Responsibilities
 
 The `predict_rentals` function handles multiple responsibilities:
 
-- **Edge Case Handling:** Validates and handles empty input.
-- **Data Transformation:** Converts structured input data into a format compatible with the machine learning model (numpy).
-- **Inference:** Generates predictions using the trained CatBoost model.
-- **Response Generation:** Packages the results into a JSON response.
+- **Edge Case Handling:** validates and handles empty input.
+- **Data Transformation:** converts structured input data into a format compatible with the machine learning model (numpy).
+- **Inference:** generates predictions using the trained CatBoost model.
+- **Response Generation:** packages the results into a JSON response.
 
 #### Testing the Application
 
@@ -452,9 +452,9 @@ In this interface, you can:
 
 FastAPI uses Pydantic under the hood to validate and parse incoming JSON data. If you navigate to the Swagger UI, you'll find the schema for the `BikeSharingRequest` model. This schema provides key information:
 
-- **Field Descriptions:** Attributes in the `BikeSharingRequest` class are documented, including the description parameter provided via `Field()`.
-- **Data Type Constraints:** Default type constraints (e.g., string, integer) are visible for each field.
-- **Range Restrictions:** For numeric fields, restrictions such as `[0, 23]` for the `hr` field are displayed clearly in square brackets.
+- **Field Descriptions:** attributes in the `BikeSharingRequest` class are documented, including the description parameter provided via `Field()`.
+- **Data Type Constraints:** default type constraints (e.g., string, integer) are visible for each field.
+- **Range Restrictions:** for numeric fields, restrictions such as `[0, 23]` for the `hr` field are displayed clearly in square brackets.
 
 #### Custom Validators
 
@@ -524,9 +524,9 @@ With the core functionality of our FastAPI application in place, (i.e., the `/pr
 
 ##### By implementing CI/CD pipelines, we can:
 
-1. **Automate Testing:** Ensure every change to the codebase is verified by running unit tests and integration tests automatically.
-2. **Streamline Deployment:** Build and push a Docker image of the application to a container registry (e.g., Docker Hub), ready for deployment in any environment.
-3. **Maintain Code Quality:** Catch bugs early and enforce consistent standards with every change.
+1. **Automate Testing:** ensure every change to the codebase is verified by running unit tests and integration tests automatically.
+2. **Streamline Deployment:** build and push a Docker image of the application to a container registry (e.g., Docker Hub), ready for deployment in any environment.
+3. **Maintain Code Quality:** catch bugs early and enforce consistent standards with every change.
 
 In the next section, we'll set up a CI/CD workflow using GitHub Actions to:
 
@@ -686,9 +686,9 @@ In this section, we'll explore how automated tests are implemented in our projec
 
 Let's dive into writing and running automated tests to ensure and enhance the quality of our FastAPI application! All test scripts are organized in the `tests/` directory, categorized into three logical groups:
 
-- **API tests:** Validate the endpoints of our FastAPI app.
-- **Inference tests:** Ensure the ML model behaves as expected during predictions.
-- **Unit tests:** Test isolated components, such as helper functions or data transformations.
+- **API tests:** validate the endpoints of our FastAPI app.
+- **Inference tests:** ensure the ML model behaves as expected during predictions.
+- **Unit tests:** test isolated components, such as helper functions or data transformations.
 
 ### API tests
 
@@ -728,7 +728,7 @@ def test_predict_rentals_single():
 # --snip--
 ```
 
-1. **Simulates a Request** Sends a single payload to the `/predict` endpoint, mimicking a real-world API request.
+1. **Simulates a Request** sends a single payload to the `/predict` endpoint, mimicking a real-world API request.
 2. **Validates the Response**
   - Ensures the API returns a `200 OK` status, confirming successful processing.
   - Verifies that the response contains a `predictions` key.
