@@ -787,7 +787,7 @@ Running these tests with pytest is a breeze. You just need to go to the root of 
 pytest tests/
 ```
 
-If everything goes well, we will see an output like this output in our terminal:
+If everything goes well, we will see an output like this in our terminal:
 
 ```{bash}
 #| label: pytest_in_terminal_out
