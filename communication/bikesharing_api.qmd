@@ -548,7 +548,7 @@ Building on [Itskmyoo's](https://itskmyoo.medium.com/) tutorial, we'll implement
 
 #### Dockerfile (Containerization)
 
-The Dockerfile is critical for containerizing our FastAPI app. Here's the updated version for our project:
+The Dockerfile is needed for containerizing our FastAPI app. Here's the updated version for our project:
 
 Filename: [`Dockerfile`](https://github.com/jospablo777/ml_model_api/blob/main/Dockerfile)
 ```{Dockerfile}
@@ -962,7 +962,7 @@ It's the wizard from "Pondering My Orb." The art is the work by Angus Mcbride an
 
 No citation is required, but if you found this project helpful, I'd greatly appreciate a mention! 😄
 
- 
+
 ## Acknowledgements
 
 This work was possible thanks to Little Mai, my home office manager. She is always full of support and fresh ideas, a best in class professional—setting the gold standard in both dedication and cuteness. From offering moral support to keeping me on schedule (and occasionally demanding breaks), Little Mai has been an indispensable part of this journey. 
