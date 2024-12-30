@@ -173,7 +173,7 @@ In [this analysis](https://github.com/jospablo777/ml_model_api/blob/main/noteboo
 
 The API will move data around (receive and deliver) as its primary job, so it is key to establish a clear set of rules for the data our clients send. Moving back to our restaurant example, you probably could put your enchiladas order in English or Spanish, but it might be hard for the waiter if you place the order in Japanese[^7]. Hence, to get your enchiladas, you must request them in a way that the staff can understand, and [Pydantic](https://docs.pydantic.dev/latest/) is here to enforce the rules that make such understanding happen.
 
-![An ambiguous (and invalid) request request to the API, so no enchiladas :(](img/restaurant_api_jap.png)
+![An ambiguous (and invalid) request to the API, so no enchiladas :(](img/restaurant_api_jap.png)
 
 ### Defining the Pydantic model
 
